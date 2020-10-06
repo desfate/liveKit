@@ -3,12 +3,13 @@ package github.com.desfate.livekit.utils;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class JobExecutor {
-
+    BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>(4);
     private ThreadPoolExecutor threadPoolExecutor;  //线程池处理耗时任务
     private Handler handler;
 
@@ -31,7 +32,7 @@ public class JobExecutor {
                     4,
                     10,
                     TimeUnit.SECONDS,
-                    new LinkedBlockingQueue<>(4),
+                    workQueue,
                     new ThreadPoolExecutor.DiscardOldestPolicy());
             handler = new Handler(Looper.getMainLooper());  //默认肯定是在主线程返回
         }
@@ -39,14 +40,17 @@ public class JobExecutor {
 
     public <T> void execute(final Task<T> task){
         if (threadPoolExecutor != null) {
-            threadPoolExecutor.execute(() -> {
-                try {
-                    T res = task.run(); // 前置任务 任务结果会返回给主线程（在子线程中执行）
-                    postOnMainThread(task, res); // 主线程任务
-                    task.onJobThread(res); // 子线程处理最终任务 任务结果不会返回
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    task.onError(e.getMessage());
+            threadPoolExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        T res = task.run(); // 前置任务 任务结果会返回给主线程（在子线程中执行）
+                        JobExecutor.this.postOnMainThread(task, res); // 主线程任务
+                        task.onJobThread(res); // 子线程处理最终任务 任务结果不会返回
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        task.onError(e.getMessage());
+                    }
                 }
             });
         }
@@ -58,8 +62,13 @@ public class JobExecutor {
      * @param res
      * @param <T>
      */
-    public <T> void postOnMainThread(Task<T> task, T res){
-        handler.post(() -> task.onMainThread(res));
+    public <T> void postOnMainThread(final Task<T> task, final T res){
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                task.onMainThread(res);
+            }
+        });
     }
 
 

@@ -337,7 +337,9 @@ public class CameraSession {
             Size liveSize = LiveSupportUtils.getCameraBestSize(mCameraConfig.isFrontCamera(), mLiveConfig.getLiveQuality());
             surfaceTexture.setDefaultBufferSize(liveSize.getWidth(), liveSize.getHeight());
             mImageReader = ImageReader.newInstance(liveSize.getWidth(), liveSize.getHeight(), ImageFormat.YUV_420_888, 1);
-            Optional.ofNullable(cameraChangeCallback).ifPresent(cameraChangeCallback -> cameraChangeCallback.viewChanged(mCameraConfig.isFrontCamera(), liveSize));
+//            Optional.ofNullable(cameraChangeCallback).ifPresent(cameraChangeCallback -> cameraChangeCallback.viewChanged(mCameraConfig.isFrontCamera(), liveSize));
+            if(cameraChangeCallback != null)
+                cameraChangeCallback.viewChanged(mCameraConfig.isFrontCamera(), liveSize);
             mImageReader.setOnImageAvailableListener(
                     mOnImageAvailableListener, mBackgroundHandler);
         }
@@ -445,7 +447,8 @@ public class CameraSession {
 
             @Override
             public Void run() {
-                Optional.ofNullable(mCameraDevice).ifPresent(cameraDevice -> mCameraDevice.close());
+//                Optional.ofNullable(mCameraDevice).ifPresent(cameraDevice -> mCameraDevice.close());
+                if(mCameraDevice != null) mCameraDevice.close();
                 return super.run();
             }
         });
@@ -462,7 +465,8 @@ public class CameraSession {
         if (state != null && mLatestAfState != state) {
             mLatestAfState = state;
             if (state != 3)
-                Optional.ofNullable(mFocusStateCallback).ifPresent(cameraViewListener -> cameraViewListener.focusChanged(state));
+                if(mFocusStateCallback != null) mFocusStateCallback.focusChanged(state);
+//                Optional.ofNullable(mFocusStateCallback).ifPresent(cameraViewListener -> cameraViewListener.focusChanged(state));
         }
     }
 

@@ -144,7 +144,10 @@ public class FocusControl {
                 case MSG_HIDE_FOCUS:
                     mControl.get().mFocusView.resetToDefaultPosition();
                     mControl.get().mFocusView.hideFocusUI();
-                    Optional.ofNullable(mControl.get().mFocusCallback).ifPresent(focusInterface -> focusInterface.focusFinish());
+                    if(mControl.get().mFocusCallback != null){
+                        mControl.get().mFocusCallback.focusFinish();
+                    }
+//                    Optional.ofNullable(mControl.get().mFocusCallback).ifPresent(focusInterface -> focusInterface.focusFinish());
                     break;
             }
         }

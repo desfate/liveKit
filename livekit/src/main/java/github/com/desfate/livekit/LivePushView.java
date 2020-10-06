@@ -3,6 +3,7 @@ package github.com.desfate.livekit;
 import android.content.Context;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.util.AttributeSet;
+import android.util.Size;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import javax.microedition.khronos.egl.EGLConfig;
 
 import github.com.desfate.livekit.camera.CameraControl;
+import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
 import github.com.desfate.livekit.camera.view.FocusView;
 import github.com.desfate.livekit.live.LiveManager;
 import github.com.desfate.livekit.reders.CameraDrawer;
@@ -43,20 +45,23 @@ public class LivePushView extends BaseLiveView{
     @Override
     public void surfaceCreated(EGLConfig config) {
         mDrawer = new CameraDrawer();
-        cameraControl.openCamera((front, size) -> {
-            int realWidth = ScreenUtils.getScreenSize(getContext()).getWidth();;
-            int realHeight = realWidth * size.getWidth() / size.getHeight();;
-            mJobExecutor.execute(new JobExecutor.Task<Void>() {
-                @Override
-                public void onMainThread(Void result) {
-                    super.onMainThread(result);
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
-                    LivePushView.this.setLayoutParams(layoutParams);
-                    // 重新设定对焦区域大小
-                    mFocusView.initFocusArea(realWidth, realHeight);
-                    cameraControl.focusChanged(realWidth,realHeight);
-                }
-            });
+        cameraControl.openCamera(new CameraChangeCallback() {
+            @Override
+            public void viewChanged(boolean front, Size size) {
+                final int realWidth = ScreenUtils.getScreenSize(getContext()).getWidth();
+                final int realHeight = realWidth * size.getWidth() / size.getHeight();
+                mJobExecutor.execute(new JobExecutor.Task<Void>() {
+                    @Override
+                    public void onMainThread(Void result) {
+                        super.onMainThread(result);
+                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
+                        LivePushView.this.setLayoutParams(layoutParams);
+                        // 重新设定对焦区域大小
+                        mFocusView.initFocusArea(realWidth, realHeight);
+                        cameraControl.focusChanged(realWidth,realHeight);
+                    }
+                });
+            }
         });
     }
 

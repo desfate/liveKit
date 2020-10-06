@@ -12,6 +12,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import github.com.desfate.livekit.BaseLiveView;
 import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
+import github.com.desfate.livekit.camera.interfaces.FocusCallback;
+import github.com.desfate.livekit.camera.interfaces.FocusStateCallback;
 import github.com.desfate.livekit.camera.view.FocusView;
 import github.com.desfate.livekit.live.LiveManager;
 import github.com.desfate.livekit.utils.ImageUtil;
@@ -40,35 +42,43 @@ public class CameraControl {
         this.mContext = context;
         this.mBaseLiveView = mBaseLiveView;
         mJobExecutor = new JobExecutor();
-        mCameraSession = new CameraSession(context, state -> mJobExecutor.execute(new JobExecutor.Task<Void>() {
+        mCameraSession = new CameraSession(context, new FocusStateCallback() {
             @Override
-            public void onMainThread(Void result) {
-                super.onMainThread(result);
-                //对焦状态的更变  这边动画根据对焦状态进行相应的变化
-                switch (state) {
-                    case CaptureResult.CONTROL_AF_STATE_ACTIVE_SCAN: // AF正在执行一个AF扫描，因为它是由AF触发器触发的。 value = 3
-                        mFocusControl.startFocus();
-                        break;
-                    case CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED: // AF未能成功地集中注意力，并且锁定了焦点。 value = 5
-                        mFocusControl.focusFailed();
-                        break;
-                    case CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED: // AF相信它是正确的并且锁定了焦点。 value = 4
-                    case CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED: // AF目前认为它是焦点，但可能在任何时候重新启动扫描。 value = 2
-                    case CaptureResult.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:  // AF在没有找到焦点的情况下完成了被动扫描，并且可以在任何时候重新启动扫描。 value = 6
-                        mFocusControl.focusSuccess();
-                        break;
-                    case CaptureResult.CONTROL_AF_STATE_PASSIVE_SCAN:  // AF目前正在进行一种自动对焦模式的自动对焦，这是一种持续的自动对焦模式。 value = 1
-                        mFocusControl.autoFocus();
-                        break;
-                    case CaptureResult.CONTROL_AF_STATE_INACTIVE:  // AF已经关闭，或者还没有被要求扫描。 value = 0
-                        mFocusControl.hideFocusView();
-                        break;
-                }
+            public void focusChanged(final int state) {
+                mJobExecutor.execute(new JobExecutor.Task<Void>() {
+                    @Override
+                    public void onMainThread(Void result) {
+                        super.onMainThread(result);
+                        //对焦状态的更变  这边动画根据对焦状态进行相应的变化
+                        switch (state) {
+                            case CaptureResult.CONTROL_AF_STATE_ACTIVE_SCAN: // AF正在执行一个AF扫描，因为它是由AF触发器触发的。 value = 3
+                                mFocusControl.startFocus();
+                                break;
+                            case CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED: // AF未能成功地集中注意力，并且锁定了焦点。 value = 5
+                                mFocusControl.focusFailed();
+                                break;
+                            case CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED: // AF相信它是正确的并且锁定了焦点。 value = 4
+                            case CaptureResult.CONTROL_AF_STATE_PASSIVE_FOCUSED: // AF目前认为它是焦点，但可能在任何时候重新启动扫描。 value = 2
+                            case CaptureResult.CONTROL_AF_STATE_PASSIVE_UNFOCUSED:  // AF在没有找到焦点的情况下完成了被动扫描，并且可以在任何时候重新启动扫描。 value = 6
+                                mFocusControl.focusSuccess();
+                                break;
+                            case CaptureResult.CONTROL_AF_STATE_PASSIVE_SCAN:  // AF目前正在进行一种自动对焦模式的自动对焦，这是一种持续的自动对焦模式。 value = 1
+                                mFocusControl.autoFocus();
+                                break;
+                            case CaptureResult.CONTROL_AF_STATE_INACTIVE:  // AF已经关闭，或者还没有被要求扫描。 value = 0
+                                mFocusControl.hideFocusView();
+                                break;
+                        }
+                    }
+                });
             }
-        }));
-        mFocusControl = new FocusControl(focusView, Looper.getMainLooper(), () -> {
-            if (!mCameraSession.getFocusState()) {
-                mCameraSession.sendControlFocusModeRequest();
+        });
+        mFocusControl = new FocusControl(focusView, Looper.getMainLooper(), new FocusCallback() {
+            @Override
+            public void focusFinish() {
+                if (!mCameraSession.getFocusState()) {
+                    mCameraSession.sendControlFocusModeRequest();
+                }
             }
         });
     }
