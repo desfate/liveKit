@@ -1,10 +1,10 @@
 package github.com.desfate.libbuild;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import github.com.desfate.livekit.LivePushView;
+
 
 public class MainActivity extends AppCompatActivity {
 
