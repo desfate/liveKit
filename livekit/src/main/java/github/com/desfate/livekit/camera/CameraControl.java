@@ -123,7 +123,7 @@ public class CameraControl {
                         nv21 = new byte[stride * image.getHeight() * 3 / 2];
                     }
                     // 回传数据是YUV420
-                    else if (y.length / u.length == 4) {
+                    if (y.length / u.length == 2) {
                         ImageUtil.yuv420ToYuv420p(y, u, v, nv21, stride, image.getHeight());
                     }
                     if(mLiveManager != null) mLiveManager.startPushByData(nv21, stride, image.getHeight());   // 向服务器推送数据
