@@ -8,15 +8,14 @@ import javax.microedition.khronos.egl.EGLConfig;
 
 import github.com.desfate.livekit.camera.CameraControl;
 import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.reders.CameraDrawer;
 
 
 /**
  * 基于GLSurfaceView的观众观看页面
  */
 public class LivePlayView extends BaseLiveView {
-
-    CameraControl cameraControl; //       相机管理
-    FocusView mFocusView; //              对焦View  这个view是要加入LivePlayView的父布局
+    private CameraDrawer mDrawer; //      opengl渲染代码
 
     public LivePlayView(Context context) {
         super(context);
@@ -24,13 +23,11 @@ public class LivePlayView extends BaseLiveView {
 
     public LivePlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mFocusView = new FocusView(context);
-        cameraControl = new CameraControl(context, this, mFocusView);
     }
 
     @Override
     public void surfaceCreated(EGLConfig config) {
-
+        mDrawer = new CameraDrawer();
     }
 
     @Override
@@ -40,20 +37,6 @@ public class LivePlayView extends BaseLiveView {
 
     @Override
     public void onDrawFrame(int mSurfaceId) {
-
+        mDrawer.draw(mSurfaceId, true);
     }
-
-    /**
-     * 把对焦动画的view 加入父布局
-     * @param viewGroup
-     */
-    public void setParentLayout(ViewGroup viewGroup){
-        viewGroup.addView(mFocusView);
-    }
-
-    public CameraControl getControl(){
-        return cameraControl;
-    }
-
-
 }
