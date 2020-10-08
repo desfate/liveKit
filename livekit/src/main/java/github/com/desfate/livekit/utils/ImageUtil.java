@@ -63,13 +63,9 @@ public class ImageUtil {
             byte[] u2 = new byte[u.length / 2];
             byte[] v2 = new byte[v.length / 2];
             // U 和 V 隔一个取一个
-            for(int i = 0; i < u.length; i++){
+            for(int i = 0; i < u.length - 1; i++){
                 if(i % 2 == 0){
                     u2[i / 2] = u[i];
-                }
-            }
-            for(int i = 0; i < v.length; i++){
-                if(i % 2 == 0){
                     v2[i / 2] = v[i];
                 }
             }
