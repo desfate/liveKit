@@ -1,7 +1,4 @@
 package github.com.desfate.livekit.utils;
-
-import java.util.stream.Stream;
-
 public class ImageUtil {
     /**
      * 将Y:U:V == 4:2:2的数据转换为nv21
@@ -60,6 +57,7 @@ public class ImageUtil {
     public static void yuv422ToYuv420p(byte[] y, byte[] u, byte[] v, byte[] yu12, int stride, int height) {
         if(stride * height == y.length) {  // 防止越界
             System.arraycopy(y, 0, yu12, 0, y.length);  // 先整Y
+            if(u.length > y.length / 2) return;  // 数据异常  不处理
             byte[] u2 = new byte[u.length / 2];
             byte[] v2 = new byte[v.length / 2];
             // U 和 V 隔一个取一个
@@ -69,8 +67,8 @@ public class ImageUtil {
                     v2[i / 2] = v[i];
                 }
             }
-            System.arraycopy(u, 0, yu12, y.length, u2.length);
-            System.arraycopy(v, 0, yu12, y.length + u2.length, v2.length);
+            System.arraycopy(u2, 0, yu12, y.length, u2.length);
+            System.arraycopy(v2, 0, yu12, y.length + (y.length / 4), v2.length);
         }
     }
 
