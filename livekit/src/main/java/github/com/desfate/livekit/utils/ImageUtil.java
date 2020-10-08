@@ -1,5 +1,7 @@
 package github.com.desfate.livekit.utils;
 
+import java.util.stream.Stream;
+
 public class ImageUtil {
     /**
      * 将Y:U:V == 4:2:2的数据转换为nv21
@@ -44,6 +46,36 @@ public class ImageUtil {
             nv21[i + 1] = u[uIndex++];
         }
         System.out.println("123");
+    }
+
+    /**
+     * 将Y:U:V == 4：2：2的数据转换为 4:2:0 yu12 （I420） YU12
+     * @param y        Y 数据
+     * @param u        U 数据
+     * @param v        V 数据
+     * @param yu12     生成的 yu12（I420），需要预先分配内存
+     * @param stride   步长
+     * @param height   图像高度
+     */
+    public static void yuv422ToYuv420p(byte[] y, byte[] u, byte[] v, byte[] yu12, int stride, int height) {
+        if(stride * height == y.length) {  // 防止越界
+            System.arraycopy(y, 0, yu12, 0, y.length);  // 先整Y
+            byte[] u2 = new byte[u.length / 2];
+            byte[] v2 = new byte[v.length / 2];
+            // U 和 V 隔一个取一个
+            for(int i = 0; i < u.length; i++){
+                if(i % 2 == 0){
+                    u2[i / 2] = u[i];
+                }
+            }
+            for(int i = 0; i < v.length; i++){
+                if(i % 2 == 0){
+                    v2[i / 2] = v[i];
+                }
+            }
+            System.arraycopy(u, 0, yu12, y.length, u2.length);
+            System.arraycopy(v, 0, yu12, y.length + u2.length, v2.length);
+        }
     }
 
 

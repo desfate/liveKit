@@ -122,7 +122,12 @@ public class CameraControl {
                     if (nv21 == null) {
                         nv21 = new byte[stride * image.getHeight() * 3 / 2];
                     }
-                    // 回传数据是YUV420 这里保证采样率是420
+                    // 采样率是4:2:2 这里照理不应该出现422采样率的 如果出现 将422转换为420
+                    if (y.length / u.length == 2){
+                        ImageUtil.yuv422ToYuv420p(y, u, v, nv21, stride, image.getHeight());
+                    }
+
+                    // 回传数据是YUV420 这里保证采样率是4:1:1
                     if (y.length / u.length == 4) {
                         ImageUtil.yuv420ToYuv420p(y, u, v, nv21, stride, image.getHeight());
                     }
