@@ -13,6 +13,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import github.com.desfate.livekit.camera.CameraControl;
 import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
 import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.live.LiveManager;
 import github.com.desfate.livekit.reders.CameraDrawer;
 import github.com.desfate.livekit.utils.JobExecutor;
@@ -82,7 +83,9 @@ public class LivePushView extends BaseLiveView{
         mDrawer.draw(surfaceTexture, cameraControl.getCameraStata());
     }
 
-
+    /**
+     * 切换摄像头
+     */
     public void switchCamera(){
         cameraControl.switchCamera();
     }
@@ -103,14 +106,30 @@ public class LivePushView extends BaseLiveView{
         cameraControl.setmLiveManager(mLiveManager);
     }
 
-
+    /**
+     * 释放资源
+     */
     public void release(){
         cameraControl.release();
         mJobExecutor = null;
     }
 
+    /**
+     * 开始推流
+     */
     public void startPush(){
         cameraControl.startPush();
+    }
+
+    /**
+     * 修改直播的一些配置
+     * 默认是 1080P + 通过data推流
+     * 清晰度不会在直播中生效
+     * 推流模式可以随时改变
+     * @param liveConfig
+     */
+    public void setLiveConfig(LiveConfig liveConfig){
+        cameraControl.setLiveConfig(liveConfig);
     }
 
 }

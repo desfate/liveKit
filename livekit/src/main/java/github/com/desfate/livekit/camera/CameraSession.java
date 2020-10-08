@@ -421,6 +421,14 @@ public class CameraSession {
         this.mOnImageAvailableListener = listener;
     }
 
+    public LiveConfig getmLiveConfig() {
+        return mLiveConfig;
+    }
+
+    public void setmLiveConfig(LiveConfig mLiveConfig) {
+        this.mLiveConfig = mLiveConfig;
+    }
+
     /**
      * 对焦状态
      *

@@ -15,6 +15,7 @@ import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
 import github.com.desfate.livekit.camera.interfaces.FocusCallback;
 import github.com.desfate.livekit.camera.interfaces.FocusStateCallback;
 import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.live.LiveManager;
 import github.com.desfate.livekit.utils.ImageUtil;
 import github.com.desfate.livekit.utils.JobExecutor;
@@ -101,41 +102,52 @@ public class CameraControl {
 
             @Override
             public void onImageAvailable(ImageReader reader) {
-                if(!isPusher) return;
+                if (!isPusher) return;
+                if (mCameraSession == null) return;
                 //将Y:U:V == 4:1:1的数据转换为 yu12（I420）
                 Image image = reader.acquireNextImage(); //这个必须要有  不然会导致卡死
-                if (image.getFormat() == ImageFormat.YUV_420_888) {
-                    Image.Plane[] planes = image.getPlanes();
-                    // 加锁确保y、u、v来源于同一个Image
-                    lock.lock();
-                    if (y == null) {
-                        y = new byte[planes[0].getBuffer().limit() - planes[0].getBuffer().position()];
-                        u = new byte[planes[1].getBuffer().limit() - planes[1].getBuffer().position()];
-                        v = new byte[planes[2].getBuffer().limit() - planes[2].getBuffer().position()];
-                    }
-                    if (image.getPlanes()[0].getBuffer().remaining() == y.length) {
-                        planes[0].getBuffer().get(y);
-                        planes[1].getBuffer().get(u);
-                        planes[2].getBuffer().get(v);
-                    }
-                    int stride = planes[0].getRowStride();
-                    if (nv21 == null) {
-                        nv21 = new byte[stride * image.getHeight() * 3 / 2];
-                    }
-                    // 采样率是4:2:2 这里照理不应该出现422采样率的 如果出现 将422转换为420
-                    if (y.length / u.length == 2){
-                        ImageUtil.yuv422ToYuv420p(y, u, v, nv21, stride, image.getHeight());
-                    }
+                switch (mCameraSession.getmLiveConfig().getLivePushType()) {
+                    case LiveConfig.LIVE_PUSH_DATA:
+                        if (image.getFormat() == ImageFormat.YUV_420_888) {
+                            Image.Plane[] planes = image.getPlanes();
+                            // 加锁确保y、u、v来源于同一个Image
+                            lock.lock();
+                            if (y == null) {
+                                y = new byte[planes[0].getBuffer().limit() - planes[0].getBuffer().position()];
+                                u = new byte[planes[1].getBuffer().limit() - planes[1].getBuffer().position()];
+                                v = new byte[planes[2].getBuffer().limit() - planes[2].getBuffer().position()];
+                            }
+                            if (image.getPlanes()[0].getBuffer().remaining() == y.length) {
+                                planes[0].getBuffer().get(y);
+                                planes[1].getBuffer().get(u);
+                                planes[2].getBuffer().get(v);
+                            }
+                            int stride = planes[0].getRowStride();
+                            if (nv21 == null) {
+                                nv21 = new byte[stride * image.getHeight() * 3 / 2];
+                            }
+                            // 采样率是4:2:2 这里照理不应该出现422采样率的 如果出现 将422转换为420
+                            if (y.length / u.length == 2) {
+                                ImageUtil.yuv422ToYuv420p(y, u, v, nv21, stride, image.getHeight());
+                            }
 
-                    // 回传数据是YUV420 这里保证采样率是4:1:1
-                    if (y.length / u.length == 4) {
-                        ImageUtil.yuv420ToYuv420p(y, u, v, nv21, stride, image.getHeight());
-                    }
-                    if(mLiveManager != null) mLiveManager.startPushByData(nv21, stride, image.getHeight());   // 向服务器推送数据
+                            // 回传数据是YUV420 这里保证采样率是4:1:1
+                            if (y.length / u.length == 4) {
+                                ImageUtil.yuv420ToYuv420p(y, u, v, nv21, stride, image.getHeight());
+                            }
+                            if (mLiveManager != null)
+                                mLiveManager.startPushByData(nv21, stride, image.getHeight());   // 向服务器推送数据
 //                    Optional.ofNullable(mLiveManager).ifPresent(liveManager -> {
 //                        liveManager.startPushByData(nv21, stride, image.getHeight());   // 向服务器推送数据
 //                    });
-                    lock.unlock();
+                            lock.unlock();
+                        }
+                        break;
+                    case LiveConfig.LIVE_PUSH_TEXTURE:
+                        // 根据texture进行推送
+                        if(mLiveManager != null)
+                            mLiveManager.startPushByTextureId(mBaseLiveView.getmSurfaceId(), image.getWidth(), image.getHeight());
+                        break;
                 }
                 image.close();
             }
@@ -147,57 +159,61 @@ public class CameraControl {
      * 切换相机
      */
 
-    public void switchCamera(){
+    public void switchCamera() {
         mCameraSession.switchCamera();
     }
 
-    public void startPush(){
+    public void startPush() {
         isPusher = true;
     }
 
-    public void stopPush(){
+    public void stopPush() {
         isPusher = false;
     }
 
-    public void startFocus(float x, float y){
+    public void startFocus(float x, float y) {
         mFocusControl.startFocus(x, y);
     }
 
 
-    public MeteringRectangle getFocusArea(float x, float y, boolean type){
+    public MeteringRectangle getFocusArea(float x, float y, boolean type) {
         return mFocusControl.getFocusArea(x, y, type);
     }
 
-    public void setmLiveManager(LiveManager liveManager){
+    public void setmLiveManager(LiveManager liveManager) {
         this.mLiveManager = liveManager;
     }
 
 
-    public void cameraAFSetting(MeteringRectangle focusRect, MeteringRectangle meterRect){
+    public void cameraAFSetting(MeteringRectangle focusRect, MeteringRectangle meterRect) {
         mCameraSession.cameraAFSetting(focusRect, meterRect);
     }
 
     /**
      * 画面更变导致的对焦区域更新
+     *
      * @param width
      * @param height
      */
 
-    public void focusChanged(int width, int height){
+    public void focusChanged(int width, int height) {
         mFocusControl.onPreviewChanged(width, height, mCameraSession.getCameraCharacteristics());
     }
 
 
-    public boolean getCameraStata(){
+    public boolean getCameraStata() {
         return mCameraSession.getCameraState();
     }
 
 
-    public void release(){
+    public void release() {
         mCameraSession.release();
     }
 
-
+    public void setLiveConfig(LiveConfig liveConfig){
+        if(liveConfig != null)
+            mCameraSession.setmLiveConfig(liveConfig);
+    }
 
 
 }
