@@ -29,7 +29,4 @@ public class LiveMessageCommand {
         else
             return "";
     }
-
-}public class LiveMessageCommand {
-    
 }
