@@ -28,11 +28,9 @@ public class LivePushView extends BaseLiveView{
     private CameraDrawer mDrawer; //      opengl渲染代码
     private JobExecutor mJobExecutor;//   线程池
 
-
     public LivePushView(Context context) {
         super(context);
     }
-
 
     public LivePushView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,17 +47,35 @@ public class LivePushView extends BaseLiveView{
         cameraControl.openCamera(new CameraChangeCallback() {
             @Override
             public void viewChanged(boolean front, Size size) {
+                boolean screenType = true; // true:竖屏 false：横屏
+                if(ScreenUtils.getScreenSize(getContext()).getWidth() > ScreenUtils.getScreenSize(getContext()).getHeight()){
+                    screenType = false;
+                }
+
                 final int realWidth = ScreenUtils.getScreenSize(getContext()).getWidth();
                 final int realHeight = realWidth * size.getWidth() / size.getHeight();
+
+                final int landRealHeight = ScreenUtils.getScreenSize(getContext()).getHeight();
+                final int landRealWidth = landRealHeight * size.getWidth() / size.getHeight();
+
+                final boolean finalScreenType = screenType;
                 mJobExecutor.execute(new JobExecutor.Task<Void>() {
                     @Override
                     public void onMainThread(Void result) {
                         super.onMainThread(result);
-                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
-                        LivePushView.this.setLayoutParams(layoutParams);
-                        // 重新设定对焦区域大小
-                        mFocusView.initFocusArea(realWidth, realHeight);
-                        cameraControl.focusChanged(realWidth,realHeight);
+                        if(finalScreenType) {
+                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
+                            LivePushView.this.setLayoutParams(layoutParams);
+                            // 重新设定对焦区域大小
+                            mFocusView.initFocusArea(realWidth, realHeight);
+                            cameraControl.focusChanged(realWidth, realHeight);
+                        }else{
+                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(landRealWidth, landRealHeight);
+                            LivePushView.this.setLayoutParams(layoutParams);
+                            // 重新设定对焦区域大小
+                            mFocusView.initFocusArea(landRealWidth, landRealHeight);
+                            cameraControl.focusChanged(landRealWidth, landRealHeight);
+                        }
                     }
                 });
             }
@@ -80,7 +96,7 @@ public class LivePushView extends BaseLiveView{
 
     @Override
     public void onDrawFrame(int surfaceTexture) {
-        mDrawer.draw(surfaceTexture, cameraControl.getCameraStata());
+        mDrawer.draw(surfaceTexture, cameraControl.getCameraStata(), getWidth(), getHeight());
     }
 
     /**
@@ -88,6 +104,14 @@ public class LivePushView extends BaseLiveView{
      */
     public void switchCamera(){
         cameraControl.switchCamera();
+    }
+
+    /**
+     * 获取摄像头当前状态
+     * @return true: 前置  false: 后置
+     */
+    public boolean cameraStata(){
+        return cameraControl.getCameraStata();
     }
 
     /**
@@ -131,5 +155,4 @@ public class LivePushView extends BaseLiveView{
     public void setLiveConfig(LiveConfig liveConfig){
         cameraControl.setLiveConfig(liveConfig);
     }
-
 }

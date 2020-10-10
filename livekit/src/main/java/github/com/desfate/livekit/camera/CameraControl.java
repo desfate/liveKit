@@ -26,7 +26,7 @@ import github.com.desfate.livekit.utils.JobExecutor;
  */
 public class CameraControl {
 
-    private final static String TAG = "CameraControl";
+       private final static String TAG = "CameraControl";
 
     LiveManager mLiveManager; //            直播管理器 用于管理直播相关接口
     BaseLiveView mBaseLiveView; //          显示的view 有自己的SurfaceTextureView 和 Surface
@@ -145,7 +145,7 @@ public class CameraControl {
                         break;
                     case LiveConfig.LIVE_PUSH_TEXTURE:
                         // 根据texture进行推送
-                        if(mLiveManager != null)
+                        if (mLiveManager != null)
                             mLiveManager.startPushByTextureId(mBaseLiveView.getmSurfaceId(), image.getWidth(), image.getHeight());
                         break;
                 }
@@ -210,10 +210,8 @@ public class CameraControl {
         mCameraSession.release();
     }
 
-    public void setLiveConfig(LiveConfig liveConfig){
-        if(liveConfig != null)
+    public void setLiveConfig(LiveConfig liveConfig) {
+        if (liveConfig != null)
             mCameraSession.setmLiveConfig(liveConfig);
     }
-
-
 }
