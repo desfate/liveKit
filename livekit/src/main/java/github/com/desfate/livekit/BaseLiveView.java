@@ -3,6 +3,7 @@ package github.com.desfate.livekit;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES10;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
