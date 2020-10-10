@@ -25,18 +25,28 @@ public class OpenGLUtils {
         return texture[0];
     }
 
+    // 指定要创建的着色器的类型 返回一个可以引用的非零值（shader ID）
+    // GL_VERTEX_SHADER:在可编程顶点处理器上运行的着色器
+    // GL_FRAGMENT_SHADER:可编程片段处理器上运行
     public static int loadShader(int type, String source) {
         // 1. create shader
         int shader = GLES20.glCreateShader(type);
+        // 如果创建着色器对象时发生错误，则此函数返回0。
         if (shader == GLES20.GL_NONE) {
             Log.e(TAG, "create shared failed! type: " + type);
             return GLES20.GL_NONE;
         }
         // 2. load shader source
+        // 替换着色器对象中的源代码
+        // shader 要被替换源代码的着色器对象的句柄（ID）
+        // source 指定指向包含要加载到着色器的源代码的字符串的指针数组
         GLES20.glShaderSource(shader, source);
         // 3. compile shared source
+        // 编译一个着色器对象
+        // 如果着色器编译时没有错误并且可以使用，则此值将设置为GL_TRUE，否则将设置为GL_FALSE
         GLES20.glCompileShader(shader);
         // 4. check compile status
+        // 查询编译结果
         int[] compiled = new int[1];
         GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
         if (compiled[0] == GLES20.GL_FALSE) { // compile failed
@@ -50,11 +60,13 @@ public class OpenGLUtils {
 
     public static int createProgram(String vertexSource, String fragmentSource) {
         // 1. load shader
+        // 生成一个顶点着色器
         int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexSource);
         if (vertexShader == GLES20.GL_NONE) {
             Log.e(TAG, "load vertex shader failed! ");
             return GLES20.GL_NONE;
         }
+        // 生成一个片段着色器
         int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentSource);
         if (fragmentShader == GLES20.GL_NONE) {
             Log.e(TAG, "load fragment shader failed! ");
