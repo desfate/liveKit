@@ -35,13 +35,19 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
         setEGLContextClientVersion(2);  //现在OpenGL ES版本已经到3.0了，Android平台上目前有1.0和2.0
         setRenderer(this);  //添加渲染器
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY); // 渲染模式 并不会一直渲染
+        setPreserveEGLContextOnPause(true);
     }
 
-    private void initSurface(){
-        mSurfaceId = new Random().nextInt(100000);
-        mSurfaceTexture = new SurfaceTexture(mSurfaceId);
-        mSurfaceTexture.setOnFrameAvailableListener(this);
-        mSurface = new Surface(mSurfaceTexture);
+    public void initSurface(){
+        if(mSurfaceId == 0)
+            mSurfaceId = new Random().nextInt(100000);
+        if(mSurfaceTexture == null) {
+            mSurfaceTexture = new SurfaceTexture(mSurfaceId);
+            mSurfaceTexture.setOnFrameAvailableListener(this);
+        }
+        if(mSurface == null) {
+            mSurface = new Surface(mSurfaceTexture);
+        }
     }
 
     public abstract void surfaceCreated(EGLConfig config);
@@ -68,8 +74,8 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
     @Override
     public void onDrawFrame(GL10 gl) {
         // 绘制预览
-        GLES10.glClearColor(0, 0, 0, 0);
-        GLES10.glClear(GLES10.GL_COLOR_BUFFER_BIT | GLES10.GL_DEPTH_BUFFER_BIT);
+        GLES20.glClearColor(0, 0, 0, 0);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         mSurfaceTexture.updateTexImage();  //SurfaceTexture对象所关联的OpenGLES中纹理对象的内容将被更新为Image Stream中最新的图片
         onDrawFrame(mSurfaceId);
     }
@@ -117,10 +123,12 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
         return mSurfaceTexture;
     }
 
-    public Surface getmSurface() {
-        return mSurface;
+    public void setSurfaceTexture(SurfaceTexture surfaceTexture){
+        this.mSurfaceTexture = surfaceTexture;
     }
 
-
-
+    public Surface getmSurface() {
+        if(mSurface == null) initSurface();
+        return mSurface;
+    }
 }
