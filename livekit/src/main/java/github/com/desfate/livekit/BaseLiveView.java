@@ -15,6 +15,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import github.com.desfate.livekit.utils.ScreenUtils;
+import github.com.desfate.livekit.reders.OpenGLUtils;
 
 public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceView.Renderer , SurfaceTexture.OnFrameAvailableListener{
 
