@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -16,6 +17,7 @@ public class OpenGLUtils {
 
     public static int getExternalOESTextureID() {
         int[] texture = new int[1];
+        texture[0] = new Random().nextInt(10000);
         GLES20.glGenTextures(1, texture, 0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture[0]);
         GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
