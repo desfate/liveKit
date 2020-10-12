@@ -41,7 +41,7 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
 
     public void initSurface(){
         if(mSurfaceId == 0)
-            mSurfaceId = new Random().nextInt(100000);
+            mSurfaceId = OpenGLUtils.getExternalOESTextureID();
         if(mSurfaceTexture == null) {
             mSurfaceTexture = new SurfaceTexture(mSurfaceId);
             mSurfaceTexture.setOnFrameAvailableListener(this);

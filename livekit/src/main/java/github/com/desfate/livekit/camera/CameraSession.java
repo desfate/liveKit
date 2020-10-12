@@ -280,7 +280,7 @@ public class CameraSession {
             mCaptureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             // 照理这里是不会重新生成的  这里是为了保证代码健壮性
             if (surfaceTexture == null)
-                surfaceTexture = new SurfaceTexture(new Random().nextInt(100000));
+                surfaceTexture = new SurfaceTexture(OpenGLUtils.getExternalOESTextureID());
             if (mSurface == null) mSurface = new Surface(surfaceTexture);
 
             OutputConfiguration surface = new OutputConfiguration(mSurface);  // 预览的surface
