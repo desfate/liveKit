@@ -452,7 +452,7 @@ public class CameraSession {
      * @return true: 前置  false：后置
      */
     public boolean getCameraState() {
-        return mCameraConfig.isFrontCamera();
+        return mCameraConfig == null || mCameraConfig.isFrontCamera();
     }
 
     /**
