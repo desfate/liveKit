@@ -22,5 +22,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:25.4.0"
+    // androidX
+    implementation deps.androidX.appcompat
+    implementation deps.androidX.recyclerview
+    implementation deps.androidX.constraintLayout
+    implementation deps.androidX.lifecycle
 }

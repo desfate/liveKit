@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import javax.microedition.khronos.egl.EGLConfig;
 
 import github.com.desfate.livekit.camera.CameraControl;
@@ -63,18 +65,34 @@ public class LivePushView extends BaseLiveView{
                     @Override
                     public void onMainThread(Void result) {
                         super.onMainThread(result);
-                        if(finalScreenType) {
-                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
-                            LivePushView.this.setLayoutParams(layoutParams);
-                            // 重新设定对焦区域大小
-                            mFocusView.initFocusArea(realWidth, realHeight);
-                            cameraControl.focusChanged(realWidth, realHeight);
-                        }else{
-                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(landRealWidth, landRealHeight);
-                            LivePushView.this.setLayoutParams(layoutParams);
-                            // 重新设定对焦区域大小
-                            mFocusView.initFocusArea(landRealWidth, landRealHeight);
-                            cameraControl.focusChanged(landRealWidth, landRealHeight);
+                        if(LivePushView.this.getLayoutParams() instanceof RelativeLayout.LayoutParams){  // 父布局是关联布局
+                            if(finalScreenType) {
+                                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
+                                LivePushView.this.setLayoutParams(layoutParams);
+                                // 重新设定对焦区域大小
+                                mFocusView.initFocusArea(realWidth, realHeight);
+                                cameraControl.focusChanged(realWidth, realHeight);
+                            }else{
+                                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(landRealWidth, landRealHeight);
+                                LivePushView.this.setLayoutParams(layoutParams);
+                                // 重新设定对焦区域大小
+                                mFocusView.initFocusArea(landRealWidth, landRealHeight);
+                                cameraControl.focusChanged(landRealWidth, landRealHeight);
+                            }
+                        }else if(LivePushView.this.getLayoutParams() instanceof ConstraintLayout.LayoutParams){  //  父布局是约束布局
+                            if(finalScreenType) {
+                                ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(realWidth, realHeight);
+                                LivePushView.this.setLayoutParams(layoutParams);
+                                // 重新设定对焦区域大小
+                                mFocusView.initFocusArea(realWidth, realHeight);
+                                cameraControl.focusChanged(realWidth, realHeight);
+                            }else{
+                                ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(landRealWidth, landRealHeight);
+                                LivePushView.this.setLayoutParams(layoutParams);
+                                // 重新设定对焦区域大小
+                                mFocusView.initFocusArea(landRealWidth, landRealHeight);
+                                cameraControl.focusChanged(landRealWidth, landRealHeight);
+                            }
                         }
                     }
                 });
