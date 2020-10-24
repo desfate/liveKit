@@ -328,6 +328,8 @@ public class CameraSession {
             }
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        } catch (IllegalStateException e) {
+
         }
     }
 
