@@ -100,7 +100,7 @@ public class CameraSession {
         mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         mJobExecutor = new JobExecutor(); // 初始化线程池
         mCameraOpenCloseLock = new Semaphore(1);
-        if(mCameraConfig != null) mCameraConfig = new CameraConfig();  //默认前置
+        if(mCameraConfig == null) mCameraConfig = new CameraConfig();  //默认前置
         mLiveConfig = new LiveConfig();      //默认1080p
         mCaptureCallbackListener = new CameraCaptureSession.CaptureCallback() {
             private void process(CaptureResult result) {

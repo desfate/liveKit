@@ -46,7 +46,7 @@ versions.liteavSdk = 'latest.release' // 腾讯直播SDK版本
 // 腾讯云存储服务
 versions.cosxml = '5.4.+'// 腾讯对象存储 cosml
 // 自定义直播采集插件
-versions.livekit = '0.80'
+versions.livekit = '0.83'
 
 ext.deps = [:]
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
