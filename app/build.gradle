@@ -25,9 +25,5 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(path: ':livekit')
-    // androidX
-    implementation deps.androidX.appcompat
-    implementation deps.androidX.recyclerview
-    implementation deps.androidX.constraintLayout
-    implementation deps.androidX.lifecycle
+
 }
