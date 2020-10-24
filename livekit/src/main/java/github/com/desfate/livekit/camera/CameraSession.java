@@ -390,6 +390,8 @@ public class CameraSession {
             mCameraCaptureSession.capture(builder.build(), null, mBackgroundHandler); //发送上述设置的对焦请求，并监听回调
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        } catch (IllegalStateException e){
+
         }
     }
 
