@@ -26,6 +26,7 @@ import android.util.Size;
 import android.view.Surface;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 import java.util.List;
@@ -99,7 +100,7 @@ public class CameraSession {
         mCameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         mJobExecutor = new JobExecutor(); // 初始化线程池
         mCameraOpenCloseLock = new Semaphore(1);
-        mCameraConfig = new CameraConfig();  //默认前置
+        if(mCameraConfig != null) mCameraConfig = new CameraConfig();  //默认前置
         mLiveConfig = new LiveConfig();      //默认1080p
         mCaptureCallbackListener = new CameraCaptureSession.CaptureCallback() {
             private void process(CaptureResult result) {
@@ -184,6 +185,7 @@ public class CameraSession {
                     }
                     mCameraManager.openCamera(String.valueOf(mCameraConfig.getmCameraId()), new CameraDevice.StateCallback() {
 
+                        @RequiresApi(api = Build.VERSION_CODES.P)
                         @Override
                         public void onOpened(@NonNull CameraDevice camera) {
                             mCameraOpenCloseLock.release();
@@ -278,6 +280,7 @@ public class CameraSession {
      * 相机打开成功后 建立相机会话
      */
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     private void createCameraPreviewSession() {
         try {
             mCaptureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
