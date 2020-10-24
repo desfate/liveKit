@@ -421,6 +421,8 @@ public class CameraSession {
             mCameraCaptureSession.setRepeatingRequest(mCaptureRequest, mCaptureCallbackListener, mBackgroundHandler);  //设置预览界面;  //设置预览界面
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        }catch (IllegalStateException e){
+
         }
     }
 
