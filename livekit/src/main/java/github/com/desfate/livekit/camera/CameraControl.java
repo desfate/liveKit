@@ -102,10 +102,10 @@ public class CameraControl {
 
             @Override
             public void onImageAvailable(ImageReader reader) {
-                if (!isPusher) return;
-                if (mCameraSession == null) return;
                 //将Y:U:V == 4:1:1的数据转换为 yu12（I420）
                 Image image = reader.acquireNextImage(); //这个必须要有  不然会导致卡死
+                if (mCameraSession == null) return;
+                if (!isPusher) return;
                 switch (mCameraSession.getmLiveConfig().getLivePushType()) {
                     case LiveConfig.LIVE_PUSH_DATA:
                         if (image.getFormat() == ImageFormat.YUV_420_888) {
