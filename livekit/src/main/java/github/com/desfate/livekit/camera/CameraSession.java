@@ -385,7 +385,7 @@ public class CameraSession {
             }
             builder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);  // 清除掉触发对焦的Request， 不然会不断对焦
             CaptureRequest request = builder.build();
-            mCameraCaptureSession.setRepeatingRequest(request, mCaptureCallbackListener, mBackgroundHandler);
+            mCameraCaptureSession.setRepeatingRequest(request, null, mBackgroundHandler);
             builder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START); //触发对焦
             mCameraCaptureSession.capture(builder.build(), null, mBackgroundHandler); //发送上述设置的对焦请求，并监听回调
         } catch (CameraAccessException e) {
