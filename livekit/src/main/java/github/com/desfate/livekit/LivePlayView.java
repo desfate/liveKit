@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.util.Size;
 import android.widget.RelativeLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import javax.microedition.khronos.egl.EGLConfig;
 
 import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
@@ -41,8 +43,13 @@ public class LivePlayView extends BaseLiveView {
                     @Override
                     public void onMainThread(Void result) {
                         super.onMainThread(result);
-                        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
-                        LivePlayView.this.setLayoutParams(layoutParams);
+                        if(LivePlayView.this.getLayoutParams() instanceof RelativeLayout.LayoutParams) {  // 父布局是关联布局
+                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
+                            LivePlayView.this.setLayoutParams(layoutParams);
+                        }else if(LivePlayView.this.getLayoutParams() instanceof ConstraintLayout.LayoutParams){  //  父布局是约束布局
+                            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(realWidth, realHeight);
+                            LivePlayView.this.setLayoutParams(layoutParams);
+                        }
                     }
                 });
             }
