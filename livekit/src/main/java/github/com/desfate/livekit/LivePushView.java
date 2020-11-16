@@ -42,7 +42,6 @@ public class LivePushView extends BaseLiveView{
         cameraControl = new CameraControl(context, this, mFocusView);
     }
 
-
     @Override
     public void surfaceCreated(EGLConfig config) {
         mDrawer = new CameraDrawer();
@@ -152,8 +151,10 @@ public class LivePushView extends BaseLiveView{
      * 释放资源
      */
     public void release(){
+        cameraControl.stopPush();
         cameraControl.release();
         mJobExecutor = null;
+        mListener = null;
     }
 
     /**

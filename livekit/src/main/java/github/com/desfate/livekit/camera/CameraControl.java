@@ -2,10 +2,12 @@ package github.com.desfate.livekit.camera;
 
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.media.Image;
 import android.media.ImageReader;
+import android.opengl.EGLContext;
 import android.os.Looper;
 
 import java.util.concurrent.locks.ReentrantLock;
@@ -26,7 +28,7 @@ import github.com.desfate.livekit.utils.JobExecutor;
  */
 public class CameraControl {
 
-       private final static String TAG = "CameraControl";
+    private final static String TAG = "CameraControl";
 
     LiveManager mLiveManager; //            直播管理器 用于管理直播相关接口
     BaseLiveView mBaseLiveView; //          显示的view 有自己的SurfaceTextureView 和 Surface
@@ -149,11 +151,11 @@ public class CameraControl {
                             lock.unlock();
                         }
                         break;
-                    case LiveConfig.LIVE_PUSH_TEXTURE:
-                        // 根据texture进行推送
-                        if (mLiveManager != null)
-                            mLiveManager.startPushByTextureId(mBaseLiveView.getmSurfaceId(), image.getWidth(), image.getHeight());
-                        break;
+//                    case LiveConfig.LIVE_PUSH_TEXTURE:
+//                        // 根据texture进行推送
+//                        if (mLiveManager != null)
+//                            mLiveManager.startPushByTextureId(mBaseLiveView.getmSurfaceId(), image.getWidth(), image.getHeight());
+//                        break;
                 }
                 image.close();
             }
@@ -170,7 +172,11 @@ public class CameraControl {
     }
 
     public void startPush() {
-        isPusher = true;
+        if(mCameraSession.getmLiveConfig().getLivePushType() == LiveConfig.LIVE_PUSH_DATA) {
+            isPusher = true;
+        }else{
+            isPusher = false;
+        }
     }
 
     public void stopPush() {
@@ -217,7 +223,9 @@ public class CameraControl {
     }
 
     public void setLiveConfig(LiveConfig liveConfig) {
-        if (liveConfig != null)
+        if (liveConfig != null) {
             mCameraSession.setmLiveConfig(liveConfig);
+        }
     }
+
 }
