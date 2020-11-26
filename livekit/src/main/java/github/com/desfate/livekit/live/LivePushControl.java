@@ -80,6 +80,9 @@ public class LivePushControl{
 
     public void focusViewChange(int width, int height){ if(mControl != null) mControl.focusViewChange(width, height);}
 
+    // Camera live info
+    public int getCameraState(){ if(liveConfig != null) return liveConfig.getPushCameraType(); else return LiveConfig.LIVE_CAMERA_FRONT ; }
+
 
     public static class LivePushControlBuilder {
         Context context;
