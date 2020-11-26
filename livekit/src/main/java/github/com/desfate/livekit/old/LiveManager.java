@@ -1,4 +1,4 @@
-package github.com.desfate.livekit.live;
+package github.com.desfate.livekit.old;
 
 /**
  * 这里包含一些和直播sdk相关的接口  用于解耦直播相关

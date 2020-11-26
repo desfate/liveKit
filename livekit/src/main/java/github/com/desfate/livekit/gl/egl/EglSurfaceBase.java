@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package github.com.desfate.libbuild.tc;
+package github.com.desfate.livekit.gl.egl;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package github.com.desfate.livekit;
+package github.com.desfate.livekit.ui;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -23,11 +23,9 @@ import github.com.desfate.livekit.reders.OpenGLUtils;
 
 public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceView.Renderer , SurfaceTexture.OnFrameAvailableListener{
 
-    private int mSurfaceId;                   // textureId
-
-    private SurfaceTexture mSurfaceTexture;   // 图像流容器
-    private Surface mSurface;                 // surface
-    public OnFrameAvailable mListener;//        用户texture推流的工具
+    private int mSurfaceId;                   //  textureId
+    private SurfaceTexture mSurfaceTexture;   //  图像流容器
+    private Surface mSurface;                 //  surface
 
     public BaseLiveView(Context context) {
         this(context, null);
@@ -80,10 +78,6 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        if(mListener != null){
-            mListener.onFrame(getmSurfaceId(), EGL14.eglGetCurrentContext());
-            return;
-        }
         // 绘制预览
         GLES20.glClearColor(0, 0, 0, 0);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -124,14 +118,6 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
                 && mTouchTime < DELAY_TIME) {
             onClick(upX, upY);
         }
-    }
-
-    public void setListener(OnFrameAvailable mListener){
-        this.mListener = mListener;
-    }
-
-    public int getmSurfaceId() {
-        return mSurfaceId;
     }
 
     public SurfaceTexture getmSurfaceTexture() {

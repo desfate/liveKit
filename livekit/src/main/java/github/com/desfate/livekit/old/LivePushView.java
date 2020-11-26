@@ -1,4 +1,4 @@
-package github.com.desfate.livekit;
+package github.com.desfate.livekit.old;
 
 import android.content.Context;
 import android.hardware.camera2.params.MeteringRectangle;
@@ -16,15 +16,15 @@ import github.com.desfate.livekit.camera.CameraControl;
 import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
 import github.com.desfate.livekit.camera.view.FocusView;
 import github.com.desfate.livekit.live.LiveConfig;
-import github.com.desfate.livekit.live.LiveManager;
 import github.com.desfate.livekit.reders.CameraDrawer;
+import github.com.desfate.livekit.ui.BaseLiveView;
 import github.com.desfate.livekit.utils.JobExecutor;
 import github.com.desfate.livekit.utils.ScreenUtils;
 
 /**
  * 基于GLSurfaceView的主播预览页面
  */
-public class LivePushView extends BaseLiveView{
+public class LivePushView extends BaseLiveView {
     CameraControl cameraControl; //       相机管理
     FocusView mFocusView; //              对焦View  这个view是要加入LivePlayView的父布局
     private CameraDrawer mDrawer; //      opengl渲染代码
@@ -154,7 +154,6 @@ public class LivePushView extends BaseLiveView{
         cameraControl.stopPush();
         cameraControl.release();
         mJobExecutor = null;
-        mListener = null;
     }
 
     /**

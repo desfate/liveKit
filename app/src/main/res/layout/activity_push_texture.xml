@@ -7,13 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <github.com.desfate.livekit.ui.DataLivePushView
-        android:id="@+id/anchor_push_view"
+    <com.tencent.rtmp.ui.TXCloudVideoView
+        android:id="@+id/tx_cloud_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true" />
-
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/sign"
@@ -28,7 +25,6 @@
     <Button
         android:layout_below="@+id/sign"
         android:id="@+id/switch_btn"
-        android:text="切换摄像头"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

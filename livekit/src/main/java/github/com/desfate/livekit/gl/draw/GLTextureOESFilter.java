@@ -1,4 +1,4 @@
-package github.com.desfate.libbuild.tc;
+package github.com.desfate.livekit.gl.draw;
 
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
@@ -8,6 +8,8 @@ import android.util.Log;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+
+import github.com.desfate.livekit.gl.egl.EglCore;
 
 /**
  * 将外部纹理转为普通纹理，需要在OpenGL环境中使用

@@ -117,7 +117,7 @@ public class CameraSession {
                             Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
                             if (aeState == null ||
                                     aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
-                                mState = STATE_PICTURE_TAKEN;
+                                mState = STATE_PICTURE_TAKEN;   mState = STATE_PICTURE_TAKEN;
                             } else {
                                 mState = STATE_WAITING_PRE_CAPTURE;
                             }
@@ -346,6 +346,8 @@ public class CameraSession {
             // 当前相机匹配的直播分辨率， 就是采集的分辨率（因为采集到的原始流是直接推给服务器的）
             Size liveSize = LiveSupportUtils.getCameraBestSize(mCameraConfig.isFrontCamera(), mLiveConfig.getLiveQuality());
             surfaceTexture.setDefaultBufferSize(liveSize.getWidth(), liveSize.getHeight());
+            // imageReader 能不能决定采集到的数据宽高
+            // 经过测试  发现 ImageReader 输出宽高是可以修改 ， 但是要依据相机参数 ， 它会自动匹配对应最合适的相机参数
             mImageReader = ImageReader.newInstance(liveSize.getWidth(), liveSize.getHeight(), ImageFormat.YUV_420_888, 1);
 //            Optional.ofNullable(cameraChangeCallback).ifPresent(cameraChangeCallback -> cameraChangeCallback.viewChanged(mCameraConfig.isFrontCamera(), liveSize));
             if(cameraChangeCallback != null)

@@ -1,4 +1,4 @@
-package github.com.desfate.livekit;
+package github.com.desfate.livekit.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;

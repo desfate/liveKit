@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package github.com.desfate.libbuild.tc;
+package github.com.desfate.livekit.gl.egl;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
@@ -49,10 +49,10 @@ public final class EglCore {
     private static final int SIZEOF_FLOAT = 4;
 
     public static final float TEXTURE_ROTATION_0[] = {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f,
+            0.0f, 1.0f,  // 左下
+            1.0f, 1.0f,  // 左上
+            0.0f, 0.0f,  // 右下
+            1.0f, 0.0f,  // 右上
     };
 
     public static final float TEXTURE_ROTATED_90[] = {
@@ -75,9 +75,9 @@ public final class EglCore {
     };
     public static final float CUBE[] = {
             -1.0f,  -1.0f,     //左下角坐标
-            1.0f,  -1.0f,     //右下角坐标
+            1.0f,  -1.0f,      //右下角坐标
             -1.0f,   1.0f,     //左上角坐标
-            1.0f,   1.0f      //右上角坐标
+            1.0f,   1.0f       //右上角坐标
     };
 
     /**

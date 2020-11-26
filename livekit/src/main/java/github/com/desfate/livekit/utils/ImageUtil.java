@@ -42,7 +42,6 @@ public class ImageUtil {
             nv21[i] = v[vIndex++];
             nv21[i + 1] = u[uIndex++];
         }
-        System.out.println("123");
     }
 
     /**

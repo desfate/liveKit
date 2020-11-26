@@ -47,6 +47,8 @@ versions.liteavSdk = 'latest.release' // 腾讯直播SDK版本
 versions.cosxml = '5.4.+'// 腾讯对象存储 cosml
 // 自定义直播采集插件
 versions.livekit = '0.83'
+// 错误捕捉
+versions.bugly = "latest.release"
 
 ext.deps = [:]
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
@@ -134,6 +136,11 @@ deps.liveEventBus = liveEventBus
 def banner = [:]
 banner.runtime = "com.youth.banner:banner:$versions.banner"
 deps.banner = banner
+
+
+def bugly = [:]
+bugly.runtime = "com.tencent.bugly:crashreport:$versions.bugly"
+deps.bugly = bugly
 
 
 def addRepos(RepositoryHandler handler) {

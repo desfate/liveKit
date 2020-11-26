@@ -28,5 +28,33 @@ public class LiveSupportUtils {
         return new Size(1920, 1080);
     }
 
+    public static Size getCameraTextureSize(boolean isFront, int liveType) {
+        switch (liveType) {
+            case LIVE_SIZE_720:
+                if(isFront){
+                    return new Size(720, 1280);
+                }else {
+                    return new Size(1280, 720);
+                }
+            case LIVE_SIZE_1080:
+                if(isFront) {
+                    return new Size(1080, 1920);
+                }else {
+                    return new Size(1920, 1080);
+                }
+            case LIVE_SIZE_2560:
+                if(isFront) {
+                    return new Size(1440, 2560);
+                }else {
+                    return new Size(2560, 1440);
+                }
+        }
+        if(isFront) {
+            return new Size(1080, 1920);
+        }else{
+            return new Size(1920, 1080);
+        }
+    }
+
 
 }

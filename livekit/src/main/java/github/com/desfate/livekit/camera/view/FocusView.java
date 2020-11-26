@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -14,6 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import androidx.annotation.Nullable;
 
 import github.com.desfate.livekit.CameraConstant;
+import github.com.desfate.livekit.R;
 import github.com.desfate.livekit.utils.ScreenUtils;
 
 
@@ -33,6 +35,7 @@ public class FocusView extends View {
 
     public FocusView(Context context) {
         this(context, null, 0);
+        initAnimation();
     }
 
     public FocusView(Context context, @Nullable AttributeSet attrs) {
@@ -46,9 +49,9 @@ public class FocusView extends View {
         radiusInner = ScreenUtils.dpToPx(context, CameraConstant.radiusInnerSize);
         strokeWidth = ScreenUtils.dpToPx(context, CameraConstant.strokeWidthSize);
 
-//        colorFailed = resources.getColor(R.color.focus_failed, null);
-//        colorSuccess = resources.getColor(R.color.focus_success, null);
-//        colorNormal = resources.getColor(R.color.focus_normal, null);
+        colorFailed = Color.parseColor("#00CCFF");
+        colorSuccess = Color.parseColor("#00CCFF");
+        colorNormal = Color.parseColor("#00CCFF");
         colorCurrent = colorNormal;
 
         outerRectF = new RectF(strokeWidth, strokeWidth, radiusOuter * 2 - strokeWidth, radiusOuter * 2 - strokeWidth);

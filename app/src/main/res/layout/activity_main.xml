@@ -1,32 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
 
-    <Button android:id="@+id/push_btn"
+
+    <TextView
+        android:layout_marginTop="50dp"
+        android:id="@+id/licence_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="start push by data"
+        android:text="LICENCE_URL = "
         />
 
-    <Button android:id="@+id/push_texture_btn"
+    <TextView
+        android:id="@+id/licence_key"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/push_btn"
-        android:text="start push by texture"
+        android:text="LICENCE_KEY = "
         />
 
-    <Button android:id="@+id/play_btn"
+    <Button
+        android:layout_marginTop="50dp"
+        android:id="@+id/push_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="play_live"
-        android:layout_below="@+id/push_btn"
+        android:text="推流类型：  Customer By Data"
         />
 
 
-</RelativeLayout>
+    <Button android:id="@+id/push_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="推流大小：  1080P"
+        />
+
+    <Button android:id="@+id/push_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="推流帧率：  30FPS"
+        />
+
+
+    <Button android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始推流"
+        />
+
+    <Button android:id="@+id/play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="播放页面"
+        />
+
+
+
+</LinearLayout>

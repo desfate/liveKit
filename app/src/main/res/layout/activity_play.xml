@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
 
-    <github.com.desfate.livekit.LivePlayView
+    <github.com.desfate.livekit.ui.LivePlayView
         android:id="@+id/anchor_play_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

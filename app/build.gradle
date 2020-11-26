@@ -12,6 +12,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
 
     buildTypes {
@@ -32,4 +37,7 @@ dependencies {
     implementation deps.androidX.lifecycle
 
     implementation deps.liteavSdk.liteavsdk_smart
+    // buyle
+    implementation deps.bugly.runtime
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 }

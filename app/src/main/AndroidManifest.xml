@@ -16,6 +16,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <application
         android:name=".TCApplication"
         android:allowBackup="true"
@@ -32,10 +33,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PushActivity">
-        </activity>
+
+        <activity android:name=".DataPushActivity"
+            android:configChanges="keyboardHidden|orientation"></activity>
 
         <activity android:name=".PlayActivity">
+        </activity>
+
+        <activity android:name=".TexturePushActivity">
+        </activity>
+
+        <activity android:name=".TXMainActivity">
+        </activity>
+
+        <activity android:name=".CameraDemoActivity">
+
         </activity>
     </application>
 

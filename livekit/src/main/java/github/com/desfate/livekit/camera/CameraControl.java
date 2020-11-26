@@ -2,23 +2,21 @@ package github.com.desfate.livekit.camera;
 
 import android.content.Context;
 import android.graphics.ImageFormat;
-import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.media.Image;
 import android.media.ImageReader;
-import android.opengl.EGLContext;
 import android.os.Looper;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-import github.com.desfate.livekit.BaseLiveView;
+import github.com.desfate.livekit.ui.BaseLiveView;
 import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
 import github.com.desfate.livekit.camera.interfaces.FocusCallback;
 import github.com.desfate.livekit.camera.interfaces.FocusStateCallback;
 import github.com.desfate.livekit.camera.view.FocusView;
 import github.com.desfate.livekit.live.LiveConfig;
-import github.com.desfate.livekit.live.LiveManager;
+import github.com.desfate.livekit.old.LiveManager;
 import github.com.desfate.livekit.utils.ImageUtil;
 import github.com.desfate.livekit.utils.JobExecutor;
 

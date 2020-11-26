@@ -1,0 +1,525 @@
+@startuml
+
+title __LIBBUILD.LIVEKIT's Class Diagram__\n
+
+  namespace github.com.desfate.livekit {
+    class github.com.desfate.livekit.BuildConfig {
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    class github.com.desfate.livekit.CameraConstant {
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      class github.com.desfate.livekit.camera.CameraConfig {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      class github.com.desfate.livekit.camera.CameraControl {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      class github.com.desfate.livekit.camera.CameraDataControl {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      class github.com.desfate.livekit.camera.CameraSession {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      class github.com.desfate.livekit.camera.CameraTextureControl {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      class github.com.desfate.livekit.camera.CameraTools {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      class github.com.desfate.livekit.camera.FocusControl {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace interfaces {
+        interface github.com.desfate.livekit.camera.interfaces.CameraChangeCallback {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace interfaces {
+        interface github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace interfaces {
+        interface github.com.desfate.livekit.camera.interfaces.FocusCallback {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace interfaces {
+        interface github.com.desfate.livekit.camera.interfaces.FocusStateCallback {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace interfaces {
+        interface github.com.desfate.livekit.camera.interfaces.OnFrameAvailable {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace news {
+        class github.com.desfate.livekit.camera.news.CameraClient {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace news {
+        class github.com.desfate.livekit.camera.news.CameraEngine {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace news {
+        class github.com.desfate.livekit.camera.news.CameraErrorCode {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace news {
+        class github.com.desfate.livekit.camera.news.CameraFocusControl {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace news {
+        class github.com.desfate.livekit.camera.news.CameraInfo {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace news {
+        interface github.com.desfate.livekit.camera.news.CameraInterface {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace news {
+        class github.com.desfate.livekit.camera.news.CameraUtils {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace camera {
+      namespace view {
+        class github.com.desfate.livekit.camera.view.FocusView {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      class github.com.desfate.livekit.gl.RenderVideoFrame {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace draw {
+        class github.com.desfate.livekit.gl.draw.GLI420RenderFilter {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace draw {
+        class github.com.desfate.livekit.gl.draw.GLTexture2DFilter {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace draw {
+        class github.com.desfate.livekit.gl.draw.GLTextureOESFilter {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace egl {
+        class github.com.desfate.livekit.gl.egl.EglCore {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace egl {
+        class github.com.desfate.livekit.gl.egl.EglSurfaceBase {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace interfaces {
+        interface github.com.desfate.livekit.gl.interfaces.IEGLListener {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace interfaces {
+        interface github.com.desfate.livekit.gl.interfaces.IGLSurfaceTextureListener {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace interfaces {
+        interface github.com.desfate.livekit.gl.interfaces.VideoRenderListener {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace thread {
+        class github.com.desfate.livekit.gl.thread.GLThread {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace gl {
+      namespace thread {
+        class github.com.desfate.livekit.gl.thread.GLThreadHandler {
+        }
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace live {
+      interface github.com.desfate.livekit.live.LiveCallBack {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace live {
+      class github.com.desfate.livekit.live.LiveConfig {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace live {
+      class github.com.desfate.livekit.live.LivePushControl {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace live {
+      interface github.com.desfate.livekit.live.LivePushInterface {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace live {
+      class github.com.desfate.livekit.live.LiveUtils {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace old {
+      interface github.com.desfate.livekit.old.LiveManager {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace old {
+      class github.com.desfate.livekit.old.LivePushView {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace reders {
+      class github.com.desfate.livekit.reders.CameraDrawer {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace reders {
+      class github.com.desfate.livekit.reders.OpenGLUtils {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace ui {
+      abstract class github.com.desfate.livekit.ui.BaseLiveView {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace ui {
+      class github.com.desfate.livekit.ui.DataLivePushView {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace ui {
+      class github.com.desfate.livekit.ui.LivePlayView {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace utils {
+      class github.com.desfate.livekit.utils.CoordinateTransformer {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace utils {
+      class github.com.desfate.livekit.utils.ImageUtil {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace utils {
+      class github.com.desfate.livekit.utils.JobExecutor {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace utils {
+      class github.com.desfate.livekit.utils.LiveSupportUtils {
+      }
+    }
+  }
+  
+
+  namespace github.com.desfate.livekit {
+    namespace utils {
+      class github.com.desfate.livekit.utils.ScreenUtils {
+      }
+    }
+  }
+  
+
+  github.com.desfate.livekit.camera.CameraControl o-- github.com.desfate.livekit.ui.BaseLiveView : mBaseLiveView
+  github.com.desfate.livekit.camera.CameraControl o-- github.com.desfate.livekit.camera.CameraSession : mCameraSession
+  github.com.desfate.livekit.camera.CameraControl o-- github.com.desfate.livekit.camera.FocusControl : mFocusControl
+  github.com.desfate.livekit.camera.CameraControl o-- github.com.desfate.livekit.old.LiveManager : mLiveManager
+  github.com.desfate.livekit.camera.CameraControl o-- github.com.desfate.livekit.utils.JobExecutor : mJobExecutor
+  github.com.desfate.livekit.camera.CameraDataControl .up.|> github.com.desfate.livekit.live.LivePushInterface
+  github.com.desfate.livekit.camera.CameraDataControl o-- github.com.desfate.livekit.camera.interfaces.FocusStateCallback : callback
+  github.com.desfate.livekit.camera.CameraDataControl o-- github.com.desfate.livekit.camera.news.CameraInfo : info
+  github.com.desfate.livekit.camera.CameraDataControl o-- github.com.desfate.livekit.live.LiveCallBack : liveCallBack
+  github.com.desfate.livekit.camera.CameraDataControl o-- github.com.desfate.livekit.camera.news.CameraClient : mCameraClient
+  github.com.desfate.livekit.camera.CameraDataControl o-- github.com.desfate.livekit.camera.FocusControl : mFocusControl
+  github.com.desfate.livekit.camera.CameraDataControl o-- github.com.desfate.livekit.utils.JobExecutor : mJobExecutor
+  github.com.desfate.livekit.camera.CameraSession o-- github.com.desfate.livekit.camera.interfaces.CameraChangeCallback : cameraChangeCallback
+  github.com.desfate.livekit.camera.CameraSession o-- github.com.desfate.livekit.camera.CameraConfig : mCameraConfig
+  github.com.desfate.livekit.camera.CameraSession o-- github.com.desfate.livekit.camera.interfaces.FocusStateCallback : mFocusStateCallback
+  github.com.desfate.livekit.camera.CameraSession o-- github.com.desfate.livekit.utils.JobExecutor : mJobExecutor
+  github.com.desfate.livekit.camera.CameraSession o-- github.com.desfate.livekit.live.LiveConfig : mLiveConfig
+  github.com.desfate.livekit.camera.CameraTextureControl .up.|> github.com.desfate.livekit.live.LivePushInterface
+  github.com.desfate.livekit.camera.CameraTextureControl o-- github.com.desfate.livekit.camera.news.CameraInfo : cameraInfo
+  github.com.desfate.livekit.camera.CameraTextureControl o-- github.com.desfate.livekit.camera.news.CameraClient : mCameraClient
+  github.com.desfate.livekit.camera.CameraTextureControl o-- github.com.desfate.livekit.gl.interfaces.IGLSurfaceTextureListener : textureListener
+  github.com.desfate.livekit.camera.CameraTextureControl o-- github.com.desfate.livekit.live.LiveCallBack : callBack
+  github.com.desfate.livekit.camera.CameraTextureControl o-- github.com.desfate.livekit.gl.thread.GLThread : mGLThread
+  github.com.desfate.livekit.camera.CameraTextureControl o-- github.com.desfate.livekit.gl.RenderVideoFrame : mRender
+  github.com.desfate.livekit.camera.FocusControl o-- github.com.desfate.livekit.camera.interfaces.FocusCallback : mFocusCallback
+  github.com.desfate.livekit.camera.FocusControl o-- github.com.desfate.livekit.camera.view.FocusView : mFocusView
+  github.com.desfate.livekit.camera.FocusControl o-- github.com.desfate.livekit.utils.CoordinateTransformer : mTransformer
+  github.com.desfate.livekit.camera.news.CameraClient o-- github.com.desfate.livekit.camera.news.CameraInterface : mCamera
+  github.com.desfate.livekit.camera.news.CameraEngine .up.|> github.com.desfate.livekit.camera.news.CameraInterface
+  github.com.desfate.livekit.camera.news.CameraEngine o-- github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack : cameraCallBack
+  github.com.desfate.livekit.camera.news.CameraEngine o-- github.com.desfate.livekit.camera.news.CameraInfo : cameraInfo
+  github.com.desfate.livekit.camera.news.CameraEngine o-- github.com.desfate.livekit.camera.news.CameraFocusControl : focusControl
+  github.com.desfate.livekit.camera.news.CameraEngine o-- github.com.desfate.livekit.camera.interfaces.FocusStateCallback : mFocusStateCallback
+  github.com.desfate.livekit.camera.news.CameraEngine o-- github.com.desfate.livekit.utils.JobExecutor : mJobExecutor
+  github.com.desfate.livekit.camera.news.CameraFocusControl o-- github.com.desfate.livekit.camera.interfaces.FocusStateCallback : mFocusStateCallback
+  github.com.desfate.livekit.camera.view.FocusView -up-|> android.view.View
+  github.com.desfate.livekit.gl.RenderVideoFrame o-- github.com.desfate.livekit.gl.interfaces.IEGLListener : ieglListener
+  github.com.desfate.livekit.gl.RenderVideoFrame o-- github.com.desfate.livekit.gl.thread.GLThreadHandler : mGLHandler
+  github.com.desfate.livekit.gl.RenderVideoFrame o-- github.com.desfate.livekit.gl.draw.GLTexture2DFilter : mTextureFilter
+  github.com.desfate.livekit.gl.RenderVideoFrame o-- github.com.desfate.livekit.gl.draw.GLI420RenderFilter : mYUVFilter
+  github.com.desfate.livekit.gl.RenderVideoFrame o-- github.com.desfate.livekit.gl.interfaces.VideoRenderListener : renderListener
+  github.com.desfate.livekit.gl.egl.EglSurfaceBase o-- github.com.desfate.livekit.gl.egl.EglCore : mEglCore
+  github.com.desfate.livekit.gl.thread.GLThread o-- github.com.desfate.livekit.gl.draw.GLTextureOESFilter : mGLFilter
+  github.com.desfate.livekit.gl.thread.GLThread o-- github.com.desfate.livekit.gl.thread.GLThreadHandler : mGLHandler
+  github.com.desfate.livekit.gl.thread.GLThread o-- github.com.desfate.livekit.gl.interfaces.IGLSurfaceTextureListener : mListener
+  github.com.desfate.livekit.gl.thread.GLThreadHandler -up-|> android.os.Handler
+  github.com.desfate.livekit.gl.thread.GLThreadHandler o-- github.com.desfate.livekit.gl.egl.EglSurfaceBase : mEglBase
+  github.com.desfate.livekit.gl.thread.GLThreadHandler o-- github.com.desfate.livekit.gl.interfaces.IEGLListener : mListener
+  github.com.desfate.livekit.live.LivePushControl o-- github.com.desfate.livekit.camera.news.CameraInfo : cameraInfo
+  github.com.desfate.livekit.live.LivePushControl o-- github.com.desfate.livekit.camera.FocusControl : focusControl
+  github.com.desfate.livekit.live.LivePushControl o-- github.com.desfate.livekit.live.LiveConfig : liveConfig
+  github.com.desfate.livekit.live.LivePushControl o-- github.com.desfate.livekit.live.LivePushInterface : mControl
+  github.com.desfate.livekit.old.LivePushView -up-|> github.com.desfate.livekit.ui.BaseLiveView
+  github.com.desfate.livekit.old.LivePushView o-- github.com.desfate.livekit.camera.CameraControl : cameraControl
+  github.com.desfate.livekit.old.LivePushView o-- github.com.desfate.livekit.camera.view.FocusView : mFocusView
+  github.com.desfate.livekit.old.LivePushView o-- github.com.desfate.livekit.reders.CameraDrawer : mDrawer
+  github.com.desfate.livekit.old.LivePushView o-- github.com.desfate.livekit.utils.JobExecutor : mJobExecutor
+  github.com.desfate.livekit.ui.BaseLiveView .up.|> android.graphics.SurfaceTexture.OnFrameAvailableListener
+  github.com.desfate.livekit.ui.BaseLiveView .up.|> android.opengl.GLSurfaceView.Renderer
+  github.com.desfate.livekit.ui.BaseLiveView -up-|> android.opengl.GLSurfaceView
+  github.com.desfate.livekit.ui.DataLivePushView -up-|> github.com.desfate.livekit.ui.BaseLiveView
+  github.com.desfate.livekit.ui.DataLivePushView o-- github.com.desfate.livekit.live.LivePushControl : control
+  github.com.desfate.livekit.ui.DataLivePushView o-- github.com.desfate.livekit.camera.view.FocusView : focusView
+  github.com.desfate.livekit.ui.DataLivePushView o-- github.com.desfate.livekit.live.LiveConfig : liveConfig
+  github.com.desfate.livekit.ui.DataLivePushView o-- github.com.desfate.livekit.reders.CameraDrawer : mDrawer
+  github.com.desfate.livekit.ui.LivePlayView -up-|> github.com.desfate.livekit.ui.BaseLiveView
+  github.com.desfate.livekit.ui.LivePlayView o-- github.com.desfate.livekit.camera.interfaces.CameraChangeCallback : callBack
+  github.com.desfate.livekit.ui.LivePlayView o-- github.com.desfate.livekit.reders.CameraDrawer : mDrawer
+  github.com.desfate.livekit.ui.LivePlayView o-- github.com.desfate.livekit.utils.JobExecutor : mJobExecutor
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

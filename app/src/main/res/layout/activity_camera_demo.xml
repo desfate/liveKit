@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/camera_lay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:orientation="horizontal">
+
+        <TextureView
+            android:id="@+id/texture"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_weight="1"
+            />
+
+        <TextureView
+            android:id="@+id/texture2"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/camera_lay2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camera_lay"
+        android:orientation="horizontal">
+
+        <TextureView
+            android:id="@+id/texture3"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_weight="1"
+            />
+
+        <TextureView
+            android:id="@+id/texture4"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/camera_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+
+    <!-- 底部控制区 -->
+    <RelativeLayout
+        android:id="@+id/control_lay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <EditText
+            android:id="@+id/camera_info"
+            android:maxHeight="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:padding="20dp"
+            android:editable="false"
+            />
+
+        <TextView
+            android:id="@+id/text_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择你要操作的逻辑相机"
+            android:layout_below="@+id/camera_info"
+            android:textStyle="bold"
+            />
+
+        <Spinner
+            android:id="@+id/camera_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/camera_info"
+            android:layout_toRightOf="@+id/text_sign"
+            />
+
+
+        <Button
+            android:id="@+id/open_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/camera_select"
+            android:text = "打开当前选择的相机"
+            />
+
+        <Button
+            android:id="@+id/switch_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/camera_select"
+            android:layout_toRightOf="@+id/open_btn"
+            android:text = "切换到当前选择的相机"
+            />
+
+        <Button
+            android:id="@+id/add_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/camera_select"
+            android:layout_toRightOf="@+id/switch_btn"
+            android:text = "多相机开启测试"
+            />
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,11 @@
-package github.com.desfate.libbuild.tc;
+package github.com.desfate.livekit.gl.draw;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import java.nio.FloatBuffer;
+
+import github.com.desfate.livekit.gl.egl.EglCore;
 
 /**
  * 渲染GL_TEXTURE_2D到EGLSurface上，如果EGLSurface绑定TextureView的SurfaceTexture，就可以在TextureView上显示出来
