@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
+import android.util.Size;
 import android.view.Surface;
 
 import github.com.desfate.livekit.gl.draw.GLTextureOESFilter;
@@ -18,7 +19,7 @@ import github.com.desfate.livekit.gl.interfaces.IGLSurfaceTextureListener;
  */
 public class GLThread {
     final static private String TAG = "GLThread";
-    private volatile HandlerThread mGLThread = null;
+    private volatile HandlerThread mHandlerThread = null;
     private volatile GLThreadHandler mGLHandler = null;
 
     private GLTextureOESFilter mGLFilter;
@@ -68,9 +69,9 @@ public class GLThread {
         unintGLThread();
 
         synchronized (this) {
-            mGLThread = new HandlerThread(TAG);
-            mGLThread.start();
-            mGLHandler = new GLThreadHandler(mGLThread.getLooper());
+            mHandlerThread = new HandlerThread(TAG);
+            mHandlerThread.start();
+            mGLHandler = new GLThreadHandler(mHandlerThread.getLooper());
             mGLHandler.setListener(new IEGLListener() {
                 @Override
                 public void onEGLCreate() {
@@ -108,7 +109,7 @@ public class GLThread {
                 }
             });
 
-            Log.w(TAG, "surface-render: create gl thread " + mGLThread.getName());
+            Log.w(TAG, "surface-render: create gl thread " + mHandlerThread.getName());
         }
 
         sendMsg(GLThreadHandler.MSG_INIT);
@@ -117,12 +118,12 @@ public class GLThread {
     private void unintGLThread() {
         synchronized (this) {
             if (mGLHandler != null) {
-                GLThreadHandler.quitGLThread(mGLHandler, mGLThread);
+                GLThreadHandler.quitGLThread(mGLHandler, mHandlerThread);
                 Log.w(TAG, "surface-render: destroy gl thread");
             }
 
             mGLHandler = null;
-            mGLThread = null;
+            mHandlerThread = null;
         }
     }
 

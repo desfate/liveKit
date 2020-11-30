@@ -1,4 +1,4 @@
-package github.com.desfate.livekit.camera.view;
+package github.com.desfate.livekit.ui;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

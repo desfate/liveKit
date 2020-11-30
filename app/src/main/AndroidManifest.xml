@@ -40,8 +40,12 @@
         <activity android:name=".PlayActivity">
         </activity>
 
-        <activity android:name=".TexturePushActivity">
-        </activity>
+        <activity android:name=".TexturePushActivity"
+            android:configChanges="keyboardHidden|orientation"></activity>
+
+<!--        <activity android:name=".TexturePushActivity"-->
+<!--            android:screenOrientation="landscape"></activity>-->
+
 
         <activity android:name=".TXMainActivity">
         </activity>

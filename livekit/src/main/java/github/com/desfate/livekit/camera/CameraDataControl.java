@@ -9,7 +9,6 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.os.Looper;
 
-import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
@@ -18,7 +17,7 @@ import github.com.desfate.livekit.camera.interfaces.FocusStateCallback;
 import github.com.desfate.livekit.camera.news.CameraClient;
 import github.com.desfate.livekit.camera.news.CameraFocusControl;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.ui.FocusView;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LivePushInterface;
 import github.com.desfate.livekit.utils.ImageUtil;

@@ -4,14 +4,12 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.TextureView;
 
-import java.util.Objects;
-
 import github.com.desfate.livekit.camera.CameraDataControl;
 import github.com.desfate.livekit.camera.CameraTextureControl;
 import github.com.desfate.livekit.camera.FocusControl;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.ui.FocusView;
 
 /**
  * 直播控制器 用于分离 相机核心

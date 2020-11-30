@@ -9,10 +9,9 @@ import android.os.Looper;
 import android.os.Message;
 
 import java.lang.ref.WeakReference;
-import java.util.Optional;
 
 import github.com.desfate.livekit.camera.interfaces.FocusCallback;
-import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.ui.FocusView;
 import github.com.desfate.livekit.utils.CoordinateTransformer;
 
 

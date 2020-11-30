@@ -11,7 +11,7 @@ import android.view.TextureView;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraClient;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.ui.FocusView;
 import github.com.desfate.livekit.gl.RenderVideoFrame;
 import github.com.desfate.livekit.gl.interfaces.IGLSurfaceTextureListener;
 import github.com.desfate.livekit.gl.thread.GLThread;
@@ -59,7 +59,7 @@ public class CameraTextureControl implements LivePushInterface {
                 })
                 .setmFocusStateCallback(null)
                 .build();
-        mRender = new RenderVideoFrame(cameraInfo.getDefaultBufferSize());  //  绑定采集和渲染
+        mRender = new RenderVideoFrame(cameraInfo.getDefaultBufferSize(), cameraInfo.getCameraFront() == 1);  //  绑定采集和渲染
     }
 
 
@@ -68,7 +68,6 @@ public class CameraTextureControl implements LivePushInterface {
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture) {
             Log.d(TAG, "onSurfaceTextureAvailable: " + Thread.currentThread().getName());
             mGLThread.setInputSize(cameraInfo.getDefaultBufferSize().getWidth(), cameraInfo.getDefaultBufferSize().getHeight());  // 承载视频画面的“画板（SurfaceTexture）”已经准备好了，需要我们创建一个 MovieVideoFrameReader，并与之关联起来。
-//            textureView.setSurfaceTexture(surfaceTexture);
             mCameraClient.getCamera().addSurfaceTexture(surfaceTexture);
             mCameraClient.getCamera().openCamera(cameraInfo);
         }
@@ -126,6 +125,7 @@ public class CameraTextureControl implements LivePushInterface {
     @Override
     public void switchCamera(CameraInfo info) {
         mCameraClient.getCamera().switchCamera(info);
+        if(mRender != null) mRender.changeCamera();
     }
 
     /**

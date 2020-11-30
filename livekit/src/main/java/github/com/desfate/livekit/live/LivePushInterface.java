@@ -1,10 +1,8 @@
 package github.com.desfate.livekit.live;
 
-import android.graphics.SurfaceTexture;
-
 import github.com.desfate.livekit.camera.FocusControl;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.camera.view.FocusView;
+import github.com.desfate.livekit.ui.FocusView;
 
 /**
  *

@@ -39,13 +39,22 @@ public class RenderVideoFrame {
     private GLI420RenderFilter mYUVFilter;
     private GLTexture2DFilter mTextureFilter;
 
+//    private boolean updateSize = false;
     private int mTextureId = -1;
     private int mVideoWidth;
     private int mVideoHeight;
     private ByteBuffer mYdata;
     private ByteBuffer mUVData;
+    private boolean front;
 
-    public RenderVideoFrame(Size size){
+    public void changeCamera(){
+        this.front = !front;
+        System.out.println( "front = " + this.front);
+    }
+
+    public RenderVideoFrame(Size size, final boolean front){
+        this.front = front;
+
         mVideoWidth = size.getWidth();
         mVideoHeight = size.getHeight();
 
@@ -60,7 +69,7 @@ public class RenderVideoFrame {
                 if (mRenderView != null) {
                     if (mTextureId != -1) {
                         if (mTextureFilter != null) {
-                            mTextureFilter.draw(mTextureId, mVideoWidth, mVideoHeight, mRenderView.getWidth(), mRenderView.getHeight());
+                            mTextureFilter.draw(mTextureId, mVideoWidth, mVideoHeight, mRenderView.getWidth(), mRenderView.getHeight(), RenderVideoFrame.this.front);
                         }
                         mGLHandler.swap();
                         mTextureId = -1;
@@ -95,7 +104,9 @@ public class RenderVideoFrame {
                     mRenderType = RENDER_TYPE_TEXTURE;
                     //OpenGL渲染线程共享SDK的eglContext
                     createGLThread(eglContext);
+
                 }
+
                 mTextureId = textureId;
                 GLES20.glFinish();
                 sendMsg(GLThreadHandler.MSG_REND);
@@ -114,7 +125,8 @@ public class RenderVideoFrame {
 
             @Override
             public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
-
+                mSurfaceTexture = surfaceTexture;//         保存surfaceTexture，用于创建OpenGL线程
+                // 更新OpenGL线程中的surface
             }
 
             @Override

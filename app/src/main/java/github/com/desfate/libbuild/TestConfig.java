@@ -10,7 +10,7 @@ public class TestConfig {
     public final static String LICENCE_KEY = "7ebeb7a8f2cd241daf84cfa2e8a66191";
 
     // 推流地址
-    public final static String PUSH_URL = "rtmp://117780.livepush.myqcloud.com/live/test?txSecret=98874d7bcf05f77a1b341e07e050b30a&txTime=5FBE0368";
+    public final static String PUSH_URL = "rtmp://117780.livepush.myqcloud.com/live/test?txSecret=40a658e2098f924efe487b37aa4a3751&txTime=5FC0C14C";
 
     public final static String PLAY_URL =
             "rtmp://desfate.cn/live/1400425586_test";

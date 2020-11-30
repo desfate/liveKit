@@ -9,6 +9,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.util.Size;
 import android.view.Surface;
 
 import github.com.desfate.livekit.gl.egl.EglCore;
@@ -31,7 +32,6 @@ public class GLThreadHandler extends Handler {
     private IEGLListener mListener = null;
 
     private EglSurfaceBase mEglBase;
-
 
     public static void quitGLThread(Handler handler, HandlerThread thread) {
         final HandlerThread glThread = thread;

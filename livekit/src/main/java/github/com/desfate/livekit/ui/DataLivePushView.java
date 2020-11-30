@@ -1,7 +1,6 @@
 package github.com.desfate.livekit.ui;
 
 import android.content.Context;
-import android.os.HandlerThread;
 import android.util.AttributeSet;
 import android.util.Size;
 import android.view.View;
@@ -10,13 +9,10 @@ import android.widget.RelativeLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import java.util.Objects;
-
 import javax.microedition.khronos.egl.EGLConfig;
 
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.camera.view.FocusView;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;

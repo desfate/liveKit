@@ -1,6 +1,9 @@
 package github.com.desfate.libbuild;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
@@ -54,6 +57,11 @@ public class TexturePushActivity extends AppCompatActivity {
         switchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (liveConfig.getPushCameraType() == 1) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  // 切换为横屏
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  // 切换为竖屏
+                }
                 control.switchCamera();
             }
         });
@@ -131,5 +139,24 @@ public class TexturePushActivity extends AppCompatActivity {
 
         control.startPreview();
         control.startPush();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        DisplayMetrics mDisplayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+        int W = mDisplayMetrics.widthPixels;
+        int H = mDisplayMetrics.heightPixels;
+        if(getResources() == null || getResources().getConfiguration() == null) return;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            txCloudVideoView.getLayoutParams().width = H * 1920 / 1080;
+            txCloudVideoView.getLayoutParams().height = H;
+            // land do nothing is ok
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // port do nothing is ok
+            txCloudVideoView.getLayoutParams().width = W;
+            txCloudVideoView.getLayoutParams().height = W * 1920 / 1080;
+        }
     }
 }

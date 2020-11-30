@@ -95,9 +95,9 @@ public class GLI420RenderFilter {
 
     public GLI420RenderFilter() {
         mTextureCoordinates = new float[]{
-                0.0f, 1f,
-                1f, 1f,
-                0.0f, 0.0f,
+                0.0f, 1f,  // 左上
+                1f, 1f,    // 右下
+                0.0f, 0.0f, // 左下
                 1f, 0.0f};
 
         mIndices = new short[]{0, 1, 2, 1, 3, 2};
