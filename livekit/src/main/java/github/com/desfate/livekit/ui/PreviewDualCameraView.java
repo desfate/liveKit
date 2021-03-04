@@ -30,8 +30,7 @@ import github.com.desfate.livekit.utils.JobExecutor;
 public class PreviewDualCameraView extends BaseLiveView{
 
     DualCameraDrawer dualCameraDrawer;
-    PreviewControl mControl;
-    PreviewConfig mConfig;
+
 
     private LiveConfig liveConfig;//      直播配置数据
     private LivePushControl control;//    直播逻辑控制器
@@ -46,34 +45,9 @@ public class PreviewDualCameraView extends BaseLiveView{
         super(context, attrs);
     }
 
-    public void init(final LiveConfig liveConfig, PreviewConfig mConfig, LiveCallBack liveCallBack){
+    public void init(final LiveConfig liveConfig, LiveCallBack liveCallBack){
         mJobExecutor = new JobExecutor();
         this.liveConfig = liveConfig;
-        this.mConfig = mConfig;
-        mControl = new PreviewControl.PreviewControlBuilder()
-                .setContext(getContext())
-                .setSurfaceTexture(getmSurfaceTexture())
-                .setPreviewConfig(mConfig)
-                .setErrorCallBack(new CameraErrorCallBack() {
-                    @Override
-                    public void onCameraOpenSuccess(CameraInfo info) {
-                        mJobExecutor.execute(new JobExecutor.Task<Void>() {
-                                                 @Override
-                                                 public void onMainThread(Void result) {
-                                                     super.onMainThread(result);
-                                                     getHolder().setFixedSize(2944, 1104);
-                                                     setAspectRatio(mAspectRatio);
-                                                 }
-                                             });
-                    }
-
-                    @Override
-                    public void onCameraOpenError(CameraInfo info, int error) {
-
-                    }
-                })
-                .build();
-
         control = new LivePushControl.LivePushControlBuilder()
                 .setContext(getContext())
                 .setLiveConfig(liveConfig)
@@ -108,7 +82,7 @@ public class PreviewDualCameraView extends BaseLiveView{
     }
 
     public void startPreview(){
-        mControl.startPreview();
+        control.startPreview();
     }
 
     @Override
