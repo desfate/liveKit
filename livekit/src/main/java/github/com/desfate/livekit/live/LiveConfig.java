@@ -10,6 +10,7 @@ public class LiveConfig {
     public final static int LIVE_CAMERA_FRONT = 1;  //  前置推流
     public final static int LIVE_CAMERA_BACK  = 2;  //  后置推流
     public final static int LIVE_CAMERA_OUTS  = 3;  //  外部推流
+    public final static int LIVE_CAMERA_DUAL  = 4;  //  双摄推流
 
     private int pushCameraType = LIVE_CAMERA_FRONT;
 

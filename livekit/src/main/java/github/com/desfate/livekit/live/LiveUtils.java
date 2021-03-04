@@ -37,11 +37,18 @@ public class LiveUtils {
         Size cameraSize =  LiveSupportUtils.getCameraBestSize(cameraFront == 1, liveConfig.getLiveQuality());
         int logicCameraId = liveLogicCameraId(context, cameraFront);
 
+        int state = 1;
+        if(liveConfig.getLivePushType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+            logicCameraId = 3;
+            state = 2;
+        }
+
         return new CameraInfo.CameraBuilder()
                 .setCameraFront(cameraFront)
                 .setDefaultBufferSize(cameraSize)
                 .setImageBufferSize(cameraSize)
                 .setLogicCameraId(logicCameraId)
+                .setState(state)
                 .build();
     }
 
@@ -61,11 +68,18 @@ public class LiveUtils {
         Size cameraSize =  LiveSupportUtils.getCameraTextureSize(cameraFront == 1, liveConfig.getLiveQuality());
         int logicCameraId = liveLogicCameraId(context, cameraFront);
 
+        int state = 1;
+        if(liveConfig.getLivePushType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+            logicCameraId = 3;
+            state = 2;
+        }
+
         return new CameraInfo.CameraBuilder()
                 .setCameraFront(cameraFront)
                 .setDefaultBufferSize(cameraSize)
                 .setImageBufferSize(cameraSize)
                 .setLogicCameraId(logicCameraId)
+                .setState(state)
                 .build();
     }
 
