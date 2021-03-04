@@ -40,7 +40,7 @@ public class LiveUtils {
         int logicCameraId = liveLogicCameraId(context, cameraFront);
 
         int state = 1;
-        if(liveConfig.getLivePushType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+        if(liveConfig.getPushCameraType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
             logicCameraId = 3;
             state = 2;
             cameraSize = PreviewUtils.getPreviewSize(cameraFront == 1, PreviewConfig.Preview_Quality.DUAL);
@@ -72,7 +72,7 @@ public class LiveUtils {
         int logicCameraId = liveLogicCameraId(context, cameraFront);
 
         int state = 1;
-        if(liveConfig.getLivePushType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+        if(liveConfig.getPushCameraType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
             logicCameraId = 3;
             state = 2;
             cameraSize = PreviewUtils.getPreviewSize(cameraFront == 1, PreviewConfig.Preview_Quality.DUAL);

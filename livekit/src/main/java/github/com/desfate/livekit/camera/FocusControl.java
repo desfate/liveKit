@@ -24,7 +24,7 @@ public class FocusControl {
     private static final int DELAY_MILLIS = 800;
     private static final int MSG_HIDE_FOCUS = 0x10;
 
-    private FocusView mFocusView; //                对焦动画
+    private static FocusView mFocusView; //                对焦动画
     private Looper mLooper; //                      主线程Looper
     private Handler mHandler;//                     主线程回调
     private Rect mFocusRect;//                      点击区域矩阵
@@ -46,26 +46,36 @@ public class FocusControl {
         currentX = x;
         currentY = y;
         mHandler.removeMessages(MSG_HIDE_FOCUS);
-        mFocusView.moveToPosition(x, y);
+        if(mFocusView != null) {
+            mFocusView.moveToPosition(x, y);
+        }
         mHandler.sendEmptyMessageDelayed(MSG_HIDE_FOCUS, HIDE_FOCUS_DELAY);
     }
 
     public void startFocus() {
         mHandler.removeMessages(MSG_HIDE_FOCUS);
-        mFocusView.startFocus();
+        if(mFocusView != null) {
+            mFocusView.startFocus();
+        }
         mHandler.sendEmptyMessageDelayed(MSG_HIDE_FOCUS, HIDE_FOCUS_DELAY);
     }
 
     public void focusFailed(){
-        mFocusView.focusFailed();
+        if(mFocusView != null) {
+            mFocusView.focusFailed();
+        }
     }
 
     public void focusSuccess(){
-        mFocusView.focusSuccess();
+        if(mFocusView != null) {
+            mFocusView.focusSuccess();
+        }
     }
 
     public void hideFocusView(){
-        mFocusView.hideFocusUI();
+        if(mFocusView != null) {
+            mFocusView.hideFocusUI();
+        }
     }
 
     /**
@@ -73,8 +83,10 @@ public class FocusControl {
      */
     public void autoFocus() {
         mHandler.removeMessages(MSG_HIDE_FOCUS);
-        mFocusView.resetToDefaultPosition();
-        mFocusView.startFocus();
+        if(mFocusView != null) {
+            mFocusView.resetToDefaultPosition();
+            mFocusView.startFocus();
+        }
         mHandler.sendEmptyMessageDelayed(MSG_HIDE_FOCUS, DELAY_MILLIS);
     }
 
@@ -141,8 +153,10 @@ public class FocusControl {
             }
             switch (msg.what) {
                 case MSG_HIDE_FOCUS:
-                    mControl.get().mFocusView.resetToDefaultPosition();
-                    mControl.get().mFocusView.hideFocusUI();
+                    if(mFocusView != null) {
+                        mControl.get().mFocusView.resetToDefaultPosition();
+                        mControl.get().mFocusView.hideFocusUI();
+                    }
                     if(mControl.get().mFocusCallback != null){
                         mControl.get().mFocusCallback.focusFinish();
                     }

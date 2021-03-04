@@ -33,31 +33,31 @@ public class DualCameraDrawer {
     // 片元着色器：片元着色器的作用是处理由光栅化阶段生成的每个片元，最终计算出每个像素的最终颜色
     // precision mediump float; 设置默认精度 format：precision <精度> <类型>  精度example：highp， mediump， lowp
     private final String FRAGMENT_SHADER = "" +
-            "#extension GL_OES_EGL_image_external : require\n"+                 // 使用GL_OES_EGL_image_external扩展处理，来增强GLSL
-            "precision mediump float;\n" +                                      // 设置默认精度
-            "varying vec2 textureCoordinate;\n" +                               // 纹理坐标
-            "uniform samplerExternalOES s_texture;\n" +                         // 定义扩展的的纹理取样器amplerExternalOESxi
-            "void main() {" +
-            "vec2 word2 = textureCoordinate; \n"+
-            "word2.t = word2.t * 0.5;\n" +
-            "vec4 coll = texture2D(s_texture, word2);\n" +
-            "word2.t += 0.5;\n"+
-            "vec4 colr = texture2D(s_texture, word2);\n" +
-            "if (mod(textureCoordinate.t * 1104.0 , 2.0) < 1.0) {" +
-            "gl_FragColor = coll;\n"+
-            "} else {" +
-            "gl_FragColor = colr;"+
-//            "gl_FragColor = vec4(1,1,1,1);\n"+
-            "}" +
-            "}";
+//            "#extension GL_OES_EGL_image_external : require\n"+                 // 使用GL_OES_EGL_image_external扩展处理，来增强GLSL
+//            "precision mediump float;\n" +                                      // 设置默认精度
+//            "varying vec2 textureCoordinate;\n" +                               // 纹理坐标
+//            "uniform samplerExternalOES s_texture;\n" +                         // 定义扩展的的纹理取样器amplerExternalOESxi
+//            "void main() {" +
+//            "vec2 word2 = textureCoordinate; \n"+
+//            "word2.t = word2.t * 0.5;\n" +
+//            "vec4 coll = texture2D(s_texture, word2);\n" +
+//            "word2.t += 0.5;\n"+
+//            "vec4 colr = texture2D(s_texture, word2);\n" +
+//            "if (mod(textureCoordinate.t * 1104.0 , 2.0) < 1.0) {" +
+//            "gl_FragColor = coll;\n"+
+//            "} else {" +
+//            "gl_FragColor = colr;"+
+////            "gl_FragColor = vec4(1,1,1,1);\n"+
+//            "}" +
+//            "}";
 
-//            "#extension GL_OES_EGL_image_external : require\n"+                // 使用GL_OES_EGL_image_external扩展处理，来增强GLSL
-//                    "precision mediump float;" +                                       // 设置默认精度
-//                    "varying vec2 textureCoordinate;\n" +                              // 纹理坐标
-//                    "uniform samplerExternalOES s_texture;\n" +                        // 定义扩展的的纹理取样器amplerExternalOES
-//                    "void main() {" +
-//                    "  gl_FragColor = texture2D( s_texture, textureCoordinate );\n" +  // 读取纹素(纹理的颜色)放到输出变量gl_FragColor上
-//                    "}";
+            "#extension GL_OES_EGL_image_external : require\n"+                // 使用GL_OES_EGL_image_external扩展处理，来增强GLSL
+                    "precision mediump float;" +                                       // 设置默认精度
+                    "varying vec2 textureCoordinate;\n" +                              // 纹理坐标
+                    "uniform samplerExternalOES s_texture;\n" +                        // 定义扩展的的纹理取样器amplerExternalOES
+                    "void main() {" +
+                    "  gl_FragColor = texture2D( s_texture, textureCoordinate );\n" +  // 读取纹素(纹理的颜色)放到输出变量gl_FragColor上
+                    "}";
 
 //           "void main() {" +
 //                   "  gl_FragColor = texture2D( s_texture, textureCoordinate );\n" +  // 读取纹素(纹理的颜色)放到输出变量gl_FragColor上
