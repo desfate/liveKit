@@ -2,22 +2,14 @@ package github.com.desfate.livekit.ui;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.opengl.EGL14;
-import android.opengl.GLES10;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.Surface;
 
-import java.util.Optional;
-import java.util.Random;
-import java.util.function.Consumer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import github.com.desfate.livekit.camera.interfaces.OnFrameAvailable;
 import github.com.desfate.livekit.utils.ScreenUtils;
 import github.com.desfate.livekit.reders.OpenGLUtils;
 

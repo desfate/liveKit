@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button camera_btn, live_btn;
+    Button camera_btn, live_btn, dual_btn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,8 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_start);
         camera_btn = findViewById(R.id.camera_btn);
         live_btn = findViewById(R.id.live_btn);
+        dual_btn = findViewById(R.id.dual_btn);
         camera_btn.setOnClickListener(this);
         live_btn.setOnClickListener(this);
+        dual_btn.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.live_btn:
                 startActivity(new Intent(MainActivity.this, TXMainActivity.class));
+                break;
+            case R.id.dual_btn:
+                startActivity(new Intent(MainActivity.this, DualCameraActivity.class));
                 break;
         }
     }

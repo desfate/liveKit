@@ -86,4 +86,8 @@ public class LivePlayView extends BaseLiveView {
     public void setFrontChange(boolean change){
         this.isFront = change;
     }
+
+
+
+
 }

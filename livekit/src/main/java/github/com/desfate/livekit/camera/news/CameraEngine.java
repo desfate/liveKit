@@ -36,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.interfaces.FocusStateCallback;
+import github.com.desfate.livekit.dual.DualRequestKey;
 import github.com.desfate.livekit.reders.OpenGLUtils;
 import github.com.desfate.livekit.utils.JobExecutor;
 import github.com.desfate.livekit.utils.LiveSupportUtils;
@@ -66,6 +67,8 @@ public class CameraEngine implements CameraInterface {
     private ImageReader mImageReader; //                            相机采集纹理预览数据
 
     private Surface mSurface; //                                    页面的Surface
+
+    private DualRequestKey dualControl;//                           双摄输出控制器
 
 
     private HandlerThread mBackgroundThread; //                     An additional thread for running tasks that shouldn't block the UI
@@ -253,6 +256,14 @@ public class CameraEngine implements CameraInterface {
             mImageReader = ImageReader.newInstance(info.getImageBufferSize().getWidth(), info.getImageBufferSize().getHeight(), ImageFormat.YUV_420_888, 1);
             mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
         }
+
+        if(info.getState() == 2){
+            dualControl = new DualRequestKey();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                dualControl.setAllKeys(mCameraCharacteristics);
+            }
+        }
+
     }
 
     /**
@@ -295,6 +306,11 @@ public class CameraEngine implements CameraInterface {
                         // 设置自动曝光
                         mCaptureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest
                                 .CONTROL_AE_MODE_ON_AUTO_FLASH);
+
+                        if(cameraInfo.getState() == 2 && dualControl != null) {
+                            dualControl.setSpecialVendorTag(mCaptureBuilder);
+                        }
+
                         mCaptureRequest = mCaptureBuilder.build();
                         try {
                             mCameraCaptureSession.setRepeatingRequest(mCaptureRequest, mCaptureCallbackListener, mBackgroundHandler);

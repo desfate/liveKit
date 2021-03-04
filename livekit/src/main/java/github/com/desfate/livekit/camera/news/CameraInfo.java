@@ -14,6 +14,8 @@ public class CameraInfo {
 
     private Size ImageBufferSize; //       ImageReader 需要回调的图片大小
 
+    private int state = 1;//               1: normal 2: dual  (这个是为了适配双摄的情况 ！！！ 当前的解决方案是单逻辑摄像头唤起)
+
 
 
     public CameraInfo() {
@@ -26,6 +28,7 @@ public class CameraInfo {
         physicsCameraId = builder.physicsCameraId;
         defaultBufferSize = builder.defaultBufferSize;
         ImageBufferSize = builder.imageBufferSize;
+        state = builder.state;
     }
 
 
@@ -47,10 +50,7 @@ public class CameraInfo {
 
         private Size imageBufferSize; //       ImageReader 需要回调的图片大小
 
-
-        public CameraBuilder(){
-
-        }
+        private int state = 1; //              1: normal 2: dual  (这个是为了适配双摄的情况 ！！！ 当前的解决方案是单逻辑摄像头唤起)
 
 
         public CameraBuilder setCameraFront(int cameraFront) {
@@ -80,6 +80,11 @@ public class CameraInfo {
             return this;
         }
 
+        public CameraBuilder setState(int state) {
+            this.state = state;
+            return this;
+        }
+
         public CameraInfo build() {
             return new CameraInfo(this);}
     }
@@ -102,5 +107,9 @@ public class CameraInfo {
 
     public Size getImageBufferSize() {
         return ImageBufferSize;
+    }
+
+    public int getState() {
+        return state;
     }
 }

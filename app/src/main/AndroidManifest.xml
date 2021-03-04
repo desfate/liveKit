@@ -53,6 +53,10 @@
         <activity android:name=".CameraDemoActivity">
 
         </activity>
+
+        <activity android:name=".DualCameraActivity"
+            android:screenOrientation = "landscape">
+        </activity>
     </application>
 
 </manifest>
