@@ -12,6 +12,8 @@ import java.util.List;
 
 import github.com.desfate.livekit.camera.news.CameraInfo;
 import github.com.desfate.livekit.camera.news.CameraUtils;
+import github.com.desfate.livekit.dual.PreviewConfig;
+import github.com.desfate.livekit.dual.PreviewUtils;
 import github.com.desfate.livekit.utils.LiveSupportUtils;
 
 /**
@@ -41,6 +43,7 @@ public class LiveUtils {
         if(liveConfig.getLivePushType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
             logicCameraId = 3;
             state = 2;
+            cameraSize = PreviewUtils.getPreviewSize(cameraFront == 1, PreviewConfig.Preview_Quality.DUAL);
         }
 
         return new CameraInfo.CameraBuilder()
@@ -72,6 +75,7 @@ public class LiveUtils {
         if(liveConfig.getLivePushType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
             logicCameraId = 3;
             state = 2;
+            cameraSize = PreviewUtils.getPreviewSize(cameraFront == 1, PreviewConfig.Preview_Quality.DUAL);
         }
 
         return new CameraInfo.CameraBuilder()

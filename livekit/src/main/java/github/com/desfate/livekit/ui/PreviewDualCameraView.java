@@ -57,10 +57,12 @@ public class PreviewDualCameraView extends BaseLiveView{
                 .setCameraErrorCallBack(new CameraErrorCallBack() {
                     @Override
                     public void onCameraOpenSuccess(CameraInfo info) {
-                        post(new Runnable() {
+                        mJobExecutor.execute(new JobExecutor.Task<Void>() {
                             @Override
-                            public void run() {
-//                                addFocusView(liveConfig, parent);
+                            public void onMainThread(Void result) {
+                                super.onMainThread(result);
+                                getHolder().setFixedSize(2944, 1104);
+                                setAspectRatio(mAspectRatio);
                             }
                         });
                     }
