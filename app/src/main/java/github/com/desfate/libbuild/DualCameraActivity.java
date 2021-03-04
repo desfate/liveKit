@@ -109,18 +109,18 @@ public class DualCameraActivity extends AppCompatActivity {
         mConfig.setQuality_type(PreviewConfig.Preview_Quality.DUAL);
         mConfig.setState(1);
 
-        dual_preview_view.init(liveConfig, mConfig, new LiveCallBack() {
-            @Override
-            public void startPushByData(byte[] buffer, int w, int h) {
-                int returnCode = mLivePusher.sendCustomVideoData(buffer, TXLivePusher.YUV_420P, w, h);
-                if (returnCode != 0) Log.e(TAG, "push error code = " + returnCode);
-            }
-
-            @Override
-            public void startPushByTextureId(int textureID, int w, int h) {
-
-            }
-        });
+//        dual_preview_view.init(liveConfig, mConfig, new LiveCallBack() {
+//            @Override
+//            public void startPushByData(byte[] buffer, int w, int h) {
+//                int returnCode = mLivePusher.sendCustomVideoData(buffer, TXLivePusher.YUV_420P, w, h);
+//                if (returnCode != 0) Log.e(TAG, "push error code = " + returnCode);
+//            }
+//
+//            @Override
+//            public void startPushByTextureId(int textureID, int w, int h) {
+//
+//            }
+//        });
 
         mLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_HIGH_DEFINITION, false, false);
         mLivePusher.setConfig(mLivePushConfig);
