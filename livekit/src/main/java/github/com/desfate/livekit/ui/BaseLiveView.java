@@ -47,25 +47,32 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
         }
     }
 
-    public abstract void surfaceCreated(EGLConfig config);
+    public abstract void surfaceCreated(GL10 gl,EGLConfig config);
 
     public abstract void onClick(float X, float Y);
 
-    public abstract void onDrawFrame(int mSurfaceId);
+    public abstract void onDrawFrame(GL10 gl, int mSurfaceId);
+
+    public abstract void onChanged(GL10 gl, int width, int height);
+
+    public abstract void onFrame(SurfaceTexture surfaceTexture);
+
+    public abstract void surfaceInit();
 
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+        onFrame(surfaceTexture);
         requestRender();
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        surfaceCreated(config);
+        surfaceCreated(gl, config);
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+        onChanged(gl, width, height);
     }
 
     @Override
@@ -74,7 +81,7 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
         GLES20.glClearColor(0, 0, 0, 0);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         mSurfaceTexture.updateTexImage();  //SurfaceTexture对象所关联的OpenGLES中纹理对象的内容将被更新为Image Stream中最新的图片
-        onDrawFrame(mSurfaceId);
+        onDrawFrame(gl, mSurfaceId);
     }
 
     private float mDownX;//                 手指按下的X轴
@@ -123,5 +130,9 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
     public Surface getmSurface() {
         if(mSurface == null) initSurface();
         return mSurface;
+    }
+
+    public int getSurfaceId(){
+        return mSurfaceId;
     }
 }

@@ -1,6 +1,7 @@
 package github.com.desfate.livekit.ui;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.util.Size;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
@@ -32,6 +34,11 @@ public class DataLivePushView extends BaseLiveView {
 
     public DataLivePushView(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    @Override
+    public void surfaceCreated(GL10 gl, EGLConfig config) {
+        mDrawer = new CameraDrawer();
     }
 
     public void init(final LiveConfig liveConfig, final ViewGroup parent, LiveCallBack liveCallBack) {
@@ -65,18 +72,29 @@ public class DataLivePushView extends BaseLiveView {
     }
 
     @Override
-    public void surfaceCreated(EGLConfig config) {
-        mDrawer = new CameraDrawer();
-    }
-
-    @Override
     public void onClick(float X, float Y) {
         if(control != null) control.focusClick(X, Y);
     }
 
     @Override
-    public void onDrawFrame(int mSurfaceId) {
+    public void onDrawFrame(GL10 gl, int mSurfaceId) {
         mDrawer.draw(mSurfaceId, liveConfig.getPushCameraType() == 1, getWidth(), getHeight());
+    }
+
+
+    @Override
+    public void onChanged(GL10 gl, int width, int height) {
+
+    }
+
+    @Override
+    public void onFrame(SurfaceTexture surfaceTexture) {
+
+    }
+
+    @Override
+    public void surfaceInit() {
+
     }
 
     /**

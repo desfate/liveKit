@@ -1,6 +1,7 @@
 package github.com.desfate.livekit.ui;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.util.Size;
 import android.widget.RelativeLayout;
@@ -8,6 +9,7 @@ import android.widget.RelativeLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import github.com.desfate.livekit.camera.interfaces.CameraChangeCallback;
 import github.com.desfate.livekit.reders.CameraDrawer;
@@ -57,13 +59,18 @@ public class LivePlayView extends BaseLiveView {
     }
 
     @Override
-    public void surfaceCreated(EGLConfig config) {
+    public void surfaceCreated(GL10 gl, EGLConfig config) {
         mDrawer = new CameraDrawer();
     }
 
     @Override
     public void onClick(float X, float Y) {
 
+    }
+
+    @Override
+    public void onDrawFrame(GL10 gl, int mSurfaceId) {
+        mDrawer.draw(mSurfaceId, isFront, getWidth(), getHeight());
     }
 
     /**
@@ -74,9 +81,20 @@ public class LivePlayView extends BaseLiveView {
         return callBack;
     }
 
+
     @Override
-    public void onDrawFrame(int mSurfaceId) {
-        mDrawer.draw(mSurfaceId, isFront, getWidth(), getHeight());
+    public void onChanged(GL10 gl, int width, int height) {
+
+    }
+
+    @Override
+    public void onFrame(SurfaceTexture surfaceTexture) {
+
+    }
+
+    @Override
+    public void surfaceInit() {
+
     }
 
     /**

@@ -4,8 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.TextureView;
+
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -14,15 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.tencent.rtmp.ITXLivePushListener;
-import com.tencent.rtmp.TXLiveConstants;
-import com.tencent.rtmp.TXLivePushConfig;
-import com.tencent.rtmp.TXLivePusher;
+import com.future.Holography.Holography;
+import com.future.Holography.RenderDrawByC;
 
-import github.com.desfate.livekit.dual.PreviewConfig;
+import github.com.desfate.livekit.dual.HolographyInterfaces;
+import github.com.desfate.livekit.dual.RenderDrawByCInterfaces;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LiveConfig;
-import github.com.desfate.livekit.live.LivePushControl;
 import github.com.desfate.livekit.ui.PreviewDualCameraView;
 import github.com.desfate.livekit.utils.LiveSupportUtils;
 
@@ -32,15 +29,15 @@ import github.com.desfate.livekit.utils.LiveSupportUtils;
 public class DualCameraActivity extends AppCompatActivity {
 
     PreviewDualCameraView dual_preview_view;
-    PreviewConfig mConfig;
+//    PreviewConfig mConfig;
 
     String TAG = "DualCameraActivity";
 
 
-    private TXLivePusher mLivePusher;   //                           腾讯推送
-    private TXLivePushConfig mLivePushConfig;//                      推送配置
+//    private TXLivePusher mLivePusher;   //                           腾讯推送
+//    private TXLivePushConfig mLivePushConfig;//                      推送配置
 
-    private LivePushControl control;
+    //    private LivePushControl control;
     LiveConfig liveConfig = new LiveConfig();
 
     private TextView sign;
@@ -71,50 +68,113 @@ public class DualCameraActivity extends AppCompatActivity {
             }
         });
 
-        mLivePusher = new TXLivePusher(this);
-        mLivePushConfig = new TXLivePushConfig();
+//        mLivePusher = new TXLivePusher(this);
+//        mLivePushConfig = new TXLivePushConfig();
 
-        pushSize = getIntent().getIntExtra("pushSize", 1 );
-        pushFrame = getIntent().getIntExtra("pushFrame", 1 );
+        pushSize = getIntent().getIntExtra("pushSize", 1);
+        pushFrame = getIntent().getIntExtra("pushFrame", 1);
 
-        mLivePushConfig.setVideoEncodeGop(2);
-
-        // 开启自定义视频采集
-        mLivePushConfig.setCustomModeType(TXLiveConstants.CUSTOM_MODE_VIDEO_CAPTURE);
-        // 设置视频分辨率，必须和摄像头分辨率一致
-        switch(pushFrame){
-            case 1:
-                mLivePushConfig.setVideoFPS(30);
-                break;
-            case 2:
-                mLivePushConfig.setVideoFPS(60);
-                break;
-        }
+//        mLivePushConfig.setVideoEncodeGop(2);
+//
+//        // 开启自定义视频采集
+//        mLivePushConfig.setCustomModeType(TXLiveConstants.CUSTOM_MODE_VIDEO_CAPTURE);
+//        // 设置视频分辨率，必须和摄像头分辨率一致
+//        switch(pushFrame){
+//            case 1:
+//                mLivePushConfig.setVideoFPS(30);
+//                break;
+//            case 2:
+//                mLivePushConfig.setVideoFPS(60);
+//                break;
+//        }
         liveConfig.setLivePushType(LiveConfig.LIVE_PUSH_DATA);  // 采用byte[]推流模式
         liveConfig.setPushCameraType(LiveConfig.LIVE_CAMERA_DUAL);
-        switch (pushSize){
+        switch (pushSize) {
             case 1:
                 liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_720);
                 //  这个参数很关键  ！！！！    这个宽高数据必须和你通过Data上传的每帧数据相同
-                mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1280_720);
+//                mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1280_720);
                 break;
             case 2:
                 liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_1080);
                 //  这个参数很关键  ！！！！    这个宽高数据必须和你通过Data上传的每帧数据相同
-                mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1920_1080);
+//                mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1920_1080);
                 break;
         }
 
-        mConfig = new PreviewConfig();
-        mConfig.setIsCameraFront(1);  // 後置
-        mConfig.setQuality_type(PreviewConfig.Preview_Quality.DUAL);
-        mConfig.setState(1);
+//        mConfig = new PreviewConfig();
+//        mConfig.setIsCameraFront(1);  // 後置
+//        mConfig.setQuality_type(PreviewConfig.Preview_Quality.DUAL);
+//        mConfig.setState(1);
 
+        dual_preview_view.setInterfaces(
+                new HolographyInterfaces() {
+                    @Override
+                    public int getViewpos() {
+                        return Holography.getViewpos();
+                    }
+
+                    @Override
+                    public int HolographyInit(int x, int y) {
+                        return Holography.HolographyInit(x, y);
+                    }
+
+                    @Override
+                    public int HolographyInit(String model, int width, int height) {
+                        return Holography.HolographyInit(model ,width, height);
+                    }
+
+                    @Override
+                    public void update(int a, int b) {
+                        Holography.update(a,b);
+                    }
+
+                    @Override
+                    public int getx() {
+                        return Holography.getx();
+                    }
+
+                    @Override
+                    public int gety() {
+                        return Holography.gety();
+                    }
+
+                    @Override
+                    public void deinitHolography() {
+                        Holography.deinitHolography();
+                    }
+                },
+                new RenderDrawByCInterfaces() {
+                    @Override
+                    public int drawRender(int vertexPos, int texcoordPos) {
+                        return RenderDrawByC.drawRender(vertexPos,texcoordPos);
+                    }
+
+                    @Override
+                    public int drawRender2D(int vertexPos, int texcoordPos) {
+                        return RenderDrawByC.drawRender2D(vertexPos, texcoordPos);
+                    }
+
+                    @Override
+                    public int drawRender2DR(int vertexPos, int texcoordPos) {
+                        return RenderDrawByC.drawRender2DR(vertexPos, texcoordPos);
+                    }
+
+                    @Override
+                    public int drawRender2DTop(int vertexPos, int texcoordPos) {
+                        return RenderDrawByC.drawRender2DTop(vertexPos, texcoordPos);
+                    }
+
+                    @Override
+                    public int drawRender2DBottom(int vertexPos, int texcoordPos) {
+                        return RenderDrawByC.drawRender2DBottom(vertexPos, texcoordPos);
+                    }
+                });
         dual_preview_view.init(liveConfig, new LiveCallBack() {
             @Override
             public void startPushByData(byte[] buffer, int w, int h) {
-                int returnCode = mLivePusher.sendCustomVideoData(buffer, TXLivePusher.YUV_420P, w, h);
-                if (returnCode != 0) Log.e(TAG, "push error code = " + returnCode);
+//                int returnCode = mLivePusher.sendCustomVideoData(buffer, TXLivePusher.YUV_420P, w, h);
+//                if (returnCode != 0) Log.e(TAG, "push error code = " + returnCode);
             }
 
             @Override
@@ -123,21 +183,21 @@ public class DualCameraActivity extends AppCompatActivity {
             }
         });
 
-        mLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_HIGH_DEFINITION, false, false);
-        mLivePusher.setConfig(mLivePushConfig);
-
-        int resultCode = mLivePusher.startPusher(TestConfig.PUSH_URL);
-        Log.e(TAG, "startPush: resultCode = " + resultCode);
-
-        if (resultCode == -5) {
-            Log.i(TAG, "startRTMPPush: license 校验失败");
-            sign.setText("license 校验失败");
-        }else if(resultCode == 0){
-            sign.setText("license 校验成功");
-        }
+//        mLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_HIGH_DEFINITION, false, false);
+//        mLivePusher.setConfig(mLivePushConfig);
+//
+//        int resultCode = mLivePusher.startPusher(TestConfig.PUSH_URL);
+//        Log.e(TAG, "startPush: resultCode = " + resultCode);
+//
+//        if (resultCode == -5) {
+//            Log.i(TAG, "startRTMPPush: license 校验失败");
+//            sign.setText("license 校验失败");
+//        }else if(resultCode == 0){
+//            sign.setText("license 校验成功");
+//        }
 
         dual_preview_view.getControl().startPreview(); // 开启预览
-        dual_preview_view.getControl().startPush();  //   开启上传
+//        dual_preview_view.getControl().startPush();  //   开启上传
     }
 
 
@@ -148,7 +208,7 @@ public class DualCameraActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
         int W = mDisplayMetrics.widthPixels;
         int H = mDisplayMetrics.heightPixels;
-        if(getResources() == null || getResources().getConfiguration() == null) return;
+        if (getResources() == null || getResources().getConfiguration() == null) return;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             dual_preview_view.getLayoutParams().width = W;
             dual_preview_view.getLayoutParams().height = H;

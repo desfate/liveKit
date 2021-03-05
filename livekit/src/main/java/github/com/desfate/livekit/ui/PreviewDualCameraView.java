@@ -2,6 +2,7 @@ package github.com.desfate.livekit.ui;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.Gravity;
@@ -10,12 +11,17 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 import github.com.desfate.livekit.camera.CameraPreviewControl;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
+import github.com.desfate.livekit.dual.HolographyInterfaces;
+import github.com.desfate.livekit.dual.M3dConfig;
+import github.com.desfate.livekit.dual.M3dDrawerControl;
 import github.com.desfate.livekit.dual.PreviewConfig;
 import github.com.desfate.livekit.dual.PreviewControl;
+import github.com.desfate.livekit.dual.RenderDrawByCInterfaces;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
@@ -30,10 +36,13 @@ import github.com.desfate.livekit.utils.JobExecutor;
 public class PreviewDualCameraView extends BaseLiveView{
 
     DualCameraDrawer dualCameraDrawer;
-
+    M3dDrawerControl m3dDrawerControl;
 
     private LiveConfig liveConfig;//      直播配置数据
     private LivePushControl control;//    直播逻辑控制器
+    
+    private HolographyInterfaces interfaces;
+    private RenderDrawByCInterfaces rInterfaces;
 
     private JobExecutor mJobExecutor;//   线程池
 
@@ -45,7 +54,16 @@ public class PreviewDualCameraView extends BaseLiveView{
         super(context, attrs);
     }
 
+    // FIXME: 2021/3/5 重要  这个必须要有 这些决定了3d预览的一些so库接口
+    public void setInterfaces(HolographyInterfaces interfaces, RenderDrawByCInterfaces rInterfaces){
+        this.interfaces = interfaces;
+        this.rInterfaces = rInterfaces;
+    }
+    
+    // 这个初始化必须在写入必要接口之前
     public void init(final LiveConfig liveConfig, LiveCallBack liveCallBack){
+        m3dDrawerControl = new M3dDrawerControl(PreviewDualCameraView.this, interfaces, rInterfaces);  //       初始化3d控制器
+//        m3dDrawerControl.initGLFactory();
         mJobExecutor = new JobExecutor();
         this.liveConfig = liveConfig;
         control = new LivePushControl.LivePushControlBuilder()
@@ -61,7 +79,7 @@ public class PreviewDualCameraView extends BaseLiveView{
                             @Override
                             public void onMainThread(Void result) {
                                 super.onMainThread(result);
-                                getHolder().setFixedSize(2944, 1104);
+//                                getHolder().setFixedSize(2944, 1104);
                                 setAspectRatio(mAspectRatio);
                             }
                         });
@@ -88,8 +106,10 @@ public class PreviewDualCameraView extends BaseLiveView{
     }
 
     @Override
-    public void surfaceCreated(EGLConfig config) {
-        dualCameraDrawer = new DualCameraDrawer();
+    public void surfaceCreated(GL10 gl , EGLConfig config) {
+//        dualCameraDrawer = new DualCameraDrawer();
+        m3dDrawerControl.setTextureId(getSurfaceId());
+        m3dDrawerControl.onCreated(gl, config);
     }
 
     @Override
@@ -98,10 +118,27 @@ public class PreviewDualCameraView extends BaseLiveView{
     }
 
     @Override
-    public void onDrawFrame(int mSurfaceId) {
-        dualCameraDrawer.draw(mSurfaceId, false, getHeight() ,getWidth() );  //  暂时只支持后置
+    public void onDrawFrame(GL10 gl ,int mSurfaceId) {
+        m3dDrawerControl.onDrawFrame(gl);
+//        dualCameraDrawer.draw(mSurfaceId, false, getHeight() ,getWidth() );  //  暂时只支持后置
     }
-    double mAspectRatio = 2.666666;
+
+    @Override
+    public void onChanged(GL10 gl, int width, int height) {
+        m3dDrawerControl.onSurfaceChanged(gl, width, height);
+    }
+
+    @Override
+    public void onFrame(SurfaceTexture surfaceTexture) {
+        m3dDrawerControl.canDrawerFrame(); // 设置可以开始绘制
+    }
+
+    @Override
+    public void surfaceInit() {
+        m3dDrawerControl.initGLFactory();
+    }
+
+    double mAspectRatio = M3dConfig.getAspectRatio();
     private static final double ASPECT_TOLERANCE = 0.03;
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
