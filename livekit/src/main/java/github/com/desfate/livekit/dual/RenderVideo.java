@@ -3,11 +3,10 @@ package github.com.desfate.livekit.dual;
 import android.opengl.GLES30;
 import android.view.SurfaceView;
 
+import com.future.Holography.RenderDrawByC;
+
 
 public class RenderVideo extends RenderBase {
-
-    RenderDrawByCInterfaces interfaces;
-
 
     public RenderVideo(SurfaceView mv) {
         initShader(mv);
@@ -17,10 +16,6 @@ public class RenderVideo extends RenderBase {
 
     public void setIs2D(boolean is2d) {
         mis2d = is2d;
-    }
-
-    public void setInterfaces(RenderDrawByCInterfaces interfaces){
-        this.interfaces = interfaces;
     }
 
     public void initShader(SurfaceView mv) {
@@ -55,10 +50,7 @@ public class RenderVideo extends RenderBase {
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GL_TEXTURE_EXTERNAL_OES, textureId);
 
-        if(interfaces != null){
-            interfaces.drawRender2D(maPositionHandle, maTextureHandle);
-        }
-//        RenderDrawByC.drawRender2D(maPositionHandle, maTextureHandle);
+        RenderDrawByC.drawRender2D(maPositionHandle, maTextureHandle);
 
         GLES30.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
 
@@ -75,10 +67,7 @@ public class RenderVideo extends RenderBase {
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GL_TEXTURE_EXTERNAL_OES, textureId);
 
-        if(interfaces != null){
-            interfaces.drawRender2DR(maPositionHandle, maTextureHandle);
-        }
-//        RenderDrawByC.drawRender2DR(maPositionHandle, maTextureHandle);
+        RenderDrawByC.drawRender2DR(maPositionHandle, maTextureHandle);
 
         GLES30.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
         GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, 4);
@@ -93,10 +82,7 @@ public class RenderVideo extends RenderBase {
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GL_TEXTURE_EXTERNAL_OES, textureId);
 
-        if(interfaces != null){
-            interfaces.drawRender2DTop(maPositionHandle, maTextureHandle);
-        }
-//        RenderDrawByC.drawRender2DTop(maPositionHandle, maTextureHandle);
+        RenderDrawByC.drawRender2DTop(maPositionHandle, maTextureHandle);
 
         GLES30.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
         GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, 4);
@@ -110,10 +96,7 @@ public class RenderVideo extends RenderBase {
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GL_TEXTURE_EXTERNAL_OES, textureId);
 
-        if(interfaces != null){
-            interfaces.drawRender2DBottom(maPositionHandle, maTextureHandle);
-        }
-//        RenderDrawByC.drawRender2DBottom(maPositionHandle, maTextureHandle);
+        RenderDrawByC.drawRender2DBottom(maPositionHandle, maTextureHandle);
 
         GLES30.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
         GLES30.glDrawArrays(GLES30.GL_TRIANGLE_STRIP, 0, 4);
@@ -129,18 +112,12 @@ public class RenderVideo extends RenderBase {
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GL_TEXTURE_EXTERNAL_OES, textureId);
 
-        if(interfaces != null) {
-            if (mis2d) {
-                interfaces.drawRender2D(maPositionHandle, maTextureHandle);
-            } else {
-                interfaces.drawRender(maPositionHandle, maTextureHandle);
-            }
+
+        if (mis2d) {
+            RenderDrawByC.drawRender2D(maPositionHandle, maTextureHandle);
+        } else {
+            RenderDrawByC.drawRender(maPositionHandle, maTextureHandle);
         }
-//        if (mis2d) {
-//            RenderDrawByC.drawRender2D(maPositionHandle, maTextureHandle);
-//        } else {
-//            RenderDrawByC.drawRender(maPositionHandle, maTextureHandle);
-//        }
 
         /*
         mCurrentVerticesT.position(0);

@@ -38,8 +38,6 @@ public class Render3D {
     String mVertexShader;
     String mFragmentShader;
 
-    HolographyInterfaces interfaces;
-
     private FloatBuffer mVertices;
 
     private static final int FLOAT_SIZE_BYTES = 4;
@@ -84,10 +82,6 @@ public class Render3D {
         // 	Holography.setTexture(posTexture1);
 
         updateDelt();
-    }
-
-    public void setInterfaces(HolographyInterfaces interfaces){
-        this.interfaces = interfaces;
     }
 
     public int setPerOffset(float peroffset)
@@ -318,10 +312,8 @@ public class Render3D {
         //    }
         GLES10.glBindTexture(GLES10.GL_TEXTURE_2D, posTexture1);
 //         	Log.e(TAG,"updateDelt");
-        if(interfaces != null){
-            interfaces.update(0,0);
-        }
-//        Holography.update(0,0);
+
+        Holography.update(0,0);
 
         checkGlError("update2(3)");
     }

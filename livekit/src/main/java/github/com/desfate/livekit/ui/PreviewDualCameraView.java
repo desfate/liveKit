@@ -5,23 +5,15 @@ import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
 import android.view.Display;
-import android.view.Gravity;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import github.com.desfate.livekit.camera.CameraPreviewControl;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.dual.HolographyInterfaces;
 import github.com.desfate.livekit.dual.M3dConfig;
 import github.com.desfate.livekit.dual.M3dDrawerControl;
-import github.com.desfate.livekit.dual.PreviewConfig;
-import github.com.desfate.livekit.dual.PreviewControl;
-import github.com.desfate.livekit.dual.RenderDrawByCInterfaces;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
@@ -40,9 +32,6 @@ public class PreviewDualCameraView extends BaseLiveView{
 
     private LiveConfig liveConfig;//      直播配置数据
     private LivePushControl control;//    直播逻辑控制器
-    
-    private HolographyInterfaces interfaces;
-    private RenderDrawByCInterfaces rInterfaces;
 
     private JobExecutor mJobExecutor;//   线程池
 
@@ -54,15 +43,10 @@ public class PreviewDualCameraView extends BaseLiveView{
         super(context, attrs);
     }
 
-    // FIXME: 2021/3/5 重要  这个必须要有 这些决定了3d预览的一些so库接口
-    public void setInterfaces(HolographyInterfaces interfaces, RenderDrawByCInterfaces rInterfaces){
-        this.interfaces = interfaces;
-        this.rInterfaces = rInterfaces;
-    }
     
     // 这个初始化必须在写入必要接口之前
     public void init(final LiveConfig liveConfig, LiveCallBack liveCallBack){
-        m3dDrawerControl = new M3dDrawerControl(PreviewDualCameraView.this, interfaces, rInterfaces);  //       初始化3d控制器
+        m3dDrawerControl = new M3dDrawerControl(PreviewDualCameraView.this);  //       初始化3d控制器
 //        m3dDrawerControl.initGLFactory();
         mJobExecutor = new JobExecutor();
         this.liveConfig = liveConfig;

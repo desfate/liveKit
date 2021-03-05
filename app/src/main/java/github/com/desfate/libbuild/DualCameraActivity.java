@@ -13,11 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.future.Holography.Holography;
-import com.future.Holography.RenderDrawByC;
-
-import github.com.desfate.livekit.dual.HolographyInterfaces;
-import github.com.desfate.livekit.dual.RenderDrawByCInterfaces;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.ui.PreviewDualCameraView;
@@ -107,69 +102,6 @@ public class DualCameraActivity extends AppCompatActivity {
 //        mConfig.setQuality_type(PreviewConfig.Preview_Quality.DUAL);
 //        mConfig.setState(1);
 
-        dual_preview_view.setInterfaces(
-                new HolographyInterfaces() {
-                    @Override
-                    public int getViewpos() {
-                        return Holography.getViewpos();
-                    }
-
-                    @Override
-                    public int HolographyInit(int x, int y) {
-                        return Holography.HolographyInit(x, y);
-                    }
-
-                    @Override
-                    public int HolographyInit(String model, int width, int height) {
-                        return Holography.HolographyInit(model ,width, height);
-                    }
-
-                    @Override
-                    public void update(int a, int b) {
-                        Holography.update(a,b);
-                    }
-
-                    @Override
-                    public int getx() {
-                        return Holography.getx();
-                    }
-
-                    @Override
-                    public int gety() {
-                        return Holography.gety();
-                    }
-
-                    @Override
-                    public void deinitHolography() {
-                        Holography.deinitHolography();
-                    }
-                },
-                new RenderDrawByCInterfaces() {
-                    @Override
-                    public int drawRender(int vertexPos, int texcoordPos) {
-                        return RenderDrawByC.drawRender(vertexPos,texcoordPos);
-                    }
-
-                    @Override
-                    public int drawRender2D(int vertexPos, int texcoordPos) {
-                        return RenderDrawByC.drawRender2D(vertexPos, texcoordPos);
-                    }
-
-                    @Override
-                    public int drawRender2DR(int vertexPos, int texcoordPos) {
-                        return RenderDrawByC.drawRender2DR(vertexPos, texcoordPos);
-                    }
-
-                    @Override
-                    public int drawRender2DTop(int vertexPos, int texcoordPos) {
-                        return RenderDrawByC.drawRender2DTop(vertexPos, texcoordPos);
-                    }
-
-                    @Override
-                    public int drawRender2DBottom(int vertexPos, int texcoordPos) {
-                        return RenderDrawByC.drawRender2DBottom(vertexPos, texcoordPos);
-                    }
-                });
         dual_preview_view.init(liveConfig, new LiveCallBack() {
             @Override
             public void startPushByData(byte[] buffer, int w, int h) {

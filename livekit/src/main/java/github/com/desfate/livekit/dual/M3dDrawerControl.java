@@ -42,24 +42,12 @@ public class M3dDrawerControl {
     private Size sessionSize;  // 输出大小
     private Size viewSize;     // 显示区域大小
 
-    private HolographyInterfaces interfaces;
-    private RenderDrawByCInterfaces rInterfaces;
 
-
-    public M3dDrawerControl(PreviewDualCameraView surfaceView, HolographyInterfaces interfaces, RenderDrawByCInterfaces rInterfaces) {
+    public M3dDrawerControl(PreviewDualCameraView surfaceView) {
         this.surfaceView = surfaceView;
         mJobExecutor = new JobExecutor();
-
-        this.interfaces = interfaces;
-        this.rInterfaces = rInterfaces;
-
         sessionSize = M3dConfig.getSessionSize(previewType);
         viewSize = M3dConfig.getSurfaceViewSize(previewType);
-    }
-
-    public void setInterfaces(HolographyInterfaces interfaces, RenderDrawByCInterfaces rInterfaces){
-        this.interfaces = interfaces;
-        this.rInterfaces = rInterfaces;
     }
 
     public void setTextureId(int textureId) {
@@ -87,12 +75,9 @@ public class M3dDrawerControl {
         System.out.println("@@@ ---------------------------------------------------------------  Craeated ");
         if (mRender3D == null) {
             mRender3D = new Render3D(surfaceView, 0);
-            mRender3D.setInterfaces(interfaces);
         }
         mRenderVideo = new RenderVideo(surfaceView);
-        mRenderVideo.setInterfaces(rInterfaces);
         mRcordCamera = new RecordCamera(surfaceView);
-        mRcordCamera.setInterface(rInterfaces);
     }
 
     int bufferWidth = 0;
@@ -122,11 +107,8 @@ public class M3dDrawerControl {
             // 防止framebuffer被重复创建  这是可以显示出3d大小的区域
             mFBO = new FrameBufferOBJ(sessionSize.getWidth(), sessionSize.getHeight());
             mMidTexture = mFBO.getTexture();
-            if(interfaces != null) {
-                Log.e("aaa", "init");
-                interfaces.HolographyInit(bufferWidth, bufferHeight);
-                Log.e("aaa", "initend");
-            }
+            Holography.HolographyInit(bufferWidth, bufferHeight);
+
 //            Holography.HolographyInit(bufferWidth, bufferHeight);
 //            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         }

@@ -12,14 +12,9 @@ import com.future.Holography.RenderDrawByC;
 
 
 public class RecordCamera extends RenderBase {
-    RenderDrawByCInterfaces interfaces;
 
     public RecordCamera(SurfaceView mv) {
         initShader(mv);
-    }
-
-    public void setInterface(RenderDrawByCInterfaces interfaces){
-        this.interfaces = interfaces;
     }
 
     boolean mis2d = false;
