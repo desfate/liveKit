@@ -27,7 +27,7 @@ import github.com.desfate.livekit.utils.JobExecutor;
  */
 public class PreviewDualCameraView extends BaseLiveView{
 
-    DualCameraDrawer dualCameraDrawer;
+
     M3dDrawerControl m3dDrawerControl;
 
     private LiveConfig liveConfig;//      直播配置数据

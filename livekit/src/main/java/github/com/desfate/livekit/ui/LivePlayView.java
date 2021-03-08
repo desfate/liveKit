@@ -46,10 +46,10 @@ public class LivePlayView extends BaseLiveView {
                     public void onMainThread(Void result) {
                         super.onMainThread(result);
                         if(LivePlayView.this.getLayoutParams() instanceof RelativeLayout.LayoutParams) {  // 父布局是关联布局
-                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realHeight, realWidth);
+                            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(realWidth, realHeight);
                             LivePlayView.this.setLayoutParams(layoutParams);
                         }else if(LivePlayView.this.getLayoutParams() instanceof ConstraintLayout.LayoutParams){  //  父布局是约束布局
-                            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(realHeight, realWidth);
+                            ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(realWidth, realHeight);
                             LivePlayView.this.setLayoutParams(layoutParams);
                         }
                     }
