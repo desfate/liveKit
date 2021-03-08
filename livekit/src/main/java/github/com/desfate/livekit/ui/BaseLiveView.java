@@ -1,15 +1,20 @@
 package github.com.desfate.livekit.ui;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.Surface;
+import android.view.WindowManager;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import github.com.desfate.livekit.dual.M3dConfig;
 import github.com.desfate.livekit.utils.ScreenUtils;
 import github.com.desfate.livekit.reders.OpenGLUtils;
 
@@ -134,5 +139,66 @@ public abstract class BaseLiveView extends GLSurfaceView implements GLSurfaceVie
 
     public int getSurfaceId(){
         return mSurfaceId;
+    }
+
+
+    double mAspectRatio = M3dConfig.getAspectRatio();
+    private static final double ASPECT_TOLERANCE = 0.03;
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int previewWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int previewHeight = MeasureSpec.getSize(heightMeasureSpec);
+        boolean widthLonger = previewWidth > previewHeight;
+        int longSide = (widthLonger ? previewWidth : previewHeight);
+        int shortSide = (widthLonger ? previewHeight : previewWidth);
+
+        if (mAspectRatio > 0) {
+            double fullScreenRatio = findFullscreenRatio(getContext());
+            if (Math.abs((mAspectRatio - fullScreenRatio)) <= ASPECT_TOLERANCE) {
+                // full screen preview case
+                if (longSide < shortSide * mAspectRatio) {
+                    longSide = Math.round((float) (shortSide * mAspectRatio) / 2) * 2;
+                } else {
+                    shortSide = Math.round((float) (longSide / mAspectRatio) / 2) * 2;
+                }
+            } else {
+                // standard (4:3) preview case  fixme this to 4 : 3 for 3d Test
+                if (longSide > shortSide * mAspectRatio) {
+                    longSide = Math.round((float) (shortSide * mAspectRatio) / 2) * 2;
+                } else {
+                    shortSide = Math.round((float) (longSide / mAspectRatio) / 2) * 2;
+                }
+            }
+        }
+        if (widthLonger) {
+            previewWidth = longSide;
+            previewHeight = shortSide;
+        } else {
+            previewWidth = shortSide;
+            previewHeight = longSide;
+        }
+        setMeasuredDimension(previewWidth, previewHeight);
+    }
+
+    public void setAspectRatio(double aspectRatio) {
+        if (mAspectRatio != aspectRatio) {
+            mAspectRatio = aspectRatio;
+            requestLayout();
+        }
+    }
+
+    private static double findFullscreenRatio(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point point = new Point();
+        display.getRealSize(point);
+
+        double fullscreen;
+        if (point.x > point.y) {
+            fullscreen = (double) point.x / point.y;
+        } else {
+            fullscreen = (double) point.y / point.x;
+        }
+        return fullscreen;
     }
 }

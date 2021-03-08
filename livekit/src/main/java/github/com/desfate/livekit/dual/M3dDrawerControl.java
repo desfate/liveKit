@@ -11,6 +11,7 @@ import com.future.Holography.Holography;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import github.com.desfate.livekit.ui.BaseLiveView;
 import github.com.desfate.livekit.ui.PreviewDualCameraView;
 import github.com.desfate.livekit.utils.JobExecutor;
 
@@ -24,7 +25,7 @@ public class M3dDrawerControl {
     private FrameBufferOBJ mFBO = null;
     private Render3D mRender3D;
     private JobExecutor mJobExecutor;
-    private PreviewDualCameraView surfaceView;
+    private BaseLiveView surfaceView;
     private int mDeviceRotation;
     private double mAspectRatio = M3dConfig.getAspectRatio();
 
@@ -43,7 +44,7 @@ public class M3dDrawerControl {
     private Size viewSize;     // 显示区域大小
 
 
-    public M3dDrawerControl(PreviewDualCameraView surfaceView) {
+    public M3dDrawerControl(BaseLiveView surfaceView) {
         this.surfaceView = surfaceView;
         mJobExecutor = new JobExecutor();
         sessionSize = M3dConfig.getSessionSize(previewType);
