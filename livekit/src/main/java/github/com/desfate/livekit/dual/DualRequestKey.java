@@ -115,8 +115,8 @@ public class DualRequestKey {
             builder.set(mDofLevelKey, CURRENT_DOFLEVEL_VALUE);
         }
         if (mPreviewSizeKey != null) {
-            PREVIEW_SIZE_KEY_VALUE[0] = 2944;
-            PREVIEW_SIZE_KEY_VALUE[1] = 2208;
+            PREVIEW_SIZE_KEY_VALUE[0] = M3dConfig.getSessionSize(CameraSetting.getInstance().getPreviewType()).getWidth();
+            PREVIEW_SIZE_KEY_VALUE[1] = M3dConfig.getSessionSize(CameraSetting.getInstance().getPreviewType()).getHeight() * 2;
             builder.set(mPreviewSizeKey, PREVIEW_SIZE_KEY_VALUE);
         }
         if (mWarningKey != null) {

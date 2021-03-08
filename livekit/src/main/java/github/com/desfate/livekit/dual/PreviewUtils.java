@@ -44,7 +44,11 @@ public class PreviewUtils {
             case HEIGHT:
                 break;
             case DUAL:
-                previewSize = new Size(2944, 1104);
+                if(CameraSetting.getInstance().getPreviewType() == M3dConfig.Preview_type.PREVIEW_4TO3) {
+                    previewSize = new Size(2944, 1104);
+                }else if (CameraSetting.getInstance().getPreviewType() == M3dConfig.Preview_type.PREVIEW_16TO9){
+                    previewSize = new Size(1920, 1080);
+                }
                 break;
         }
         return previewSize;

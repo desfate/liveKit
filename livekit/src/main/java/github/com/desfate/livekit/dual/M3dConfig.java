@@ -31,12 +31,12 @@ public class M3dConfig {
      * 预览 16:9 模式下的一些配置
      */
     // 开启相机后的session参数 由于原始输出是 32：9 这里宽高比设置为 3.5555
-    public static int M3d_REQUEST_16TO9_WIDTH = 2944;
-    public static int M3d_REQUEST_16TO9_HEIGHT = 828;
+    public static int M3d_REQUEST_16TO9_WIDTH = 1920;
+    public static int M3d_REQUEST_16TO9_HEIGHT = 540;
 
     //  GLSurfaceView 的宽高  这里由于显示预览的Surface是16:9的 所以选择一个宽高最接近上面配置的配置
-    public static int M3d_VIEW_16TO9_WIDTH = 3072;
-    public static int M3D_VIEW_16TO9_HEIGHT = 1728;
+    public static int M3d_VIEW_16TO9_WIDTH = 1920;
+    public static int M3D_VIEW_16TO9_HEIGHT = 1080;
 
 
 
