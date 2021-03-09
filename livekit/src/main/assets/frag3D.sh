@@ -19,7 +19,7 @@ void main()
     //vec4 colr = texture2D(Sampler0,coord2)+vec4(1.0,1.0,1.0,0);
 	
 	float dis_test = texture2D(Sampler1,vTextureCoord).r;
-	vec4 rgb = (1.0-dis_test)*coll + dis_test*colr;
+	vec4 rgb = (1.0-dis_test)*colr + dis_test*coll;
     //vec4 rgb = (1.0-dis_test)*col + dis_test*cor;
 
 
