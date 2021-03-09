@@ -125,17 +125,17 @@ public class M3dDrawerControl {
             mResultMatrix.multply(mDeviceMatrix, mSTMatrix);   // 矩阵相乘
             updateSurfaceVid = false;
         }
-        if(mFBO == null) return;
-        // 3d绘制部分
-        mFBO.used();
+//        if(mFBO == null) return;
+//        // 3d绘制部分
+//        mFBO.used();
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT
                 | GLES20.GL_COLOR_BUFFER_BIT
                 | GLES20.GL_STENCIL_BUFFER_BIT);
         drawLeftRight(sessionSize.getWidth(), sessionSize.getHeight());
-        mFBO.unused();
-        GLES20.glViewport(0, 0, bufferWidth, bufferHeight);
-        System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
-        mRender3D.drawSelf(mMidTexture);
+//        mFBO.unused();
+//        GLES20.glViewport(0, 0, bufferWidth, bufferHeight);
+//        System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
+//        mRender3D.drawSelf(mMidTexture);
     }
 
     /**
