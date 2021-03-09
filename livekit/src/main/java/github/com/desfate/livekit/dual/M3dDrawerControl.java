@@ -75,7 +75,7 @@ public class M3dDrawerControl {
     }
 
     public void onCreated(GL10 gl, EGLConfig config) {
-        System.out.println("@@@ ---------------------------------------------------------------  Craeated ");
+//        System.out.println("@@@ ---------------------------------------------------------------  Craeated ");
         if (mRender3D == null) {
             mRender3D = new Render3D(surfaceView, 0);
         }
@@ -89,7 +89,7 @@ public class M3dDrawerControl {
     boolean isCreate = false;
 
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        System.out.println("@@@ ----------------------------------------------------- onSurfaceChanged" );
+//        System.out.println("@@@ ----------------------------------------------------- onSurfaceChanged" );
         mDeviceRotation = 1;
         if (Surface.ROTATION_90 == mDeviceRotation || Surface.ROTATION_270 == mDeviceRotation) {
             mDeviceMatrix.setIdentity();
@@ -122,7 +122,7 @@ public class M3dDrawerControl {
             Holography.HolographyInit(bufferWidth, bufferHeight);
 
 //            Holography.HolographyInit(bufferWidth, bufferHeight);
-            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
+//            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         }
         if(isRotate) {
             surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight());
@@ -153,7 +153,7 @@ public class M3dDrawerControl {
         }
         mFBO.unused();
         GLES20.glViewport(0, 0, bufferWidth, bufferHeight);
-        System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
+//        System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         mRender3D.drawSelf(mMidTexture);
     }
 

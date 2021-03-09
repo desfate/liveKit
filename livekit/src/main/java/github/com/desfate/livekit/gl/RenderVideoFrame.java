@@ -49,7 +49,7 @@ public class RenderVideoFrame {
 
     public void changeCamera(){
         this.front = !front;
-        System.out.println( "front = " + this.front);
+//        System.out.println( "front = " + this.front);
     }
 
     public RenderVideoFrame(Size size, final boolean front){

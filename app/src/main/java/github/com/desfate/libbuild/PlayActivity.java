@@ -48,7 +48,7 @@ public class PlayActivity extends AppCompatActivity {
                     // 这里可以获得 拿到的视频大小
                     // 视频推流过来时的 视频宽高  这里要根据视频宽高生成对应的显示页面
                     // fixme：这里记录拿到的视频宽高
-                    System.out.println("@@@ width = " + width + "  height = " + height );
+//                    System.out.println("@@@ width = " + width + "  height = " + height );
                 }
 
             }
