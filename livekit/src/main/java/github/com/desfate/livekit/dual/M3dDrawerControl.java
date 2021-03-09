@@ -134,7 +134,7 @@ public class M3dDrawerControl {
         drawLeftRight(sessionSize.getWidth(), sessionSize.getHeight());
 //        mFBO.unused();
 //        GLES20.glViewport(0, 0, bufferWidth, bufferHeight);
-//        System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
+        System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
 //        mRender3D.drawSelf(mMidTexture);
     }
 
