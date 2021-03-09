@@ -124,7 +124,11 @@ public class M3dDrawerControl {
 //            Holography.HolographyInit(bufferWidth, bufferHeight);
             System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         }
-        surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight());
+        if(isRotate) {
+            surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight());
+        }else{
+            surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight() * 2);
+        }
         refreshView();
 
     }
@@ -142,7 +146,11 @@ public class M3dDrawerControl {
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT
                 | GLES20.GL_COLOR_BUFFER_BIT
                 | GLES20.GL_STENCIL_BUFFER_BIT);
-        drawLeftRight(sessionSize.getWidth(), sessionSize.getHeight());
+        if(isRotate) {
+            drawLeftRight(sessionSize.getWidth(), sessionSize.getHeight());
+        }else{
+            drawLeftRight(sessionSize.getWidth(), sessionSize.getHeight() * 2);
+        }
         mFBO.unused();
         GLES20.glViewport(0, 0, bufferWidth, bufferHeight);
         System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
