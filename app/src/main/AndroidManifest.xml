@@ -39,7 +39,8 @@
         <activity android:name=".DataPushActivity"
             android:configChanges="keyboardHidden|orientation"></activity>
 
-        <activity android:name=".PlayActivity">
+        <activity android:name=".PlayActivity"
+            android:screenOrientation="landscape">
         </activity>
 
         <activity android:name=".TexturePushActivity"

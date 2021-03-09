@@ -38,7 +38,7 @@ public class DualLivePlayView extends BaseLiveView {
 
     public DualLivePlayView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        m3dDrawerControl = new M3dDrawerControl(DualLivePlayView.this);  //       初始化3d控制器
+        m3dDrawerControl = new M3dDrawerControl(DualLivePlayView.this, false);  //       初始化3d控制器
         mJobExecutor = new JobExecutor();
         callBack = new CameraChangeCallback() {
             @Override

@@ -10,6 +10,7 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
 import com.tencent.rtmp.TXLivePlayer;
 
+import github.com.desfate.livekit.ui.DualLivePlayView;
 import github.com.desfate.livekit.ui.LivePlayView;
 
 /**
@@ -20,7 +21,7 @@ public class PlayActivity extends AppCompatActivity {
     protected TXLivePlayer mTXLivePlayer;
     protected TXLivePlayConfig mTXLivePlayConfig;
 
-    private LivePlayView anchor_play_view;
+    private DualLivePlayView anchor_play_view;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class PlayActivity extends AppCompatActivity {
                     // 这里可以获得 拿到的视频大小
                     // 视频推流过来时的 视频宽高  这里要根据视频宽高生成对应的显示页面
                     // fixme：这里记录拿到的视频宽高
+                    System.out.println("@@@ width = " + width + "  height = " + height );
                 }
 
             }
@@ -57,9 +59,9 @@ public class PlayActivity extends AppCompatActivity {
         mTXLivePlayer.setPlayerView(null);
 
         mTXLivePlayer.setSurface(anchor_play_view.getmSurface());  // 绑定surface
-        mTXLivePlayer.setSurfaceSize(1920, 1080);
-
-        mTXLivePlayer.startPlay(TestConfig.PLAY_URL, TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
+        mTXLivePlayer.setSurfaceSize(1920, 1088);
+        mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+        mTXLivePlayer.startPlay(TestConfig.PLAY_URL, TXLivePlayer.PLAY_TYPE_LIVE_FLV);
 
 
     }

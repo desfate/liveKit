@@ -43,12 +43,14 @@ public class M3dDrawerControl {
     private Size sessionSize;  // 输出大小
     private Size viewSize;     // 显示区域大小
 
+    private boolean isRotate = true;
 
-    public M3dDrawerControl(BaseLiveView surfaceView) {
+    public M3dDrawerControl(BaseLiveView surfaceView, boolean type) {
         this.surfaceView = surfaceView;
         mJobExecutor = new JobExecutor();
         sessionSize = M3dConfig.getSessionSize(previewType);
         viewSize = M3dConfig.getSurfaceViewSize(previewType);
+        this.isRotate = type;
     }
 
     public void setTextureId(int textureId) {
@@ -92,8 +94,13 @@ public class M3dDrawerControl {
         if (Surface.ROTATION_90 == mDeviceRotation || Surface.ROTATION_270 == mDeviceRotation) {
             mDeviceMatrix.setIdentity();
 //            mDeviceMatrix.translate(1.0f, 0.0f, 0);
-            mDeviceMatrix.translate(1.0f, 0.0f, 0);
-            mDeviceMatrix.rotate(90, 0, 0, 1);
+            if(isRotate) {
+                mDeviceMatrix.translate(1.0f, 0.0f, 0);
+                mDeviceMatrix.rotate(90, 0, 0, 1);
+            }else{
+                mDeviceMatrix.translate(0.0f, 0.0f, 0);
+                mDeviceMatrix.rotate(0, 0, 0, 1);
+            }
             mDeviceMatrix.logMatrix();
         } else if (Surface.ROTATION_180 == mDeviceRotation) {
             mDeviceMatrix.setIdentity();
