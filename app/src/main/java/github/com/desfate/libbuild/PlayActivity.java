@@ -19,22 +19,24 @@ import github.com.desfate.livekit.ui.LivePlayView;
 public class PlayActivity extends AppCompatActivity {
 
     protected TXLivePlayer mTXLivePlayer;
+
     protected TXLivePlayConfig mTXLivePlayConfig;
 
     private DualLivePlayView anchor_play_view;
 
+//    private LivePlayView anchor_play_view;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         anchor_play_view = findViewById(R.id.anchor_play_view);
+        anchor_play_view.setFrontChange(false);
         mTXLivePlayConfig = new TXLivePlayConfig();
         mTXLivePlayer = new TXLivePlayer(this);
         mTXLivePlayConfig.setAutoAdjustCacheTime(true);
         mTXLivePlayConfig.setMaxAutoAdjustCacheTime(2.0f);
         mTXLivePlayConfig.setMinAutoAdjustCacheTime(2.0f);
         mTXLivePlayer.setConfig(mTXLivePlayConfig);
-        mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
         mTXLivePlayer.setPlayListener(new ITXLivePlayListener() {
             @Override
             public void onPlayEvent(final int event, final Bundle param) {
@@ -57,10 +59,9 @@ public class PlayActivity extends AppCompatActivity {
             }
         });
         mTXLivePlayer.setPlayerView(null);
-
+        mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
         mTXLivePlayer.setSurface(anchor_play_view.getmSurface());  // 绑定surface
-        mTXLivePlayer.setSurfaceSize(1920, 1088);
-        mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_ROTATION_PORTRAIT);
+        mTXLivePlayer.setSurfaceSize(1920, 1080);
         mTXLivePlayer.startPlay(TestConfig.PLAY_URL, TXLivePlayer.PLAY_TYPE_LIVE_FLV);
 
 

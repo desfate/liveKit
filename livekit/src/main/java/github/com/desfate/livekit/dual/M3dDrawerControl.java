@@ -43,7 +43,7 @@ public class M3dDrawerControl {
     private Size sessionSize;  // 输出大小
     private Size viewSize;     // 显示区域大小
 
-    private boolean isRotate = true;
+    private boolean isRotate = true;  // 播放时传的是false 采集时传的是true
 
     public M3dDrawerControl(BaseLiveView surfaceView, boolean type) {
         this.surfaceView = surfaceView;
@@ -113,12 +113,16 @@ public class M3dDrawerControl {
 
         if (mFBO == null) {
             // 防止framebuffer被重复创建  这是可以显示出3d大小的区域
-            mFBO = new FrameBufferOBJ(sessionSize.getWidth(), sessionSize.getHeight());
+            if(isRotate) {
+                mFBO = new FrameBufferOBJ(sessionSize.getWidth(), sessionSize.getHeight());
+            }else{
+                mFBO = new FrameBufferOBJ(sessionSize.getWidth(), sessionSize.getHeight() * 2);
+            }
             mMidTexture = mFBO.getTexture();
             Holography.HolographyInit(bufferWidth, bufferHeight);
 
 //            Holography.HolographyInit(bufferWidth, bufferHeight);
-//            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
+            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         }
         surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight());
         refreshView();
