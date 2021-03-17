@@ -11,7 +11,7 @@ public class CameraSetting {
     public static volatile CameraSetting instance;
 
     // 需要本地记录的一些参数
-    private M3dConfig.Preview_type previewType = M3dConfig.Preview_type.PREVIEW_16TO9; // 配置预览参数  默认4:3
+    private M3dConfig.Preview_type previewType = M3dConfig.Preview_type.PREVIEW_16TO9_DUAL; // 配置预览参数  默认4:3
 
     public static CameraSetting getInstance(){
         if(instance == null) {

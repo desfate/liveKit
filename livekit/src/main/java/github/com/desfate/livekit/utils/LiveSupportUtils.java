@@ -4,6 +4,9 @@ import android.util.Size;
 
 public class LiveSupportUtils {
 
+    private final static int DEFAULT_WIDTH = 1920;
+    private final static int DEFAULT_HEIGHT = 1080;
+
     public final static int LIVE_SIZE_2560 = 2560;
     public final static int LIVE_SIZE_1080 = 1080;
     public final static int LIVE_SIZE_720 = 720;
@@ -17,42 +20,50 @@ public class LiveSupportUtils {
      */
 
     public static Size getCameraBestSize(boolean isFront, int liveType) {
+        int width = DEFAULT_WIDTH;
+        int height = DEFAULT_HEIGHT;
         switch (liveType) {
             case LIVE_SIZE_720:
-                return new Size(1280, 720);
+                width = 1280;
+                height = 720;
+                break;
             case LIVE_SIZE_1080:
-                return new Size(1920,1080);
+                width = 1920;
+                height = 1080;
+                break;
             case LIVE_SIZE_2560:
-                return new Size(2560,1440);
+                width = 2560;
+                height = 1440;
+                break;
         }
-        return new Size(1920, 1080);
+        if(isFront){ // 前置宽小于高
+            return new Size(height, width);
+        }else{
+            return new Size(width, height);
+        }
     }
 
     public static Size getCameraTextureSize(boolean isFront, int liveType) {
+        int width = DEFAULT_WIDTH;
+        int height = DEFAULT_HEIGHT;
         switch (liveType) {
             case LIVE_SIZE_720:
-                if(isFront){
-                    return new Size(720, 1280);
-                }else {
-                    return new Size(1280, 720);
-                }
+                width = 1280;
+                height = 720;
+                break;
             case LIVE_SIZE_1080:
-                if(isFront) {
-                    return new Size(1080, 1920);
-                }else {
-                    return new Size(1920, 1080);
-                }
+                width = 1920;
+                height = 1080;
+                break;
             case LIVE_SIZE_2560:
-                if(isFront) {
-                    return new Size(1440, 2560);
-                }else {
-                    return new Size(2560, 1440);
-                }
+                width = 2560;
+                height = 1440;
+                break;
         }
         if(isFront) {
-            return new Size(1080, 1920);
+            return new Size(height, width);
         }else{
-            return new Size(1920, 1080);
+            return new Size(width, height);
         }
     }
 

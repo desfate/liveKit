@@ -4,15 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Size;
 
+import github.com.desfate.livekit.CameraConstant;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.live.LiveConfig;
-import github.com.desfate.livekit.utils.LiveSupportUtils;
 
 public class PreviewUtils {
 
     public static String TAG = "PreviewUtils";
-
-    public static int DUAL_LOGIC_CAMERA_ID = 3;
 
     public static CameraInfo dualToCameraInfo(Context context, PreviewConfig config){
         if(config == null) {
@@ -30,7 +27,7 @@ public class PreviewUtils {
                 .setDefaultBufferSize(cameraSize)
                 .setImageBufferSize(cameraSize)
                 .setLogicCameraId(logicCameraId)
-                .setState(2)
+                .setState(2)  // dual
                 .build();
     }
 
@@ -45,20 +42,26 @@ public class PreviewUtils {
                 break;
             case DUAL:
                 if(CameraSetting.getInstance().getPreviewType() == M3dConfig.Preview_type.PREVIEW_4TO3) {
-                    previewSize = new Size(2944, 1104);
+                    previewSize = new Size(M3dConfig.M3d_REQUEST_4TO3_WIDTH, M3dConfig.M3d_REQUEST_4TO3_HEIGHT);
                 }else if (CameraSetting.getInstance().getPreviewType() == M3dConfig.Preview_type.PREVIEW_16TO9){
-                    previewSize = new Size(1920, 1080);
+                    previewSize = new Size(M3dConfig.M3d_REQUEST_16TO9_WIDTH, M3dConfig.M3d_REQUEST_16TO9_HEIGHT * 2);
+                }else if (CameraSetting.getInstance().getPreviewType() == M3dConfig.Preview_type.PREVIEW_16TO9_DUAL){
+                    previewSize = new Size(M3dConfig.M3D_REQUEST_16TO9_WIDTH_DUAL, M3dConfig.M3d_REQUEST_16TO9_HEIGHT_DUAL);
                 }
                 break;
         }
+        if(isFront) previewSize = new Size(previewSize.getHeight(),  previewSize.getWidth());
         return previewSize;
     }
 
     public static int getSupportCameraId(PreviewConfig config){
-        if(config.getState() == 1){
-            return DUAL_LOGIC_CAMERA_ID;
+        if(config.getState() == CameraConstant.CAMERA_STATE_DUAL){
+            return CameraConstant.DUAL_LOGIC_CAMERA_ID;
+        }else if(config.getState() == CameraConstant.CAMERA_STATE_DUAL
+                && config.getIsCameraFront() == CameraConstant.CAMERA_FRONT){ // 前置 双摄
+            return CameraConstant.DUAL_LOGIC_CAMERA_FRONT_ID;
         }else{
-            return 0;
+            return CameraConstant.DEFAULT_LOGIC_CAMERA_ID;
         }
     }
 

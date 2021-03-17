@@ -18,6 +18,7 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 
+import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.ui.DataLivePushView;
 import github.com.desfate.livekit.live.LiveConfig;
@@ -90,7 +91,7 @@ public class DataPushActivity extends AppCompatActivity {
                 mLivePushConfig.setVideoFPS(60);
                 break;
         }
-        liveConfig.setLivePushType(LiveConfig.LIVE_PUSH_DATA);  // 采用byte[]推流模式
+        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_DATA);  // 采用byte[]推流模式
         switch (pushSize){
             case 1:
                 liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_720);

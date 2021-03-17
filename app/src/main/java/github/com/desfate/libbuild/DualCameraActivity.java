@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import github.com.desfate.livekit.CameraConstant;
+import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.ui.PreviewDualCameraView;
@@ -36,10 +38,12 @@ public class DualCameraActivity extends AppCompatActivity {
     LiveConfig liveConfig = new LiveConfig();
 
     private TextView sign;
-    private Button switchBtn;
+    private Button switchBtn, m3d_btn;
 
     int pushSize = 1; // 1: 720P 2: 1080P
     int pushFrame = 1; // 1: 30FPS 2: 60FPS
+
+    private boolean original = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +52,8 @@ public class DualCameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview);
         dual_preview_view = findViewById(R.id.dual_preview_view);
         sign = findViewById(R.id.sign);
+
+//        m3d_btn = findViewById(R.id.m3d_btn);
 //        rootLayout = findViewById(R.id.root);
 
         switchBtn = findViewById(R.id.switch_btn);
@@ -62,6 +68,15 @@ public class DualCameraActivity extends AppCompatActivity {
                 dual_preview_view.getControl().switchCamera();
             }
         });
+
+//        m3d_btn.setOnClickListener(new View.OnClickListener() {
+//                                       @Override
+//                                       public void onClick(View view) {
+//                                           original = !original;
+//                                           dual_preview_view.setOriginal(original);
+//                                       }
+//                                   }
+//        );
 
 //        mLivePusher = new TXLivePusher(this);
 //        mLivePushConfig = new TXLivePushConfig();
@@ -82,8 +97,8 @@ public class DualCameraActivity extends AppCompatActivity {
 //                mLivePushConfig.setVideoFPS(60);
 //                break;
 //        }
-        liveConfig.setLivePushType(LiveConfig.LIVE_PUSH_DATA);  // 采用byte[]推流模式
-        liveConfig.setPushCameraType(LiveConfig.LIVE_CAMERA_DUAL);
+        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_DATA);  // 采用byte[]推流模式
+        liveConfig.setPushCameraType(LiveConstant.LIVE_CAMERA_DUAL);  // 设置拍摄模式
         switch (pushSize) {
             case 1:
                 liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_720);
@@ -114,7 +129,7 @@ public class DualCameraActivity extends AppCompatActivity {
 
             }
         });
-
+        dual_preview_view.setOriginal(false); //  不交织
 //        mLivePusher.setVideoQuality(TXLiveConstants.VIDEO_QUALITY_HIGH_DEFINITION, false, false);
 //        mLivePusher.setConfig(mLivePushConfig);
 //

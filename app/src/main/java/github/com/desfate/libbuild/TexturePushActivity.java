@@ -19,6 +19,7 @@ import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
@@ -72,7 +73,7 @@ public class TexturePushActivity extends AppCompatActivity {
         // 开启自定义视频采集
         mLivePushConfig.setCustomModeType(TXLiveConstants.CUSTOM_MODE_VIDEO_CAPTURE);
         mLivePushConfig.setVideoEncodeGop(5);
-        liveConfig.setLivePushType(LiveConfig.LIVE_PUSH_TEXTURE);//       texture 模式
+        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_TEXTURE);//       texture 模式
 
         switch (pushSize){
             case 1:

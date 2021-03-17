@@ -39,5 +39,4 @@ dependencies {
     implementation deps.liteavSdk.liteavsdk_smart
     // buyle
     implementation deps.bugly.runtime
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 }

@@ -113,4 +113,10 @@ public class DualLivePlayView extends BaseLiveView {
         this.isFront = change;
     }
 
+//    public void setOriginal(boolean original){
+//        if(m3dDrawerControl != null) {
+//            m3dDrawerControl.setOriginal(original);
+//        }
+//    }
+
 }

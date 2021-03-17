@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
 import github.com.desfate.livekit.dual.M3dConfig;
@@ -46,7 +47,8 @@ public class PreviewDualCameraView extends BaseLiveView{
     
     // 这个初始化必须在写入必要接口之前
     public void init(final LiveConfig liveConfig, LiveCallBack liveCallBack){
-        m3dDrawerControl = new M3dDrawerControl(PreviewDualCameraView.this, true);  //       初始化3d控制器
+        m3dDrawerControl = new M3dDrawerControl(PreviewDualCameraView.this,
+                true);  //       初始化3d控制器
 //        m3dDrawerControl.initGLFactory();
         mJobExecutor = new JobExecutor();
         this.liveConfig = liveConfig;
@@ -122,5 +124,10 @@ public class PreviewDualCameraView extends BaseLiveView{
         m3dDrawerControl.initGLFactory();
     }
 
+    public void setOriginal(boolean original){
+//        if(m3dDrawerControl != null) {
+//            m3dDrawerControl.setOriginal(original);
+//        }
+    }
 
 }

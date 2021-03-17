@@ -13,7 +13,7 @@ import android.util.Size;
 public class M3dConfig {
 
     public enum Preview_type{
-        PREVIEW_4TO3, PREVIEW_16TO9
+        PREVIEW_4TO3, PREVIEW_16TO9, PREVIEW_16TO9_DUAL
     }
 
     /**
@@ -38,6 +38,13 @@ public class M3dConfig {
     public static int M3d_VIEW_16TO9_WIDTH = 1920;
     public static int M3D_VIEW_16TO9_HEIGHT = 1080;
 
+    /**
+     * 预览 16:9   输出数据是32:9的格式 (拼接了两个16:9)
+     */
+    public static int M3D_REQUEST_16TO9_WIDTH_DUAL = 2560;
+    public static int M3d_REQUEST_16TO9_HEIGHT_DUAL = 720;
+    public static int M3d_VIEW_16TO9_WIDTH_DUAL = 1920;  // 我是输出的屏幕宽高
+    public static int M3D_VIEW_16TO9_HEIGHT_DUAL = 1080;
 
 
     /**
@@ -51,6 +58,8 @@ public class M3dConfig {
                 return new Size(M3d_REQUEST_4TO3_WIDTH, M3d_REQUEST_4TO3_HEIGHT);
             case PREVIEW_16TO9:
                 return new Size(M3d_REQUEST_16TO9_WIDTH, M3d_REQUEST_16TO9_HEIGHT);
+            case PREVIEW_16TO9_DUAL:
+                return new Size(M3D_REQUEST_16TO9_WIDTH_DUAL, M3d_REQUEST_16TO9_HEIGHT_DUAL);
         }
         return new Size(M3d_REQUEST_4TO3_WIDTH, M3d_REQUEST_4TO3_HEIGHT);
     }
@@ -66,6 +75,8 @@ public class M3dConfig {
                 return new Size(M3d_VIEW_4TO3_WIDTH, M3D_VIEW_4TO3_HEIGHT);
             case PREVIEW_16TO9:
                 return new Size(M3d_VIEW_16TO9_WIDTH, M3D_VIEW_16TO9_HEIGHT);
+            case PREVIEW_16TO9_DUAL:
+                return new Size(M3d_VIEW_16TO9_WIDTH_DUAL, M3D_VIEW_16TO9_HEIGHT_DUAL);
         }
         return new Size(M3d_VIEW_4TO3_WIDTH, M3D_VIEW_4TO3_HEIGHT);
     }
@@ -75,6 +86,7 @@ public class M3dConfig {
             case PREVIEW_4TO3:
                 return 4d / 3;
             case PREVIEW_16TO9:
+            case PREVIEW_16TO9_DUAL:
                 return 16d / 9;
         }
         return 4d / 3;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.TextureView;
 
+import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.CameraDataControl;
 import github.com.desfate.livekit.camera.CameraTextureControl;
 import github.com.desfate.livekit.camera.FocusControl;
@@ -43,7 +44,7 @@ public class LivePushControl{
         this.context = builder.context;
         this.liveConfig = builder.liveConfig;
         if (liveConfig != null) {
-            if (liveConfig.getLivePushType() == LiveConfig.LIVE_PUSH_DATA) { //                          通过data 模式进行直播推流
+            if (liveConfig.getLivePushType() == LiveConstant.LIVE_PUSH_DATA) { //                          通过data 模式进行直播推流
                 cameraInfo = LiveUtils.LiveToCameraAdapter(builder.context, builder.liveConfig);
                 mControl = new CameraDataControl(builder.context, builder.surfaceTexture, cameraInfo, builder.liveCallBack, builder.cameraErrorCallBack);
                 focusControl = mControl.customerFocus(builder.focusView);  //                                             开启自定义对焦
@@ -79,7 +80,7 @@ public class LivePushControl{
     public void focusViewChange(int width, int height){ if(mControl != null) mControl.focusViewChange(width, height);}
 
     // Camera live info
-    public int getCameraState(){ if(liveConfig != null) return liveConfig.getPushCameraType(); else return LiveConfig.LIVE_CAMERA_FRONT ; }
+    public int getCameraState(){ if(liveConfig != null) return liveConfig.getPushCameraType(); else return LiveConstant.LIVE_CAMERA_FRONT ; }
 
 
     public static class LivePushControlBuilder {

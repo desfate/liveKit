@@ -10,6 +10,8 @@ import android.util.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+import github.com.desfate.livekit.CameraConstant;
+import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.news.CameraInfo;
 import github.com.desfate.livekit.camera.news.CameraUtils;
 import github.com.desfate.livekit.dual.PreviewConfig;
@@ -36,14 +38,18 @@ public class LiveUtils {
         //  摄像头方向
         int cameraFront = liveConfig.getPushCameraType();
         //  直播需要的摄像头size
-        Size cameraSize =  LiveSupportUtils.getCameraBestSize(cameraFront == 1, liveConfig.getLiveQuality());
+        Size cameraSize =  LiveSupportUtils.getCameraBestSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, liveConfig.getLiveQuality());
         int logicCameraId = liveLogicCameraId(context, cameraFront);
 
-        int state = 1;
-        if(liveConfig.getPushCameraType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
-            logicCameraId = 3;
+        int state = 1;  // 普通
+        if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_ID;
+            state = 2;  // 双摄
+            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
+        } else if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL_FRONT){  // 前置双摄推流
+            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_FRONT_ID;
             state = 2;
-            cameraSize = PreviewUtils.getPreviewSize(cameraFront == 1, PreviewConfig.Preview_Quality.DUAL);
+            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
         }
 
         return new CameraInfo.CameraBuilder()
@@ -68,14 +74,14 @@ public class LiveUtils {
         //  摄像头方向
         int cameraFront = liveConfig.getPushCameraType();
         //  直播需要的摄像头size
-        Size cameraSize =  LiveSupportUtils.getCameraTextureSize(cameraFront == 1, liveConfig.getLiveQuality());
+        Size cameraSize =  LiveSupportUtils.getCameraTextureSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, liveConfig.getLiveQuality());
         int logicCameraId = liveLogicCameraId(context, cameraFront);
 
         int state = 1;
-        if(liveConfig.getPushCameraType() == LiveConfig.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
-            logicCameraId = 3;
+        if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_ID;
             state = 2;
-            cameraSize = PreviewUtils.getPreviewSize(cameraFront == 1, PreviewConfig.Preview_Quality.DUAL);
+            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
         }
 
         return new CameraInfo.CameraBuilder()
@@ -108,9 +114,9 @@ public class LiveUtils {
                 }
             }
             //这个理论上是要配置合适自己手机的规则
-            if(front == 1 && frontCamera.size() > 0){ // 前置
+            if(front == LiveConstant.LIVE_CAMERA_FRONT && frontCamera.size() > 0){ // 前置
                 return frontCamera.get(0);
-            }else if(front == 2 && backCamera.size() > 0){
+            }else if(front == LiveConstant.LIVE_CAMERA_BACK && backCamera.size() > 0){
                 return backCamera.get(0);
             }
         } catch (CameraAccessException e) {

@@ -59,6 +59,8 @@
 
         <activity android:name=".DualCameraActivity"
             android:screenOrientation = "landscape">
+<!--            android:screenOrientation = "portrait">-->
+
         </activity>
     </application>
 
