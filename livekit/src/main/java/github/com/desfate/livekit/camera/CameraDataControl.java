@@ -87,7 +87,9 @@ public class CameraDataControl implements LivePushInterface {
                 int key = 0;
                 for(byte a : nv21){
                     if(sign) {
-                        mNv21[key] = a;
+                        if(key < mNv21.length) {
+                            mNv21[key] = a;
+                        }
                     }
                     key ++;
                     sign = !sign;
