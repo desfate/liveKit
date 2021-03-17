@@ -59,7 +59,7 @@ public class M3dConfig {
             case PREVIEW_16TO9:
                 return new Size(M3d_REQUEST_16TO9_WIDTH, M3d_REQUEST_16TO9_HEIGHT);
             case PREVIEW_16TO9_DUAL:
-                return new Size(M3D_REQUEST_16TO9_WIDTH_DUAL, M3d_REQUEST_16TO9_HEIGHT_DUAL);
+                return new Size(M3D_REQUEST_16TO9_WIDTH_DUAL, M3D_VIEW_16TO9_HEIGHT_DUAL);
         }
         return new Size(M3d_REQUEST_4TO3_WIDTH, M3d_REQUEST_4TO3_HEIGHT);
     }
