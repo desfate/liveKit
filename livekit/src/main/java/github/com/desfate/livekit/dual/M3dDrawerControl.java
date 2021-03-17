@@ -119,7 +119,7 @@ public class M3dDrawerControl {
                 mFBO = new FrameBufferOBJ(sessionSize.getWidth(), sessionSize.getHeight() * 2);
             }
             mMidTexture = mFBO.getTexture();
-            Holography.HolographyInit(bufferWidth, bufferHeight);
+            Holography.HolographyInit(viewSize.getWidth(), viewSize.getHeight());  // 1280 720
 
 //            Holography.HolographyInit(bufferWidth, bufferHeight);
 //            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
