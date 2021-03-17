@@ -81,7 +81,18 @@ public class CameraDataControl implements LivePushInterface {
                 if (y.length / u.length == 4) {
                     ImageUtil.yuv420ToYuv420p(y, u, v, nv21, stride, image.getHeight());
                 }
-                if(liveCallBack != null) liveCallBack.startPushByData(nv21, stride, image.getHeight());  // 向服务器推送数据
+
+                byte[] mNv21 =  new byte[stride * image.getHeight() * 3 / 4];
+                boolean sign = true;
+                int key = 0;
+                for(byte a : nv21){
+                    if(sign) {
+                        mNv21[key] = a;
+                    }
+                    key ++;
+                    sign = !sign;
+                }
+                if(liveCallBack != null) liveCallBack.startPushByData(mNv21, stride / 2, image.getHeight());  // 向服务器推送数据
                 lock.unlock();
                 image.close();
             }
