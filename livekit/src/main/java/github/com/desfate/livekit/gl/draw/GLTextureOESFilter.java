@@ -164,7 +164,7 @@ public class GLTextureOESFilter {
     // 这个绘制完成后会提交给推流服务 注意 这个和本地预览会相互影响
     private void draw(int textureId) {
 
-        GLES20.glViewport(0, 0, mOutputWidth / 2, mOutputHeight);
+        GLES20.glViewport(0, 0, mOutputWidth, mOutputHeight);
         GLES20.glClearColor(0.F, 0.F, 0.F, 1.F);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
