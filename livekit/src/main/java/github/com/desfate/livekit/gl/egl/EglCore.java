@@ -81,10 +81,10 @@ public final class EglCore {
 //    };
 
     public static final float CUBE[] = {
-            1.0f,   1.0f,     //左下角坐标
+            -1.0f,  -1.0f,     //左下角坐标
             1.0f,  -1.0f,      //右下角坐标
             -1.0f,   1.0f,     //左上角坐标
-            -1.0f,  -1.0f       //右上角坐标
+            1.0f,   1.0f       //右上角坐标
     };
 
     /**
