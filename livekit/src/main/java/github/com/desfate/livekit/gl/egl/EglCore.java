@@ -73,6 +73,14 @@ public final class EglCore {
             1.0f, 0.0f,
             1.0f, 1.0f,
     };
+
+    public static final float TEXTURE_ROTATED_270_AND_Mirror_LR[] = {
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+    };
+
 //    public static final float CUBE[] = {
 //            -1.0f,  -1.0f,     //左下角坐标
 //            1.0f,  -1.0f,      //右下角坐标
@@ -81,10 +89,10 @@ public final class EglCore {
 //    };
 
     public static final float CUBE[] = {
-            -1.0f,  -1.0f,     //左下角坐标
+            1.0f,   1.0f,     //左下角坐标
             1.0f,  -1.0f,      //右下角坐标
             -1.0f,   1.0f,     //左上角坐标
-            1.0f,   1.0f       //右上角坐标
+            -1.0f,  -1.0f       //右上角坐标
     };
 
     /**

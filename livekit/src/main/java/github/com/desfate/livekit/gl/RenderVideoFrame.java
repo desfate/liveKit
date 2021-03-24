@@ -69,6 +69,7 @@ public class RenderVideoFrame {
                 if (mRenderView != null) {
                     if (mTextureId != -1) {
                         if (mTextureFilter != null) {
+                            // 这里是本地预览 + 二次渲染
                             mTextureFilter.draw(mTextureId, mVideoWidth, mVideoHeight, mRenderView.getWidth(), mRenderView.getHeight(), RenderVideoFrame.this.front);
                         }
                         mGLHandler.swap();
@@ -103,8 +104,8 @@ public class RenderVideoFrame {
                 if (mGLHandler == null) {
                     mRenderType = RENDER_TYPE_TEXTURE;
                     //OpenGL渲染线程共享SDK的eglContext
+                    // 这里是本地预览时的渲染代码
                     createGLThread(eglContext);
-
                 }
 
                 mTextureId = textureId;

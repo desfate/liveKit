@@ -119,7 +119,7 @@ public class DualCameraActivity extends AppCompatActivity {
 //                mLivePushConfig.setVideoFPS(60);
 //                break;
 //        }
-        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_TEXTURE);  // 采用byte[]推流模式
+        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_DATA);  // 采用byte[]推流模式
         liveConfig.setPushCameraType(LiveConstant.LIVE_CAMERA_DUAL);  // 设置拍摄模式
         switch (pushSize) {
             case 1:

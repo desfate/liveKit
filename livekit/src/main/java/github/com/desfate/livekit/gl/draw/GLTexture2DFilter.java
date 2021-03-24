@@ -35,7 +35,8 @@ public class GLTexture2DFilter {
 
     private static final FloatBuffer DEF_VERTEX_BUF = EglCore.createFloatBuffer(EglCore.CUBE);
     private static final FloatBuffer DEF_TEX_BUF = EglCore.createFloatBuffer(EglCore.TEXTURE_ROTATION_0);
-    private static final FloatBuffer DEF_ROTATED_BUF = EglCore.createFloatBuffer(EglCore.TEXTURE_ROTATED_270);
+    private static final FloatBuffer DEF_ROTATED_BUF = EglCore.createFloatBuffer(EglCore.TEXTURE_ROTATED_90);
+    private static final FloatBuffer DEF_ROTATED_MIRROR_BUF = EglCore.createFloatBuffer(EglCore.TEXTURE_ROTATED_270_AND_Mirror_LR);
 
     private int mProgramHandle;
     private int muMVPMatrixLoc;
@@ -112,7 +113,7 @@ public class GLTexture2DFilter {
             GLES20.glVertexAttribPointer(maTextureCoordLoc, 2, GLES20.GL_FLOAT, false, 0, DEF_TEX_BUF);
             EglCore.checkGlError("glVertexAttribPointer");
         }else {
-            GLES20.glVertexAttribPointer(maTextureCoordLoc, 2, GLES20.GL_FLOAT, false, 0, DEF_ROTATED_BUF);
+            GLES20.glVertexAttribPointer(maTextureCoordLoc, 2, GLES20.GL_FLOAT, false, 0, DEF_ROTATED_MIRROR_BUF);
             EglCore.checkGlError("glVertexAttribPointer");
         }
 

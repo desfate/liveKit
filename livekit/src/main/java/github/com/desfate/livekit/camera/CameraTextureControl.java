@@ -78,6 +78,7 @@ public class CameraTextureControl implements LivePushInterface {
             if (!mIsSending) return textureId;
 
             // TODO: 2020/10/13 将视频帧通过纹理方式塞给SDK fixme
+            // 这里是提交给推流服务的流
             if(callBack != null && isPusher) {
                 callBack.startPushByTextureId(textureId, cameraInfo.getImageBufferSize().getWidth(), cameraInfo.getImageBufferSize().getHeight());
             }
