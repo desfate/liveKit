@@ -70,7 +70,7 @@ public class RenderVideoFrame {
                     if (mTextureId != -1) {
                         if (mTextureFilter != null) {
                             // 这里是本地预览 + 二次渲染
-                            mTextureFilter.draw(mTextureId, mVideoWidth, mVideoHeight, mRenderView.getWidth(), mRenderView.getHeight(), RenderVideoFrame.this.front);
+//                            mTextureFilter.draw(mTextureId, mVideoWidth, mVideoHeight, mRenderView.getWidth(), mRenderView.getHeight(), RenderVideoFrame.this.front);
                         }
                         mGLHandler.swap();
                         mTextureId = -1;
