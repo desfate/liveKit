@@ -34,7 +34,7 @@ public class GLTexture2DFilter {
                     "}\n";
 
     private static final FloatBuffer DEF_VERTEX_BUF = EglCore.createFloatBuffer(EglCore.CUBE);
-    private static final FloatBuffer DEF_TEX_BUF = EglCore.createFloatBuffer(EglCore.TEXTURE_ROTATION_0);
+    private static final FloatBuffer DEF_TEX_BUF = EglCore.createFloatBuffer(EglCore.TEXTURE_ROTATED_270);
     private static final FloatBuffer DEF_ROTATED_BUF = EglCore.createFloatBuffer(EglCore.TEXTURE_ROTATED_270);
 
     private int mProgramHandle;
