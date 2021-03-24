@@ -152,11 +152,11 @@ public class GLTextureOESFilter {
         mOutputWidth = width;
         mOutputHeight = height;
 
-        if (width > height) {
-            Matrix.orthoM(mProjectionMatrix, 0, - 1.f, 1.f, -1f, 1f, -1f, 1f);
-        } else {
+//        if (width > height) {
+//            Matrix.orthoM(mProjectionMatrix, 0, - 1.f, 1.f, -1f, 1f, -1f, 1f);
+//        } else {
             Matrix.orthoM(mProjectionMatrix, 0, -1f, 1f, -1.f, 1.f, -1f, 1f);
-        }
+//        }
 
         reloadFrameBuffer();
     }
@@ -192,7 +192,8 @@ public class GLTextureOESFilter {
         Matrix.setIdentityM(mModeMatrix, 0);
         // 用来进行图像的缩放，第一个参数是需要变换的矩阵；第三、四、五个参数分别对应x,y,z 方向的缩放比例，当x方向缩放为0.5时，相当于向x方向缩放为原来的0.5倍，其他类似。
         Matrix.scaleM(mModeMatrix, 0, -1, 1, 1);
-        Matrix.rotateM(mModeMatrix, 0, 180, 0, 0, -1);
+        Matrix.rotateM(mModeMatrix, 0, 90, 0, 0, -1);
+//        Matrix.rotateM(mModeMatrix, 0, 90, 1, 0, 0);
         // 将两个矩阵相乘 mMVPMatrix 是结果
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModeMatrix, 0);
         // 通过一致变量（uniform修饰的变量）引用将一致变量值传入渲染管线
