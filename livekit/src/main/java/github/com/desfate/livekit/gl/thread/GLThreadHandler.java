@@ -25,8 +25,8 @@ public class GLThreadHandler extends Handler {
     public static final int MSG_REND = MSG_END + 1;
     public static final int MSG_RUN_TASK = MSG_REND + 1;
 
-    public int mCaptureWidth = 720;
-    public int mCaptureHeight = 1280;
+    public int mCaptureWidth = 1920;
+    public int mCaptureHeight = 1080;
     public Surface mSurface = null;
     public EGLContext mEgl14Context = null;
     private IEGLListener mListener = null;

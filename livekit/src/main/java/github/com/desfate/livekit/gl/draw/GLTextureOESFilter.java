@@ -83,6 +83,11 @@ public class GLTextureOESFilter {
         mSTMatrix = mtx;
     }
 
+    /**
+     * 这里往texture预览上进行绘制
+     * @param textureId
+     * @return
+     */
     public int drawToTexture(int textureId) {
 
         if (mFrameBufferID == INVALID_TEXTURE_ID) {
@@ -183,13 +188,14 @@ public class GLTextureOESFilter {
         GLES20.glEnableVertexAttribArray(maTextureHandle);
         EglCore.checkGlError("glEnableVertexAttribArray maTextureHandle");
 
-        Matrix.setIdentityM(mMVPMatrix, 0);
+        Matrix.setIdentityM(mMVPMatrix, 0);  // 创建一个单位矩阵
         Matrix.setIdentityM(mModeMatrix, 0);
+        // 用来进行图像的缩放，第一个参数是需要变换的矩阵；第三、四、五个参数分别对应x,y,z 方向的缩放比例，当x方向缩放为0.5时，相当于向x方向缩放为原来的0.5倍，其他类似。
         Matrix.scaleM(mModeMatrix, 0, -1, 1, 1);
         Matrix.rotateM(mModeMatrix, 0, 180, 0, 0, -1);
-
+        // 将两个矩阵相乘 mMVPMatrix 是结果
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModeMatrix, 0);
-
+        // 通过一致变量（uniform修饰的变量）引用将一致变量值传入渲染管线
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
         EglCore.checkGlError("glDrawArrays");

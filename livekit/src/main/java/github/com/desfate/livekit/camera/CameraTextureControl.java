@@ -67,7 +67,8 @@ public class CameraTextureControl implements LivePushInterface {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture) {
             Log.d(TAG, "onSurfaceTextureAvailable: " + Thread.currentThread().getName());
-            mGLThread.setInputSize(cameraInfo.getDefaultBufferSize().getWidth(), cameraInfo.getDefaultBufferSize().getHeight());  // 承载视频画面的“画板（SurfaceTexture）”已经准备好了，需要我们创建一个 MovieVideoFrameReader，并与之关联起来。
+            mGLThread.setInputSize(cameraInfo.getDefaultBufferSize().getWidth(), cameraInfo.getDefaultBufferSize().getHeight());
+            // 承载视频画面的“画板（SurfaceTexture）”已经准备好了，需要我们创建一个 MovieVideoFrameReader，并与之关联起来。
             mCameraClient.getCamera().addSurfaceTexture(surfaceTexture);
             mCameraClient.getCamera().openCamera(cameraInfo);
         }

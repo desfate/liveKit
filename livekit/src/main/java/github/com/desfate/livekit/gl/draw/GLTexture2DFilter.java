@@ -8,7 +8,8 @@ import java.nio.FloatBuffer;
 import github.com.desfate.livekit.gl.egl.EglCore;
 
 /**
- * 渲染GL_TEXTURE_2D到EGLSurface上，如果EGLSurface绑定TextureView的SurfaceTexture，就可以在TextureView上显示出来
+ * 渲染GL_TEXTURE_2D到EGLSurface上，
+ * 如果EGLSurface绑定TextureView的SurfaceTexture，就可以在TextureView上显示出来
  */
 public class GLTexture2DFilter {
 
@@ -79,13 +80,12 @@ public class GLTexture2DFilter {
 
         Matrix.setIdentityM(mMVPMatrix, 0);
 
-        if(front) {
-            fill(mMVPMatrix, videoWidth, videoHeight, viewWidth, viewHeight);
-        }else{
-            fill(mMVPMatrix, videoWidth, videoHeight, viewHeight, viewWidth);
-        }
-
-
+        // FIXME: 2021/3/24 这里先不管前置
+//        if(front) {  // 判断前后置
+            fill(mMVPMatrix, videoWidth, videoHeight, viewWidth, viewHeight);  // 前置是竖屏  高 > 宽
+//        }else{
+//            fill(mMVPMatrix, videoWidth, videoHeight, viewWidth, viewWidth);  // 后置是横屏  宽 > 高
+//        }
 
         // Copy the model / view / projection matrix over.
         GLES20.glUniformMatrix4fv(muMVPMatrixLoc, 1, false, mMVPMatrix, 0);
@@ -129,22 +129,24 @@ public class GLTexture2DFilter {
     }
 
     private void fill(float[] MVPMatrix, int videoWidth, int videoHeight, int viewWidth, int viewHeight) {
-
+        // 这里是采集的数据源宽高
         int scaleWidth  = videoWidth;
         int scaleHeight = videoHeight;
 
-        float ratioWidth  =  viewWidth  * 1.0f / scaleWidth;
+        // 这里是需要显示的view和采集的数据的比例
+        float ratioWidth  =  viewWidth * 1.0f / scaleWidth;
         float ratioHeight =  viewHeight * 1.0f / scaleHeight;
 
-        float ratio;
-        if (ratioWidth * scaleHeight > viewHeight) {
-            ratio = ratioHeight;
-        } else {
-            ratio = ratioWidth;
-        }
+//        float ratio;
+//        if (ratioWidth * scaleHeight > viewHeight) {
+//            ratio = ratioHeight;
+//        } else {
+//            ratio = ratioWidth;
+//        }
 
         Matrix.setIdentityM(mModeMatrix, 0);
-        Matrix.scaleM(mModeMatrix, 0, scaleWidth * ratio / viewWidth * 1.0f , scaleHeight * ratio / viewHeight * 1.0f, 1);
+        // 这里做一次缩放 来匹配view和采集的数据
+        Matrix.scaleM(mModeMatrix, 0, ratioWidth * 1.0f , ratioHeight * 1.0f, 1);
         /**
          * float[] m 参数 : 生成矩阵元素的 float[] 数组
          * int mOffset 参数 : 矩阵数组的起始偏移量;

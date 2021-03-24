@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import github.com.desfate.libbuild.test.CameraToMpegTest;
 import github.com.desfate.livekit.CameraConstant;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.live.LiveCallBack;
@@ -38,13 +39,13 @@ public class DualCameraActivity extends AppCompatActivity {
     LiveConfig liveConfig = new LiveConfig();
 
     private TextView sign;
-    private Button switchBtn, m3d_btn;
+    private Button switchBtn, record_btn;
 
     int pushSize = 1; // 1: 720P 2: 1080P
     int pushFrame = 1; // 1: 30FPS 2: 60FPS
 
     private boolean original = true;
-
+    CameraToMpegTest mCameraMpeg;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -52,6 +53,8 @@ public class DualCameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preview);
         dual_preview_view = findViewById(R.id.dual_preview_view);
         sign = findViewById(R.id.sign);
+        mCameraMpeg = new CameraToMpegTest();
+        record_btn = findViewById(R.id.record_btn);
 
 //        m3d_btn = findViewById(R.id.m3d_btn);
 //        rootLayout = findViewById(R.id.root);
@@ -69,6 +72,25 @@ public class DualCameraActivity extends AppCompatActivity {
             }
         });
 
+        record_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mCameraMpeg != null) {
+
+                            try {
+                                mCameraMpeg.testEncodeCameraToMp4();
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                thread.start();
+            }
+        });
 //        m3d_btn.setOnClickListener(new View.OnClickListener() {
 //                                       @Override
 //                                       public void onClick(View view) {
@@ -97,7 +119,7 @@ public class DualCameraActivity extends AppCompatActivity {
 //                mLivePushConfig.setVideoFPS(60);
 //                break;
 //        }
-        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_DATA);  // 采用byte[]推流模式
+        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_TEXTURE);  // 采用byte[]推流模式
         liveConfig.setPushCameraType(LiveConstant.LIVE_CAMERA_DUAL);  // 设置拍摄模式
         switch (pushSize) {
             case 1:
@@ -117,11 +139,14 @@ public class DualCameraActivity extends AppCompatActivity {
 //        mConfig.setQuality_type(PreviewConfig.Preview_Quality.DUAL);
 //        mConfig.setState(1);
 
+
+
         dual_preview_view.init(liveConfig, new LiveCallBack() {
             @Override
             public void startPushByData(byte[] buffer, int w, int h) {
 //                int returnCode = mLivePusher.sendCustomVideoData(buffer, TXLivePusher.YUV_420P, w, h);
 //                if (returnCode != 0) Log.e(TAG, "push error code = " + returnCode);
+                System.out.println("123");
             }
 
             @Override
