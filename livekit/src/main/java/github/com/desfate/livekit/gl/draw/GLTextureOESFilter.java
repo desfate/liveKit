@@ -163,8 +163,12 @@ public class GLTextureOESFilter {
 
     // 这个绘制完成后会提交给推流服务 注意 这个和本地预览会相互影响
     private void draw(int textureId) {
+        // FIXME: 2021/3/25 提交给服务器的数据要做一次处理  需要把2560 * 720 的数据填充满 1920 1080 / 1280 720 的显示区域中
 
-        GLES20.glViewport(0, 0, mOutputWidth, mOutputHeight);
+
+        // 这里是需要绘制输出的部分  上传到腾讯服务器上的时候最大只支持1920 1080
+        GLES20.glViewport(0, 0, 1920, 1080);
+//        GLES20.glViewport(0, 0, mOutputWidth, mOutputHeight);
         GLES20.glClearColor(0.F, 0.F, 0.F, 1.F);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
@@ -197,6 +201,11 @@ public class GLTextureOESFilter {
 //        Matrix.rotateM(mModeMatrix, 0, 90, 1, 0, 0);
         // 将两个矩阵相乘 mMVPMatrix 是结果
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModeMatrix, 0);
+
+        // 这个结果进行一次变换
+        fill(mMVPMatrix, mOutputWidth, mOutputHeight, 1920, 1080);
+
+
         // 通过一致变量（uniform修饰的变量）引用将一致变量值传入渲染管线
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
@@ -257,6 +266,48 @@ public class GLTextureOESFilter {
             GLES20.glDeleteTextures(1, textureID, 0);
             mFrameBufferTextureID = INVALID_TEXTURE_ID;
         }
+    }
+
+    /**
+     * 将输入的数据通过变换转换成指定数据输出
+     * @param MVPMatrix    视频数组
+     * @param videoWidth   输入视频宽度
+     * @param videoHeight  输入视频高度
+     * @param viewWidth    输出视频宽度
+     * @param viewHeight   输出视频高度
+     */
+    private void fill(float[] MVPMatrix, int videoWidth, int videoHeight, int viewWidth, int viewHeight) {
+        // 这里是采集的数据源宽高
+        int scaleWidth  = videoWidth;
+        int scaleHeight = videoHeight;
+
+        // 这里是需要显示的view和采集的数据的比例
+        float ratioWidth  =  viewWidth * 1.0f / scaleWidth;
+        float ratioHeight =  viewHeight * 1.0f / scaleHeight;
+
+//        float ratio;
+//        if (ratioWidth * scaleHeight > viewHeight) {
+//            ratio = ratioHeight;
+//        } else {
+//            ratio = ratioWidth;
+//        }
+
+        Matrix.setIdentityM(mModeMatrix, 0);
+        // 这里做一次缩放 来匹配view和采集的数据
+        Matrix.scaleM(mModeMatrix, 0, ratioWidth * 1.0f , ratioHeight * 1.0f, 1);
+        /**
+         * float[] m 参数 : 生成矩阵元素的 float[] 数组
+         * int mOffset 参数 : 矩阵数组的起始偏移量;
+         * float left, float right, float bottom, float top 参数 : 近平面的 左, 右, 下, 上 的值;
+         * float near 参数 : 近平面 与 视点之间的距离;
+         * float far 参数 : 远平面 与 视点之间的距离;
+         */
+//        if (viewWidth > viewHeight) {
+//            Matrix.orthoM(mProjectionMatrix, 0, -1f, 1f, -1f, 1f, -1f, 1f);  // 正交投影
+//        } else {
+//            Matrix.orthoM(mProjectionMatrix, 0, -1f, 1f, -1f, 1f, -1f, 1f);
+//        }
+//        Matrix.multiplyMM(MVPMatrix, 0, mProjectionMatrix, 0, mModeMatrix, 0);  // 将两个4x4矩阵相乘，并将结果存储在第三个4x4矩阵中
     }
 
 }
