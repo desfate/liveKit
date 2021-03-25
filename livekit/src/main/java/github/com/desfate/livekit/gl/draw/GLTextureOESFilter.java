@@ -203,8 +203,7 @@ public class GLTextureOESFilter {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModeMatrix, 0);
 
         // 这个结果进行一次变换
-        fill(mMVPMatrix, mOutputWidth, mOutputHeight, 1920, 1080);
-        GLES20.glViewport(0, 0, 1920, 1080);
+//        fill(mMVPMatrix, mOutputWidth, mOutputHeight, 1920, 1080);
 
         // 通过一致变量（uniform修饰的变量）引用将一致变量值传入渲染管线
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
@@ -233,7 +232,7 @@ public class GLTextureOESFilter {
         Log.d(TAG, "frameBuffer id = " + mFrameBufferID + ", texture id = " + mFrameBufferTextureID);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mFrameBufferTextureID);
         EglCore.checkGlError("glBindTexture mFrameBufferTextureID");
-        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mOutputWidth, mOutputHeight, 0,
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 2560, 720, 0,
                 GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER,
                 GLES20.GL_LINEAR);
