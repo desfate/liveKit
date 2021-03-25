@@ -149,8 +149,8 @@ public class GLTextureOESFilter {
             return;
         }
         Log.d(TAG, "Output resolution change: " + mOutputWidth + "*" + mOutputHeight + " -> " + width + "*" + height);
-        mOutputWidth = width;
-        mOutputHeight = height;
+        mOutputWidth = 2560;
+        mOutputHeight = 720;
 
 //        if (width > height) {
 //            Matrix.orthoM(mProjectionMatrix, 0, - 1.f, 1.f, -1f, 1f, -1f, 1f);
@@ -202,9 +202,8 @@ public class GLTextureOESFilter {
         // 将两个矩阵相乘 mMVPMatrix 是结果
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModeMatrix, 0);
 
-        // 这个结果进行一次变换
+//        // 这个结果进行一次变换
 //        fill(mMVPMatrix, mOutputWidth, mOutputHeight, 1920, 1080);
-
         // 通过一致变量（uniform修饰的变量）引用将一致变量值传入渲染管线
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mSTMatrix, 0);
@@ -232,7 +231,7 @@ public class GLTextureOESFilter {
         Log.d(TAG, "frameBuffer id = " + mFrameBufferID + ", texture id = " + mFrameBufferTextureID);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mFrameBufferTextureID);
         EglCore.checkGlError("glBindTexture mFrameBufferTextureID");
-        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 2560, 720, 0,
+        GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, mOutputWidth, mOutputHeight, 0,
                 GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, null);
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER,
                 GLES20.GL_LINEAR);
