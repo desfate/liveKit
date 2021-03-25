@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
+import android.view.TextureView;
 import android.view.WindowManager;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -28,7 +30,7 @@ import github.com.desfate.livekit.utils.JobExecutor;
  */
 public class PreviewDualCameraView extends BaseLiveView{
 
-
+    TextureView textureView = null;  //   背屏渲染
     M3dDrawerControl m3dDrawerControl;
 
     private LiveConfig liveConfig;//      直播配置数据
@@ -52,31 +54,58 @@ public class PreviewDualCameraView extends BaseLiveView{
 //        m3dDrawerControl.initGLFactory();
         mJobExecutor = new JobExecutor();
         this.liveConfig = liveConfig;
-        control = new LivePushControl.LivePushControlBuilder()
-                .setContext(getContext())
-                .setLiveConfig(liveConfig)
-                .setSurfaceTexture(getmSurfaceTexture())
-                .setLiveCallBack(liveCallBack)
-                .setFocusView(null)
-                .setCameraErrorCallBack(new CameraErrorCallBack() {
-                    @Override
-                    public void onCameraOpenSuccess(CameraInfo info) {
-                        mJobExecutor.execute(new JobExecutor.Task<Void>() {
-                            @Override
-                            public void onMainThread(Void result) {
-                                super.onMainThread(result);
-//                                getHolder().setFixedSize(2944, 1104);
-                                setAspectRatio(mAspectRatio);
-                            }
-                        });
-                    }
+        if(liveConfig.getLivePushType() == LiveConstant.LIVE_PUSH_DATA){  // 数据推送
+            control = new LivePushControl.LivePushControlBuilder()
+                    .setContext(getContext())
+                    .setLiveConfig(liveConfig)
+                    .setSurfaceTexture(getmSurfaceTexture())
+                    .setLiveCallBack(liveCallBack)
+                    .setFocusView(null)
+                    .setCameraErrorCallBack(new CameraErrorCallBack() {
+                        @Override
+                        public void onCameraOpenSuccess(CameraInfo info) {
+                            mJobExecutor.execute(new JobExecutor.Task<Void>() {
+                                @Override
+                                public void onMainThread(Void result) {
+                                    super.onMainThread(result);
+                                    setAspectRatio(mAspectRatio);
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void onCameraOpenError(CameraInfo info, int error) {
+                        @Override
+                        public void onCameraOpenError(CameraInfo info, int error) {
 
-                    }
-                })
-                .build();
+                        }
+                    })
+                    .build();
+        }else{  // texture 推送
+            textureView = new TextureView(getContext());
+            control = new LivePushControl.LivePushControlBuilder()
+                    .setContext(getContext())
+                    .setLiveConfig(liveConfig)
+                    .setSurfaceTexture(textureView.getSurfaceTexture())   // 这个textureView并不显示   这个是作为背屏渲染模块
+                    .setTextureView(textureView)
+                    .setLiveCallBack(liveCallBack)
+                    .setCameraErrorCallBack(new CameraErrorCallBack() {
+                        @Override
+                        public void onCameraOpenSuccess(CameraInfo info) {
+                            mJobExecutor.execute(new JobExecutor.Task<Void>() {
+                                @Override
+                                public void onMainThread(Void result) {
+                                    super.onMainThread(result);
+                                    setAspectRatio(mAspectRatio);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCameraOpenError(CameraInfo info, int error) {
+
+                        }
+                    })
+                    .build();
+        }
     }
 
     /**
