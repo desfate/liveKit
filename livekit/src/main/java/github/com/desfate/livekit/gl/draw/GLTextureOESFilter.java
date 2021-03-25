@@ -204,7 +204,7 @@ public class GLTextureOESFilter {
 
         // 这个结果进行一次变换
         fill(mMVPMatrix, mOutputWidth, mOutputHeight, 1920, 1080);
-
+        GLES20.glViewport(0, 0, 1920, 1080);
 
         // 通过一致变量（uniform修饰的变量）引用将一致变量值传入渲染管线
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
