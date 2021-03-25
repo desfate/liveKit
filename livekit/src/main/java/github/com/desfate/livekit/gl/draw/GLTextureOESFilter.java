@@ -167,7 +167,7 @@ public class GLTextureOESFilter {
 
 
         // 这里是需要绘制输出的部分  上传到腾讯服务器上的时候最大只支持1920 1080
-        GLES20.glViewport(0, 0, 1280, 720);
+        GLES20.glViewport(0, 0, mOutputWidth, mOutputHeight);
 //        GLES20.glViewport(0, 0, mOutputWidth, mOutputHeight);
         GLES20.glClearColor(0.F, 0.F, 0.F, 1.F);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -203,7 +203,7 @@ public class GLTextureOESFilter {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModeMatrix, 0);
 
         // 这个结果进行一次变换
-        fill(mMVPMatrix, mOutputWidth, mOutputHeight, 1280, 720);
+        fill(mMVPMatrix, mOutputWidth, mOutputHeight, 1920, 1080);
 
 
         // 通过一致变量（uniform修饰的变量）引用将一致变量值传入渲染管线
