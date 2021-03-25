@@ -295,13 +295,14 @@ public class CameraEngine implements CameraInterface {
 
         mCaptureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         OutputConfiguration surface = new OutputConfiguration(mSurface);  // 预览的surface
+        OutputConfiguration frameSurface = new OutputConfiguration(mFrameBufferSurface);
         OutputConfiguration imageSurface = new OutputConfiguration(mImageReader.getSurface());  // 拍照的surface
         mCaptureBuilder.addTarget(mSurface);
         if(mFrameBufferSurface != null) {
             mCaptureBuilder.addTarget(mFrameBufferSurface);
         }
         mCaptureBuilder.addTarget(mImageReader.getSurface());
-        List<OutputConfiguration> outputConfigsAll = Arrays.asList(surface, imageSurface);
+        List<OutputConfiguration> outputConfigsAll = Arrays.asList(surface, frameSurface, imageSurface);
         SessionConfiguration sessionConfiguration = new SessionConfiguration(
                 SessionConfiguration.SESSION_REGULAR,
                 outputConfigsAll,
