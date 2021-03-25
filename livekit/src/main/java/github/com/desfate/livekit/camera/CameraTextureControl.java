@@ -102,22 +102,23 @@ public class CameraTextureControl implements LivePushInterface {
      */
     @Override
     public void startPreview() {
+        // 开启相机  开始预览
+        mCameraClient.getCamera().openCamera(cameraInfo);
+    }
+
+    /**
+     * 开始推流  这个属于后台推流  推流数据不显示
+     */
+    @Override
+    public void startPush() {
+        isPusher = true;
         if (mIsSending) return;
         //启动一个 OpenGL 线程，该线程用于定时 sendCustomVideoData()
         mGLThread = new GLThread();
         mGLThread.setListener(textureListener);
         mGLThread.start();
         mIsSending = true;
-
         mRender.start(textureView);// 自定义渲染器与渲染的 View 绑定
-    }
-
-    /**
-     * 开始推流
-     */
-    @Override
-    public void startPush() {
-        isPusher = true;
     }
 
     /**
