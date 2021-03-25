@@ -40,7 +40,12 @@ public class CameraTextureControl implements LivePushInterface {
     boolean isPusher = false;  // 是否开始推流
 
 
-    public CameraTextureControl(Context context, CameraInfo cameraInfo , TextureView textureView,LiveCallBack callBack, CameraErrorCallBack errorCallBack)  {
+    public CameraTextureControl(Context context
+            , CameraInfo cameraInfo
+            , TextureView textureView
+            , SurfaceTexture surfaceTexture
+            , LiveCallBack callBack
+            , CameraErrorCallBack errorCallBack)  {
         this.mContext = context;
         this.cameraInfo = cameraInfo;
         this.callBack = callBack;
@@ -48,7 +53,7 @@ public class CameraTextureControl implements LivePushInterface {
         mIsSending = false;
         mCameraClient = new CameraClient.CameraClientBuilder()
                 .setCameraErrorCallBack(errorCallBack)
-                .setSurfaceTexture(textureView.getSurfaceTexture())
+                .setSurfaceTexture(surfaceTexture)
                 .setContext(context)
                 .setmOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
                     @Override
@@ -103,7 +108,7 @@ public class CameraTextureControl implements LivePushInterface {
     @Override
     public void startPreview() {
         // 开启相机  开始预览
-        mCameraClient.getCamera().openCamera(cameraInfo);
+//        mCameraClient.getCamera().openCamera(cameraInfo);
     }
 
     /**

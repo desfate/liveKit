@@ -84,8 +84,8 @@ public class PreviewDualCameraView extends BaseLiveView{
             control = new LivePushControl.LivePushControlBuilder()
                     .setContext(getContext())
                     .setLiveConfig(liveConfig)
-                    .setSurfaceTexture(textureView.getSurfaceTexture())   // 这个textureView并不显示   这个是作为背屏渲染模块
-                    .setTextureView(textureView)
+                    .setSurfaceTexture(getmSurfaceTexture())// 这个SurfaceTexture是作为预览的
+                    .setTextureView(textureView)            // 这个textureView并不显示   这个是作为离屏渲染模块
                     .setLiveCallBack(liveCallBack)
                     .setCameraErrorCallBack(new CameraErrorCallBack() {
                         @Override

@@ -51,7 +51,7 @@ public class LivePushControl{
             } else {
                 // 通过texture模式推流
                 cameraInfo = LiveUtils.LiveTextureCameraAdapter(builder.context, builder.liveConfig);
-                mControl = new CameraTextureControl(builder.context, cameraInfo, builder.textureView,  builder.liveCallBack, builder.cameraErrorCallBack);
+                mControl = new CameraTextureControl(builder.context, cameraInfo, builder.textureView, builder.surfaceTexture, builder.liveCallBack, builder.cameraErrorCallBack);
             }
         }
     }

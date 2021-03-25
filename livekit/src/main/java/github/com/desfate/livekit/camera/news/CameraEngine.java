@@ -67,6 +67,7 @@ public class CameraEngine implements CameraInterface {
     private ImageReader mImageReader; //                            相机采集纹理预览数据
 
     private Surface mSurface; //                                    页面的Surface
+    private Surface mFrameBufferSurface; //                         离屏渲染Surface FBO
 
     private DualRequestKey dualControl;//                           双摄输出控制器
 
@@ -86,6 +87,7 @@ public class CameraEngine implements CameraInterface {
     private FocusStateCallback mFocusStateCallback;//                                                     对焦模式变化接口
     private ImageReader.OnImageAvailableListener mOnImageAvailableListener; //                           相机预览数据的回调接口
     private SurfaceTexture surfaceTexture; //                                                            相机纹理信息
+    private SurfaceTexture frameBufferSurfaceTexture; //                                                 离屏渲染纹理信息
     private CameraErrorCallBack cameraCallBack;//                                                        相机运行时的一些问题回调
 
     private CameraEngine(Context context, CameraEngineBuilder builder) {
@@ -109,6 +111,7 @@ public class CameraEngine implements CameraInterface {
         this.mOnImageAvailableListener = builder.mOnImageAvailableListener;
         this.surfaceTexture = builder.mSurfaceTexture;
         this.cameraCallBack = builder.cameraCallBack;
+        this.frameBufferSurfaceTexture = builder.mFrameSurfaceTexture;
     }
 
     /**
@@ -173,9 +176,13 @@ public class CameraEngine implements CameraInterface {
         });
     }
 
+    /**
+     * 添加离屏渲染部分
+     * @param surfaceTexture
+     */
     @Override
     public void addSurfaceTexture(SurfaceTexture surfaceTexture) {
-        this.surfaceTexture = surfaceTexture;
+        this.frameBufferSurfaceTexture = surfaceTexture;
     }
 
     @Override
@@ -251,6 +258,9 @@ public class CameraEngine implements CameraInterface {
             e.printStackTrace();
         } finally {
             surfaceTexture.setDefaultBufferSize(info.getDefaultBufferSize().getWidth(), info.getDefaultBufferSize().getHeight());
+            if(frameBufferSurfaceTexture != null){
+                frameBufferSurfaceTexture.setDefaultBufferSize(info.getDefaultBufferSize().getWidth(), info.getDefaultBufferSize().getHeight());
+            }
             // imageReader 能不能决定采集到的数据宽高
             // 经过测试  发现 ImageReader 输出宽高是可以修改 ， 但是要依据相机参数 ， 它会自动匹配对应最合适的相机参数
             mImageReader = ImageReader.newInstance(info.getImageBufferSize().getWidth(), info.getImageBufferSize().getHeight(), ImageFormat.YUV_420_888, 1);
@@ -279,11 +289,17 @@ public class CameraEngine implements CameraInterface {
             Log.d(TAG, "surfaceTexture == null !!! new surfaceTexture");
         }
         if (mSurface == null) mSurface = new Surface(surfaceTexture);
+        if (frameBufferSurfaceTexture != null) {  // 需要离屏渲染
+            mFrameBufferSurface = new Surface(frameBufferSurfaceTexture);
+        }
 
         mCaptureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         OutputConfiguration surface = new OutputConfiguration(mSurface);  // 预览的surface
         OutputConfiguration imageSurface = new OutputConfiguration(mImageReader.getSurface());  // 拍照的surface
         mCaptureBuilder.addTarget(mSurface);
+        if(mFrameBufferSurface != null) {
+            mCaptureBuilder.addTarget(mFrameBufferSurface);
+        }
         mCaptureBuilder.addTarget(mImageReader.getSurface());
         List<OutputConfiguration> outputConfigsAll = Arrays.asList(surface, imageSurface);
         SessionConfiguration sessionConfiguration = new SessionConfiguration(
@@ -434,8 +450,9 @@ public class CameraEngine implements CameraInterface {
 
         Context context;
         private FocusStateCallback mFocusStateCallback;//                                                     对焦模式变化接口
-        private ImageReader.OnImageAvailableListener mOnImageAvailableListener; //                           相机预览数据的回调接口
+        private ImageReader.OnImageAvailableListener mOnImageAvailableListener; //                            相机预览数据的回调接口
         private SurfaceTexture mSurfaceTexture;//                                                             相机纹理信息
+        private SurfaceTexture mFrameSurfaceTexture; //                                                        离屏渲染纹理信息  （不一定有）
         private CameraErrorCallBack cameraCallBack;//                                                         相机运行时的一些报错
 
         public CameraEngineBuilder(Context context) {
@@ -459,6 +476,11 @@ public class CameraEngine implements CameraInterface {
 
         public CameraEngineBuilder setCameraCallBack(CameraErrorCallBack cameraCallBack) {
             this.cameraCallBack = cameraCallBack;
+            return this;
+        }
+
+        public CameraEngineBuilder setFrameSurfaceTexture(SurfaceTexture frameSurfaceTexture) {
+            this.mFrameSurfaceTexture = frameSurfaceTexture;
             return this;
         }
 
