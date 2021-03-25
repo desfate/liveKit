@@ -83,9 +83,9 @@ public class CameraTextureControl implements LivePushInterface {
                 callBack.startPushByTextureId(textureId, cameraInfo.getImageBufferSize().getWidth(), cameraInfo.getImageBufferSize().getHeight());
             }
 
-            if (mRender.getRenderFrame() != null) {
-                mRender.getRenderFrame().onRenderVideoFrame(textureId, eglContext);
-            }
+//            if (mRender.getRenderFrame() != null) {
+//                mRender.getRenderFrame().onRenderVideoFrame(textureId, eglContext);  // 这是本地预览的绘制  暂时不用这边绘制  用本地相机直出的数据绘制
+//            }
             return textureId;
         }
 
