@@ -30,7 +30,7 @@ public class DualRequestKey {
 
     private static final int[] VSDOF_KEY_VALUE = new int[]{1};
     private static final int[] PREVIEW_SIZE_KEY_VALUE = new int[]{1080,1920};
-    private static final int LEVEL_DEFAULT = 7;
+    private static final int LEVEL_DEFAULT = 4;
     private int mCurrentLevel = LEVEL_DEFAULT;
     private static int[] CURRENT_DOFLEVEL_VALUE = new int[]{LEVEL_DEFAULT};
     private static final int DUAL_CAMERA_TOO_FAR = 1 << 31;
