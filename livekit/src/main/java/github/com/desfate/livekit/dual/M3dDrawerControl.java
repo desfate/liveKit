@@ -124,10 +124,12 @@ public class M3dDrawerControl {
 //            Holography.HolographyInit(bufferWidth, bufferHeight);
 //            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         }
-        if(isRotate) {
+        if(isRotate) {  // 我是推流预览
             surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight());
-        }else{
-            surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight() * 2);
+        }else{  // 我是拉流预览
+//            surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight() * 2);
+            // 拉流时surface大小一般为直播需要显示的大小
+            surfaceView.getmSurfaceTexture().setDefaultBufferSize(viewSize.getWidth(), viewSize.getHeight());
         }
         refreshView();
 
