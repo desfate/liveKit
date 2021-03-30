@@ -142,7 +142,6 @@ public class CameraDemoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 CameraInfo cameraInfo = new CameraInfo.CameraBuilder()
-                        .setCameraFront(cameraList.get(nowCamera) ? 1 : 2)
                         .setLogicCameraId(Integer.parseInt(selectedCameraId))
                         .setDefaultBufferSize(new Size(1920, 1080))
                         .setImageBufferSize(new Size(1920, 1080))
@@ -172,7 +171,6 @@ public class CameraDemoActivity extends AppCompatActivity {
                         .build();
 
                 CameraInfo cameraInfo = new CameraInfo.CameraBuilder()
-                        .setCameraFront(1)
                         .setLogicCameraId(Integer.parseInt(selectedCameraId))
                         .setDefaultBufferSize(new Size(1920, 1080))
                         .setImageBufferSize(new Size(1920, 1080))
@@ -215,7 +213,6 @@ public class CameraDemoActivity extends AppCompatActivity {
                         .build();
 
                 CameraInfo cameraInfo = new CameraInfo.CameraBuilder()
-                        .setCameraFront(1)
                         .setLogicCameraId(Integer.parseInt(selectedCameraId))
                         .setDefaultBufferSize(new Size(1920, 1080))
                         .setImageBufferSize(new Size(1920, 1080))

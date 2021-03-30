@@ -71,6 +71,13 @@
         <activity android:name=".DualCameraTextureActivity"
             android:screenOrientation="landscape">
         </activity>
+
+
+        <activity android:name=".DualCameraTestActivity">
+        </activity>
+
+        <activity android:name=".DualCameraPreviewActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -26,7 +26,7 @@ public class LivePlayView extends BaseLiveView {
 
     private CameraDrawer mDrawer; //                    opengl渲染代码
     private CameraChangeCallback callBack;//            数据返回
-    private JobExecutor mJobExecutor;//   线程池
+    private JobExecutor mJobExecutor;//                 线程池
 
     public LivePlayView(Context context) {
         super(context);

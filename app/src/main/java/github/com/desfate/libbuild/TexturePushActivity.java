@@ -21,7 +21,7 @@ import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.live.LiveCallBack;
-import github.com.desfate.livekit.live.LiveConfig;
+import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
 import github.com.desfate.livekit.utils.LiveSupportUtils;
 
@@ -58,7 +58,7 @@ public class TexturePushActivity extends AppCompatActivity {
         switchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (liveConfig.getPushCameraType() == 1) {
+                if (liveConfig.isFront()) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  // 切换为横屏
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  // 切换为竖屏
@@ -73,15 +73,15 @@ public class TexturePushActivity extends AppCompatActivity {
         // 开启自定义视频采集
         mLivePushConfig.setCustomModeType(TXLiveConstants.CUSTOM_MODE_VIDEO_CAPTURE);
         mLivePushConfig.setVideoEncodeGop(5);
-        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_TEXTURE);//       texture 模式
+        liveConfig.setLivePushType(LiveConstant.LivePushType.TEXTURE);//       texture 模式
 
         switch (pushSize){
             case 1:
-                liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_720);
+                liveConfig.setLiveQuality(LiveConstant.LiveQuality.LIVE_720P);
                 mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_720_1280);
                 break;
             case 2:
-                liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_1080);
+                liveConfig.setLiveQuality(LiveConstant.LiveQuality.LIVE_1080P);
                 mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1080_1920);
                 break;
         }

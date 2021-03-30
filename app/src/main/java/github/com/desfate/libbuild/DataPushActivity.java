@@ -21,7 +21,7 @@ import com.tencent.rtmp.TXLivePusher;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.ui.DataLivePushView;
-import github.com.desfate.livekit.live.LiveConfig;
+import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.utils.LiveSupportUtils;
 
 /**
@@ -61,7 +61,7 @@ public class DataPushActivity extends AppCompatActivity {
         switchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (liveConfig.getPushCameraType() == 1) {
+                if (liveConfig.isFront()) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  // 切换为横屏
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  // 切换为竖屏
@@ -91,15 +91,15 @@ public class DataPushActivity extends AppCompatActivity {
                 mLivePushConfig.setVideoFPS(60);
                 break;
         }
-        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_DATA);  // 采用byte[]推流模式
+        liveConfig.setLivePushType(LiveConstant.LivePushType.DATA);  // 采用byte[]推流模式
         switch (pushSize){
             case 1:
-                liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_720);
+                liveConfig.setLiveQuality(LiveConstant.LiveQuality.LIVE_720P);
                 //  这个参数很关键  ！！！！    这个宽高数据必须和你通过Data上传的每帧数据相同
                 mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1280_720);
                 break;
             case 2:
-                liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_1080);
+                liveConfig.setLiveQuality(LiveConstant.LiveQuality.LIVE_1080P);
                 //  这个参数很关键  ！！！！    这个宽高数据必须和你通过Data上传的每帧数据相同
                 mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1920_1080);
                 break;

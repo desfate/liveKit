@@ -3,7 +3,6 @@ package github.com.desfate.livekit.live;
 import android.content.Context;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
-import android.os.Build;
 import android.util.Log;
 import android.util.Size;
 
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import github.com.desfate.livekit.CameraConstant;
+import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.news.CameraInfo;
 import github.com.desfate.livekit.camera.news.CameraUtils;
@@ -35,30 +35,40 @@ public class LiveUtils {
             Log.e(TAG, "liveConfig == null please set a value");
             return null;
         }
-        //  摄像头方向
-        int cameraFront = liveConfig.getPushCameraType();
-        //  直播需要的摄像头size
-        Size cameraSize =  LiveSupportUtils.getCameraBestSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, liveConfig.getLiveQuality());
-        int logicCameraId = liveLogicCameraId(context, cameraFront);
-
-        int state = 1;  // 普通
-        if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
-            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_ID;
-            state = 2;  // 双摄
-            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
-        } else if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL_FRONT){  // 前置双摄推流
-            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_FRONT_ID;
-            state = 2;
-            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
-        }
-
-        return new CameraInfo.CameraBuilder()
-                .setCameraFront(cameraFront)
-                .setDefaultBufferSize(cameraSize)
-                .setImageBufferSize(cameraSize)
-                .setLogicCameraId(logicCameraId)
-                .setState(state)
-                .build();
+//        //  摄像头方向
+//        int cameraFront = liveConfig.getPushCameraType();
+//
+//        boolean isFront = true;
+//        if(LiveConstant.LIVE_CAMERA_FRONT == cameraFront){
+//            isFront = true;
+//        }else if(LiveConstant.LIVE_CAMERA_DUAL_FRONT == cameraFront){
+//            isFront = true;
+//        }else{
+//            isFront = false;
+//        }
+//        //  直播需要的摄像头size
+//        Size cameraSize =  LiveSupportUtils.getCameraBestSize(isFront, liveConfig.getLiveQuality());
+//        int logicCameraId = liveLogicCameraId(context, cameraFront);
+//
+//        int state = CameraConstant.CAMERA_STATE_NORMAL;  // 普通
+//        if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+//            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_ID;
+//            state = CameraConstant.CAMERA_STATE_DUAL;  // 双摄
+//            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
+//        } else if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL_FRONT){  // 前置双摄推流
+//            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_FRONT_ID;
+//            state = CameraConstant.CAMERA_STATE_DUAL;
+//            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
+//        }
+//
+//        return new CameraInfo.CameraBuilder()
+//                .setCameraFront(cameraFront)
+//                .setDefaultBufferSize(cameraSize)
+//                .setImageBufferSize(cameraSize)
+//                .setLogicCameraId(logicCameraId)
+//                .setState(state)
+//                .build();
+        return null;
     }
 
     /**
@@ -71,26 +81,31 @@ public class LiveUtils {
             Log.e(TAG, "liveConfig == null please set a value");
             return null;
         }
-        //  摄像头方向
-        int cameraFront = liveConfig.getPushCameraType();
-        //  直播需要的摄像头size
-        Size cameraSize =  LiveSupportUtils.getCameraTextureSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, liveConfig.getLiveQuality());
-        int logicCameraId = liveLogicCameraId(context, cameraFront);
-
-        int state = 1;
-        if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
-            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_ID;
-            state = 2;
-            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
-        }
-
-        return new CameraInfo.CameraBuilder()
-                .setCameraFront(cameraFront)
-                .setDefaultBufferSize(cameraSize)
-                .setImageBufferSize(cameraSize)
-                .setLogicCameraId(logicCameraId)
-                .setState(state)
-                .build();
+//        //  摄像头方向
+//        int cameraFront = liveConfig.getPushCameraType();
+//        //  直播需要的摄像头size
+//        Size cameraSize =  LiveSupportUtils.getCameraTextureSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, liveConfig.getLiveQuality());
+//        int logicCameraId = liveLogicCameraId(context, cameraFront);
+//
+//        int state = CameraConstant.CAMERA_STATE_NORMAL;  // 普通
+//        if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL){  // 双摄推流 使用默认3号逻辑摄像头
+//            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_ID;
+//            state = CameraConstant.CAMERA_STATE_DUAL;  // 双摄
+//            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
+//        }else if(liveConfig.getPushCameraType() == LiveConstant.LIVE_CAMERA_DUAL_FRONT){  // 前置双摄推流
+//            logicCameraId = CameraConstant.DUAL_LOGIC_CAMERA_FRONT_ID;
+//            state = CameraConstant.CAMERA_STATE_DUAL;
+//            cameraSize = PreviewUtils.getPreviewSize(cameraFront == LiveConstant.LIVE_CAMERA_FRONT, PreviewConfig.Preview_Quality.DUAL);
+//        }
+//
+//        return new CameraInfo.CameraBuilder()
+//                .setCameraFront(cameraFront)
+//                .setDefaultBufferSize(cameraSize)
+//                .setImageBufferSize(cameraSize)
+//                .setLogicCameraId(logicCameraId)
+//                .setState(state)
+//                .build();
+        return null;
     }
 
     /**
@@ -100,28 +115,28 @@ public class LiveUtils {
      * @return 逻辑摄像头id
      */
     public static int liveLogicCameraId(Context context , int front){
-        try {
-            List<Integer> frontCamera = new ArrayList<>();  // 照理前置只有一个
-            List<Integer> backCamera = new ArrayList<>();   // 照理后置大于等于一
-            // 列出所有的逻辑id
-            String[] logicCameraIds = CameraUtils.getCameraLogicId(context);
-            for(String logicId : logicCameraIds){
-                int frontid = CameraUtils.getCameraFront(CameraUtils.getLogicCameraCharacteristics(context, logicId));
-                if(frontid == CameraCharacteristics.LENS_FACING_FRONT){
-                    frontCamera.add(Integer.parseInt(logicId));
-                }else if(frontid == CameraCharacteristics.LENS_FACING_BACK){
-                    backCamera.add(Integer.parseInt(logicId));
-                }
-            }
-            //这个理论上是要配置合适自己手机的规则
-            if(front == LiveConstant.LIVE_CAMERA_FRONT && frontCamera.size() > 0){ // 前置
-                return frontCamera.get(0);
-            }else if(front == LiveConstant.LIVE_CAMERA_BACK && backCamera.size() > 0){
-                return backCamera.get(0);
-            }
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            List<Integer> frontCamera = new ArrayList<>();  // 照理前置只有一个
+//            List<Integer> backCamera = new ArrayList<>();   // 照理后置大于等于一
+//            // 列出所有的逻辑id
+//            String[] logicCameraIds = CameraUtils.getCameraLogicId(context);
+//            for(String logicId : logicCameraIds){
+//                int frontid = CameraUtils.getCameraFront(CameraUtils.getLogicCameraCharacteristics(context, logicId));
+//                if(frontid == CameraCharacteristics.LENS_FACING_FRONT){
+//                    frontCamera.add(Integer.parseInt(logicId));
+//                }else if(frontid == CameraCharacteristics.LENS_FACING_BACK){
+//                    backCamera.add(Integer.parseInt(logicId));
+//                }
+//            }
+//            //这个理论上是要配置合适自己手机的规则
+//            if(front == LiveConstant.LIVE_CAMERA_FRONT && frontCamera.size() > 0){ // 前置
+//                return frontCamera.get(0);
+//            }else if(front == LiveConstant.LIVE_CAMERA_BACK && backCamera.size() > 0){
+//                return backCamera.get(0);
+//            }
+//        } catch (CameraAccessException e) {
+//            e.printStackTrace();
+//        }
         return 0;
     }
 }

@@ -1,14 +1,35 @@
 package github.com.desfate.livekit;
 
+/**
+ * 直播配置
+ */
 public class LiveConstant {
 
-    public final static int LIVE_PUSH_DATA = 1; // 直接推送图片数据
-    public final static int LIVE_PUSH_TEXTURE = 2;  // 根据textureId进行推送
+    /**
+     * 推流类型枚举
+     */
+    public enum LivePushType{
+        DATA,    //     直接推送图片数据
+        TEXTURE  //     根据textureId进行推送
+    }
 
-    public final static int LIVE_CAMERA_FRONT = 1;  //  前置推流
-    public final static int LIVE_CAMERA_BACK  = 2;  //  后置推流
-    public final static int LIVE_CAMERA_OUTS  = 3;  //  外部推流
-    public final static int LIVE_CAMERA_DUAL  = 4;  //  双摄推流（后置）
-    public final static int LIVE_CAMERA_DUAL_FRONT = 5; //  前置双摄推流
+    /**
+     * 当前直播类型
+     */
+    public enum LiveCameraType{
+        CAMERA_FRONT,     //   前置推流
+        CAMERA_BACK,       //  后置推流
+        CAMERA_DUAL_FRONT, //  前置双摄推流
+        CAMERA_DUAL_BACK//     双摄推流（后置）
+    }
+
+    /**
+     * 直播质量
+     */
+    public enum LiveQuality{
+        LIVE_1080P,   // 推流清晰度 1920 * 1080 / 1080 * 1920
+        LIVE_720P     // 推流清晰度 1280 * 720  / 720  * 1280
+    }
+
 
 }

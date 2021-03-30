@@ -2,6 +2,8 @@ package github.com.desfate.livekit.utils;
 
 import android.util.Size;
 
+import github.com.desfate.livekit.LiveConstant;
+
 public class LiveSupportUtils {
 
     private final static int DEFAULT_WIDTH = 1920;
@@ -19,21 +21,17 @@ public class LiveSupportUtils {
      * @return
      */
 
-    public static Size getCameraBestSize(boolean isFront, int liveType) {
+    public static Size getCameraBestSize(boolean isFront, LiveConstant.LiveQuality liveType) {
         int width = DEFAULT_WIDTH;
         int height = DEFAULT_HEIGHT;
         switch (liveType) {
-            case LIVE_SIZE_720:
+            case LIVE_720P:
                 width = 1280;
                 height = 720;
                 break;
-            case LIVE_SIZE_1080:
+            case LIVE_1080P:
                 width = 1920;
                 height = 1080;
-                break;
-            case LIVE_SIZE_2560:
-                width = 2560;
-                height = 1440;
                 break;
         }
         if(isFront){ // 前置宽小于高

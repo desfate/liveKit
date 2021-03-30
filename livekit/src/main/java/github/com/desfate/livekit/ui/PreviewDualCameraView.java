@@ -1,13 +1,9 @@
 package github.com.desfate.livekit.ui;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Display;
 import android.view.TextureView;
-import android.view.WindowManager;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -15,12 +11,10 @@ import javax.microedition.khronos.opengles.GL10;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.dual.M3dConfig;
 import github.com.desfate.livekit.dual.M3dDrawerControl;
 import github.com.desfate.livekit.live.LiveCallBack;
-import github.com.desfate.livekit.live.LiveConfig;
+import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
-import github.com.desfate.livekit.reders.DualCameraDrawer;
 import github.com.desfate.livekit.utils.JobExecutor;
 
 /**
@@ -54,7 +48,7 @@ public class PreviewDualCameraView extends BaseLiveView{
 //        m3dDrawerControl.initGLFactory();
         mJobExecutor = new JobExecutor();
         this.liveConfig = liveConfig;
-        if(liveConfig.getLivePushType() == LiveConstant.LIVE_PUSH_DATA){  // 数据推送
+        if(liveConfig.getLivePushType() == LiveConstant.LivePushType.DATA){  // 数据推送
             control = new LivePushControl.LivePushControlBuilder()
                     .setContext(getContext())
                     .setLiveConfig(liveConfig)
@@ -153,10 +147,16 @@ public class PreviewDualCameraView extends BaseLiveView{
         m3dDrawerControl.initGLFactory();
     }
 
-    public void setOriginal(boolean original){
-//        if(m3dDrawerControl != null) {
-//            m3dDrawerControl.setOriginal(original);
-//        }
+    public void setM3dDrawer(boolean isDraw){
+        if(m3dDrawerControl != null){
+            m3dDrawerControl.setDrawM3d(isDraw);
+        }
+    }
+
+    public void setFront(boolean front){
+        if(m3dDrawerControl != null){
+            m3dDrawerControl.setFront(front);
+        }
     }
 
 }

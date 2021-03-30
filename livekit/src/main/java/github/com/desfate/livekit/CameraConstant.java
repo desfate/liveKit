@@ -1,5 +1,8 @@
 package github.com.desfate.livekit;
 
+/**
+ * 相机的一系列固定值配置
+ */
 public final class CameraConstant {
 
     /**
@@ -9,18 +12,21 @@ public final class CameraConstant {
     public static final int radiusInnerSize = 30; // dp
     public static final int strokeWidthSize = 2;  // dp
 
+
+    public static int DUAL_LOGIC_CAMERA_ID = 3;            //   这是双摄后置指定的逻辑ID
+    public static int DUAL_LOGIC_CAMERA_FRONT_ID = 1;      //   这是双摄指定的前置逻辑ID
+    public static int DEFAULT_LOGIC_CAMERA_ID = 0;         //   这是默认开启的普通相机ID （后置）
+    public static int DEFAULT_LOGIC_CAMERA_FRONT_ID = 0;   //   这是默认开启的普通相机ID （前置）
+
     /**
-     * 相机摄像头相关配置
+     * 开启相机的状态
      */
-    public static final int CAMERA_FRONT = 2; // 前置
-    public static final int CAMERA_BACK  = 1; // 后置
-    public static final int CAMERA_OUT   = 3; // 外部
+    public enum CameraState{
+        CAMERA_FRONT,           //               前置相机
+        CAMERA_BACK,            //               后置相机
+        CAMERA_DUAL_FRONT,      //               前置双摄
+        CAMERA_DUAL_BACK        //               后置双摄
+    }
 
-    public static final int CAMERA_STATE_DUAL = 1; // 双摄
-    public static final int CAMERA_STATE_NORMAL = 0; // 普通预览模式
-
-    public static int DUAL_LOGIC_CAMERA_ID = 3;
-    public static int DUAL_LOGIC_CAMERA_FRONT_ID = 1;
-    public static int DEFAULT_LOGIC_CAMERA_ID = 0;
 
 }

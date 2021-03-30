@@ -2,9 +2,9 @@ package github.com.desfate.livekit.camera.news;
 
 import android.util.Size;
 
-public class CameraInfo {
+import github.com.desfate.livekit.CameraConstant;
 
-    private int cameraFront = 1; //        1: 前置摄像头 2： 后置摄像头
+public class CameraInfo {
 
     private int logicCameraId = 1; //      选择的逻辑相机id
 
@@ -14,8 +14,16 @@ public class CameraInfo {
 
     private Size ImageBufferSize; //       ImageReader 需要回调的图片大小
 
-    private int state = 1;//               1: normal 2: dual  (这个是为了适配双摄的情况 ！！！ 当前的解决方案是单逻辑摄像头唤起)
+    // 这个状态位包含了摄像头前后信息以及是否为双摄 （其实也包含了相机的逻辑id信息  但是这里还是分开处理）
+    private CameraConstant.CameraState state = CameraConstant.CameraState.CAMERA_DUAL_FRONT;
 
+    /**
+     * 当前是否是前置
+     * @return true 是前置 false 不是前置
+     */
+    public boolean isFront(){
+        return state ==  CameraConstant.CameraState.CAMERA_FRONT || state == CameraConstant.CameraState.CAMERA_DUAL_FRONT;
+    }
 
 
     public CameraInfo() {
@@ -23,7 +31,6 @@ public class CameraInfo {
     }
 
     private CameraInfo(CameraBuilder builder) {
-        cameraFront = builder.cameraFront;
         logicCameraId = builder.logicCameraId;
         physicsCameraId = builder.physicsCameraId;
         defaultBufferSize = builder.defaultBufferSize;
@@ -40,8 +47,6 @@ public class CameraInfo {
      */
     public static final class CameraBuilder {
 
-        private int cameraFront = 1; //        1: 前置摄像头 2： 后置摄像头
-
         private int logicCameraId = 1; //      选择的逻辑相机id
 
         private int physicsCameraId = 0; //    选择的物理相机id
@@ -50,13 +55,7 @@ public class CameraInfo {
 
         private Size imageBufferSize; //       ImageReader 需要回调的图片大小
 
-        private int state = 1; //              1: normal 2: dual  (这个是为了适配双摄的情况 ！！！ 当前的解决方案是单逻辑摄像头唤起)
-
-
-        public CameraBuilder setCameraFront(int cameraFront) {
-            this.cameraFront = cameraFront;
-            return this;
-        }
+        private CameraConstant.CameraState state = CameraConstant.CameraState.CAMERA_DUAL_FRONT;
 
 
         public CameraBuilder setLogicCameraId(int logicCameraId) {
@@ -80,17 +79,13 @@ public class CameraInfo {
             return this;
         }
 
-        public CameraBuilder setState(int state) {
+        public CameraBuilder setState(CameraConstant.CameraState state) {
             this.state = state;
             return this;
         }
 
         public CameraInfo build() {
             return new CameraInfo(this);}
-    }
-
-    public int getCameraFront() {
-        return cameraFront;
     }
 
     public int getLogicCameraId() {
@@ -109,7 +104,7 @@ public class CameraInfo {
         return ImageBufferSize;
     }
 
-    public int getState() {
+    public CameraConstant.CameraState getState() {
         return state;
     }
 }

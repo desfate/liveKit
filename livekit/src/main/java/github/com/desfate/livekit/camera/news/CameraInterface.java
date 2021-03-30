@@ -16,7 +16,10 @@ public interface CameraInterface {
      */
     void openCamera(CameraInfo info);
 
-
+    /**
+     * 离屏渲染纹理
+     * @param surfaceTexture 这个纹理用于 录像/直播推流
+     */
     void addSurfaceTexture(SurfaceTexture surfaceTexture);
 
     /**
@@ -43,15 +46,30 @@ public interface CameraInterface {
      */
     int focusState(); //     获取对焦状态
 
-
+    /**
+     * 设置自动对焦
+     */
     void autoFocus(); //    自动对焦
 
+    /**
+     * 调用手动对焦
+     * @param focusRect 点击自动对焦矩阵区域
+     * @param meteringRect 点击自动曝光区域
+     */
     void manualFocus(MeteringRectangle focusRect, MeteringRectangle meteringRect); //   手动对焦
 
     /****************************************************************  相机自带的属性 ***************************************************************************/
 
+    /**
+     * 获取当前相机信息
+     * @return
+     */
     CameraInfo getCameraInfo();  // 获取相机配置
 
+    /**
+     * 获取当前设备信息
+     * @return
+     */
     CameraCharacteristics getCameraCharacteristics(); // 获取当前设备信息
 
 }

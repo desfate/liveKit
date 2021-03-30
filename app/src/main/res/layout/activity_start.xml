@@ -30,13 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="双摄功能测试data" />
-    <Button
-        android:id="@+id/dual_texture_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="双摄功能测试texture" />
+        android:text="双摄功能测试" />
+
+<!--    <Button-->
+<!--        android:id="@+id/dual_texture_btn"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:text="双摄功能测试texture" />-->
 
     <Button
         android:id="@+id/live_btn"

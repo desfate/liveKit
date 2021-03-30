@@ -9,6 +9,8 @@ import androidx.annotation.RequiresApi;
 
 import java.util.List;
 
+import github.com.desfate.livekit.CameraSetting;
+
 public class DualRequestKey {
     public static final String VSDOF_KEY = "com.mediatek.multicamfeature.multiCamFeatureMode";
     public static final String STEREO_WARNING_KEY = "com.mediatek.stereofeature.stereowarning";

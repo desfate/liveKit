@@ -64,7 +64,7 @@ public class CameraTextureControl implements LivePushInterface {
                 })
                 .setmFocusStateCallback(null)
                 .build();
-        mRender = new RenderVideoFrame(cameraInfo.getDefaultBufferSize(), cameraInfo.getCameraFront() == 1);  //  绑定采集和渲染
+        mRender = new RenderVideoFrame(cameraInfo.getDefaultBufferSize(), cameraInfo.isFront());  //  绑定采集和渲染
     }
 
 

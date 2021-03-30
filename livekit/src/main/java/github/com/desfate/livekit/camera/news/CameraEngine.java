@@ -34,6 +34,7 @@ import java.util.Objects;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import github.com.desfate.livekit.CameraConstant;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.interfaces.FocusStateCallback;
 import github.com.desfate.livekit.dual.DualRequestKey;
@@ -43,6 +44,9 @@ import github.com.desfate.livekit.utils.LiveSupportUtils;
 
 /**
  * 相机核心  此核心基于  Camera2
+ * 这里考虑一个核心 支持 Camera2 以及 CameraX
+ * 考虑用工厂模式 初始化不同类型的核心 （这里是同类商品  所以用工厂模式）
+ *
  * 实现相机功能 向外暴露相关功能接口
  * <p>
  * Camera2 相机工作流程
@@ -51,6 +55,11 @@ import github.com.desfate.livekit.utils.LiveSupportUtils;
  * 2. CameraDevice                 ------ createCaptureRequest()                 创建相机请求 可以获得一个请求信息的建造者
  * 3. SessionConfiguration         ------ new（）                                 配置相机会话中，的配置信息 同时绑定例如ImageReader | Surface | SurfaceTexture （如果有相机物理id 则可以绑定多物理摄像头） // https://developer.android.google.cn/training/camera/multi-camera?hl=en
  * 4. CameraDevice                 ------ createCaptureSession()                 创建相机会话
+ *
+ * 按设计模式优化结构
+ * 接口隔离原则（Interface Segregation Principle，ISP） 处理 CameraInterface
+ * 单一职责原则（Single Responsibility Principle，SRP）又称单一功能原则
+ *
  */
 public class CameraEngine implements CameraInterface {
     private final static String TAG = "CameraEngine";
@@ -70,7 +79,6 @@ public class CameraEngine implements CameraInterface {
     private Surface mFrameBufferSurface; //                         离屏渲染Surface FBO
 
     private DualRequestKey dualControl;//                           双摄输出控制器
-
 
     private HandlerThread mBackgroundThread; //                     An additional thread for running tasks that shouldn't block the UI
     private Handler mBackgroundHandler; //                          for running tasks in the background
@@ -267,7 +275,9 @@ public class CameraEngine implements CameraInterface {
             mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
         }
 
-        if(info.getState() == 2){
+        // 如果是双摄模式下  这里要加入请求参数
+        if(info.getState() == CameraConstant.CameraState.CAMERA_DUAL_FRONT
+            || info.getState() == CameraConstant.CameraState.CAMERA_DUAL_BACK){
             dualControl = new DualRequestKey();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 dualControl.setAllKeys(mCameraCharacteristics);
@@ -295,14 +305,20 @@ public class CameraEngine implements CameraInterface {
 
         mCaptureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         OutputConfiguration surface = new OutputConfiguration(mSurface);  // 预览的surface
-        OutputConfiguration frameSurface = new OutputConfiguration(mFrameBufferSurface);
+
         OutputConfiguration imageSurface = new OutputConfiguration(mImageReader.getSurface());  // 拍照的surface
         mCaptureBuilder.addTarget(mSurface);
         if(mFrameBufferSurface != null) {
             mCaptureBuilder.addTarget(mFrameBufferSurface);
         }
         mCaptureBuilder.addTarget(mImageReader.getSurface());
-        List<OutputConfiguration> outputConfigsAll = Arrays.asList(surface, frameSurface, imageSurface);
+
+        List<OutputConfiguration> outputConfigsAll = Arrays.asList(surface, imageSurface);
+        if(mFrameBufferSurface != null){
+            OutputConfiguration frameSurface = new OutputConfiguration(mFrameBufferSurface);
+            outputConfigsAll = Arrays.asList(surface, frameSurface, imageSurface);
+        }
+
         SessionConfiguration sessionConfiguration = new SessionConfiguration(
                 SessionConfiguration.SESSION_REGULAR,
                 outputConfigsAll,
@@ -324,7 +340,10 @@ public class CameraEngine implements CameraInterface {
                         mCaptureBuilder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest
                                 .CONTROL_AE_MODE_ON_AUTO_FLASH);
 
-                        if(cameraInfo.getState() == 2 && dualControl != null) {
+                        // 如果是双摄模式 这里要记录信息
+                        if((cameraInfo.getState() == CameraConstant.CameraState.CAMERA_DUAL_FRONT
+                                || cameraInfo.getState() == CameraConstant.CameraState.CAMERA_DUAL_BACK)
+                                && dualControl != null) {
                             dualControl.setSpecialVendorTag(mCaptureBuilder);
                         }
 

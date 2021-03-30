@@ -7,25 +7,23 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.tencent.liteav.beauty.TXBeautyManager;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
-import github.com.desfate.libbuild.test.CameraToMpegTest;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.live.LiveCallBack;
-import github.com.desfate.livekit.live.LiveConfig;
+import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
-import github.com.desfate.livekit.ui.PreviewDualCameraView;
 import github.com.desfate.livekit.utils.LiveSupportUtils;
 
 /**
@@ -44,6 +42,8 @@ public class DualCameraTextureActivity extends AppCompatActivity {
     private TextView sign;
     private Button switchBtn;
 
+    private TXBeautyManager beautyManager;
+
     int pushSize = 1; // 1: 720P 2: 1080P
     int pushFrame = 1; // 1: 30FPS 2: 60FPS
 
@@ -58,10 +58,12 @@ public class DualCameraTextureActivity extends AppCompatActivity {
         mLivePusher = new TXLivePusher(this);//                   初始化腾讯推流对象
         mLivePushConfig = new TXLivePushConfig();//                       推流设置
 
+        beautyManager = mLivePusher.getBeautyManager();
+
         switchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (liveConfig.getPushCameraType() == 1) {
+                if (liveConfig.isFront()) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  // 切换为横屏
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  // 切换为竖屏
@@ -76,16 +78,16 @@ public class DualCameraTextureActivity extends AppCompatActivity {
         // 开启自定义视频采集
         mLivePushConfig.setCustomModeType(TXLiveConstants.CUSTOM_MODE_VIDEO_CAPTURE);
         mLivePushConfig.setVideoEncodeGop(5);
-        liveConfig.setPushCameraType(LiveConstant.LIVE_CAMERA_DUAL);//      后置双摄
-        liveConfig.setLivePushType(LiveConstant.LIVE_PUSH_TEXTURE);//       texture 模式
+        liveConfig.setPushCameraType(LiveConstant.LiveCameraType.CAMERA_DUAL_BACK);//      后置双摄
+        liveConfig.setLivePushType(LiveConstant.LivePushType.TEXTURE);//       texture 模式
 
         switch (pushSize){
             case 1:
-                liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_720);
+                liveConfig.setLiveQuality(LiveConstant.LiveQuality.LIVE_720P);
                 mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_720_1280);
                 break;
             case 2:
-                liveConfig.setLiveQuality(LiveSupportUtils.LIVE_SIZE_1080);
+                liveConfig.setLiveQuality(LiveConstant.LiveQuality.LIVE_1080P);
                 mLivePushConfig.setVideoResolution(TXLiveConstants.VIDEO_RESOLUTION_TYPE_1080_1920);
                 break;
         }
@@ -141,7 +143,7 @@ public class DualCameraTextureActivity extends AppCompatActivity {
         }else if(resultCode == 0){
             sign.setText("license 校验成功");
         }
-
+        setBeautyStyle(0,0,0,0);
         control.startPreview();
         control.startPush();
     }
@@ -163,5 +165,22 @@ public class DualCameraTextureActivity extends AppCompatActivity {
             txCloudVideoView.getLayoutParams().width = W;
             txCloudVideoView.getLayoutParams().height = W * 1920 / 1080;
         }
+    }
+
+
+
+    /**
+     * 设置美颜、美白、红润效果级别
+     *
+     * @param beautyStyle    美颜风格，三种美颜风格：0 ：光滑；1：自然；2：朦胧
+     * @param beautyLevel    美颜级别，取值范围 0 - 9； 0 表示关闭， 1 - 9值越大，效果越明显
+     * @param whitenessLevel 美白级别，取值范围 0 - 9； 0 表示关闭， 1 - 9值越大，效果越明显
+     * @param ruddinessLevel 红润级别，取值范围 0 - 9； 0 表示关闭， 1 - 9值越大，效果越明显
+     */
+    public boolean setBeautyStyle(int beautyStyle, int beautyLevel, int whitenessLevel, int ruddinessLevel) {
+        if (mLivePusher!= null) {
+            return mLivePusher.setBeautyFilter(beautyStyle, beautyLevel, whitenessLevel, ruddinessLevel);
+        }
+        return false;
     }
 }

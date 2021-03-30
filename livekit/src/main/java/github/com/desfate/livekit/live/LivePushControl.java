@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.view.TextureView;
 
+import github.com.desfate.livekit.CameraAdapter;
+import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.CameraDataControl;
 import github.com.desfate.livekit.camera.CameraTextureControl;
@@ -44,13 +46,12 @@ public class LivePushControl{
         this.context = builder.context;
         this.liveConfig = builder.liveConfig;
         if (liveConfig != null) {
-            if (liveConfig.getLivePushType() == LiveConstant.LIVE_PUSH_DATA) { //                          通过data 模式进行直播推流
-                cameraInfo = LiveUtils.LiveToCameraAdapter(builder.context, builder.liveConfig);
+            cameraInfo = CameraAdapter.liveConfigToCameraInfo(builder.liveConfig);
+            if (liveConfig.getLivePushType() == LiveConstant.LivePushType.DATA) { //                          通过data 模式进行直播推流
                 mControl = new CameraDataControl(builder.context, builder.surfaceTexture, cameraInfo, builder.liveCallBack, builder.cameraErrorCallBack);
                 focusControl = mControl.customerFocus(builder.focusView);  //                                             开启自定义对焦
             } else {
                 // 通过texture模式推流
-                cameraInfo = LiveUtils.LiveTextureCameraAdapter(builder.context, builder.liveConfig);
                 mControl = new CameraTextureControl(builder.context, cameraInfo, builder.textureView, builder.surfaceTexture, builder.liveCallBack, builder.cameraErrorCallBack);
             }
         }
@@ -65,7 +66,10 @@ public class LivePushControl{
         mControl.startPush();
     }
 
-    public void switchCamera() { mControl.switchCamera(LiveUtils.LiveToCameraAdapter(context, liveConfig.switchCameraFrontAndBack())); }
+    public void switchCamera() {
+        liveConfig.switchCamera();
+        mControl.switchCamera(CameraAdapter.liveConfigToCameraInfo(liveConfig));
+    }
 
     public void stopPush() {
         mControl.stopPush();
@@ -80,8 +84,6 @@ public class LivePushControl{
 
     public void focusViewChange(int width, int height){ if(mControl != null) mControl.focusViewChange(width, height);}
 
-    // Camera live info
-    public int getCameraState(){ if(liveConfig != null) return liveConfig.getPushCameraType(); else return LiveConstant.LIVE_CAMERA_FRONT ; }
 
 
     public static class LivePushControlBuilder {

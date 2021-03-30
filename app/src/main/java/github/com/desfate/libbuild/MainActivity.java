@@ -35,12 +35,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         live_btn = findViewById(R.id.live_btn);
         dual_btn = findViewById(R.id.dual_btn);
         test_btn = findViewById(R.id.test_btn);
-        dual_texture_btn = findViewById(R.id.dual_texture_btn);
+//        dual_texture_btn = findViewById(R.id.dual_texture_btn);
         camera_btn.setOnClickListener(this);
         live_btn.setOnClickListener(this);
         dual_btn.setOnClickListener(this);
         test_btn.setOnClickListener(this);
-        dual_texture_btn.setOnClickListener(this);
+//        dual_texture_btn.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -54,14 +54,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, TXMainActivity.class));
                 break;
             case R.id.dual_btn:
-                startActivity(new Intent(MainActivity.this, DualCameraActivity.class));
+                startActivity(new Intent(MainActivity.this, DualCameraTestActivity.class));
                 break;
             case R.id.test_btn:
                 startActivity(new Intent(MainActivity.this, TestActivity.class));
                 break;
-            case R.id.dual_texture_btn:
-                startActivity(new Intent(MainActivity.this, DualCameraTextureActivity.class));
-                break;
+//            case R.id.dual_texture_btn:
+//                startActivity(new Intent(MainActivity.this, DualCameraTextureActivity.class));
+//                break;
         }
     }
 }

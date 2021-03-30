@@ -16,7 +16,7 @@ import javax.microedition.khronos.opengles.GL10;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
 import github.com.desfate.livekit.live.LiveCallBack;
-import github.com.desfate.livekit.live.LiveConfig;
+import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
 import github.com.desfate.livekit.reders.CameraDrawer;
 import github.com.desfate.livekit.utils.LiveSupportUtils;
@@ -78,7 +78,7 @@ public class DataLivePushView extends BaseLiveView {
 
     @Override
     public void onDrawFrame(GL10 gl, int mSurfaceId) {
-        mDrawer.draw(mSurfaceId, liveConfig.getPushCameraType() == 1, getWidth(), getHeight());
+        mDrawer.draw(mSurfaceId, liveConfig.isFront(), getWidth(), getHeight());
     }
 
 
