@@ -45,6 +45,7 @@ public class M3dDrawerControl {
     private boolean isRotate = true;  // 播放时传的是false 采集时传的是true
     private boolean isFront = false;  // 现在又新增功能  是否前置绘制  如果是前置绘制  绘制旋转方式和参数都可能需要进行修改
     private boolean isDrawM3d = true;//  是否绘制3d部分
+    private boolean isChange = true; //  是否需要重新初始化绘制部分  因为前后摄像头切换会导致之前的参数失效
 
     public M3dDrawerControl(BaseLiveView surfaceView, boolean type) {
         this.surfaceView = surfaceView;
@@ -98,6 +99,9 @@ public class M3dDrawerControl {
             if(isRotate && !isFront) {
                 mDeviceMatrix.translate(1.0f, 0.0f, 0);
                 mDeviceMatrix.rotate(90, 0, 0, 1);
+            }else if(isFront) {
+                mDeviceMatrix.translate(0.0f, 0.0f, 0);
+                mDeviceMatrix.rotate(0, 0, 0, 1);
             }else{
                 mDeviceMatrix.translate(0.0f, 0.0f, 0);
                 mDeviceMatrix.rotate(0, 0, 0, 1);
@@ -112,7 +116,8 @@ public class M3dDrawerControl {
         bufferWidth = width;
         bufferHeight = height;
 
-        if (mFBO == null) {
+        if (mFBO == null && isChange) {
+            Holography.deinitHolography(); // 先释放一下
             // 防止framebuffer被重复创建  这是可以显示出3d大小的区域
             if(isRotate) {
                 mFBO = new FrameBufferOBJ(sessionSize.getWidth(), sessionSize.getHeight());
@@ -121,7 +126,7 @@ public class M3dDrawerControl {
             }
             mMidTexture = mFBO.getTexture();
             Holography.HolographyInit(viewSize.getWidth(), viewSize.getHeight());  // 1280 720
-
+            isChange = !isChange;
 //            Holography.HolographyInit(bufferWidth, bufferHeight);
 //            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         }
@@ -215,8 +220,25 @@ public class M3dDrawerControl {
         updateSurfaceVid = true;
     }
 
+    /**
+     *  切换了前后置摄像头  获取的值也要相应改变
+     * @param front true 前置 false 后置
+     */
     public void setFront(boolean front) {
-        isFront = front;
+        if(isFront != front){
+            isFront = front;
+            isChange = true;
+            mFBO.release();  // 这里要重新释放一下FBO
+            mFBO = null;
+        }
+
+        previewType = CameraSetting.getInstance().getPreviewType();
+        mAspectRatio = M3dConfig.getAspectRatio();
+        sessionSize = M3dConfig.getSessionSize(previewType);
+        viewSize = M3dConfig.getSurfaceViewSize(previewType);
+        // 这里照理应该重新初始化
+        surfaceView.getHolder().setFixedSize(viewSize.getWidth(), viewSize.getHeight());  // 修改texture宽高
+        surfaceView.setAspectRatio(mAspectRatio);
     }
 
     public void setDrawM3d(boolean drawM3d) {

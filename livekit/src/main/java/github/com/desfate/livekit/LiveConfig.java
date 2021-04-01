@@ -69,6 +69,7 @@ public class LiveConfig {
         }else{
             pushCameraType = LiveConstant.LiveCameraType.CAMERA_FRONT;
         }
+        CameraSetting.getInstance().setPreviewType(getPushCameraType());
     }
 
 

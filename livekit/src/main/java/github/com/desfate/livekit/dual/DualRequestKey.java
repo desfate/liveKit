@@ -140,4 +140,15 @@ public class DualRequestKey {
 //        configureBGService(builder);
     }
 
+
+    public void releaseTagKey(){
+        mVsdofKey = null;
+        mWarningKey = null;
+        mDofLevelKey =  null;
+        mPreviewSizeKey = null;
+        //xapi added, start
+        mXapiPrvFeatureKey = null;
+        mXapiCapFeatureKey = null;
+    }
+
 }

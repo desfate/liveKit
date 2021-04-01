@@ -1,10 +1,12 @@
 package github.com.desfate.libbuild;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,8 +31,6 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
 
     private Button switch_btn;
     private PreviewDualCameraView preview_view;
-    private boolean cameraState;
-
     private LivePushControl control;
 
     @Override
@@ -40,7 +40,7 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
         switch_btn = findViewById(R.id.switch_btn);
         preview_view = findViewById(R.id.preview_view);
         switch_btn.setOnClickListener(this);
-        CameraSetting.getInstance().setPreviewType(M3dConfig.Preview_type.PREVIEW_9TO16_DUAL);
+//        CameraSetting.getInstance().setPreviewType(M3dConfig.Preview_type.PREVIEW_9TO16_DUAL);
         settingTXConfig();
         settingCustomerConfig();
     }
@@ -49,15 +49,17 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         int id = v.getId();
         if(id == R.id.switch_btn){
-            control.switchCamera();
             // 这里切换需要进行横竖屏切换
-            if(liveConfig.isFront()){
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  // 切换为横屏
+            if(control.isFront()){
+                control.switchCamera();  // switch必须要在setFront前面
                 preview_view.setFront(false);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  // 切换为横屏
             }else{
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  // 切换为竖屏
+                control.switchCamera();
                 preview_view.setFront(true);
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  // 切换为竖屏
             }
+
         }
     }
 
@@ -87,8 +89,9 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
     }
     LiveConfig liveConfig;
     public void settingCustomerConfig(){
-        liveConfig = new LiveConfig();
-        liveConfig.setPushCameraType(LiveConstant.LiveCameraType.CAMERA_DUAL_FRONT);//      前置双摄ngla
+            liveConfig = new LiveConfig();
+        liveConfig.setLivePushType(LiveConstant.LivePushType.TEXTURE);
+        liveConfig.setPushCameraType(LiveConstant.LiveCameraType.CAMERA_DUAL_BACK);//
         mLivePushConfig.setVideoFPS(30);
         preview_view.init(
                 liveConfig,
@@ -104,19 +107,23 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
                     }
                 }
         );
-        preview_view.setFront(true);
-        preview_view.setM3dDrawer(false);
+        preview_view.setFront(false);
+        preview_view.setM3dDrawer(true);
         control = preview_view.getControl();
         control.startPreview();
         control.startPush();
     }
 
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+//        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+//            preview_view.setAspectRatio(16d / 9);
+//        }else{
+//            preview_view.setAspectRatio(9d / 16);
+//        }
 
 
-
-
-
-
-
+    }
 }

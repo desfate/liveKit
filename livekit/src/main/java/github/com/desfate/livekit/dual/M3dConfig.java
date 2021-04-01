@@ -132,7 +132,7 @@ public class M3dConfig {
             case PREVIEW_16TO9_DUAL:
                 return 16d / 9;
             case PREVIEW_9TO16_DUAL:
-                return 9d / 16;
+                return 16d / 9;
         }
         return 4d / 3;
     }

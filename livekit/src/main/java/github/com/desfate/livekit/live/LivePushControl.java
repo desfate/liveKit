@@ -71,6 +71,19 @@ public class LivePushControl{
         mControl.switchCamera(CameraAdapter.liveConfigToCameraInfo(liveConfig));
     }
 
+    /**
+     * 返回当前状态
+     * @return true 前置 false 后置
+     */
+    public boolean isFront(){
+        if(liveConfig != null){
+            return liveConfig.isFront();
+        }
+        return false;
+    }
+
+//    public boolean getCameraFront
+
     public void stopPush() {
         mControl.stopPush();
     }

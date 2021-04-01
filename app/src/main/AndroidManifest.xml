@@ -76,7 +76,10 @@
         <activity android:name=".DualCameraTestActivity">
         </activity>
 
-        <activity android:name=".DualCameraPreviewActivity">
+        <activity android:name=".DualCameraPreviewActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+
         </activity>
     </application>
 
