@@ -228,8 +228,10 @@ public class M3dDrawerControl {
         if(isFront != front){
             isFront = front;
             isChange = true;
-            mFBO.release();  // 这里要重新释放一下FBO
-            mFBO = null;
+            if(mFBO != null) {
+                mFBO.release();  // 这里要重新释放一下FBO
+                mFBO = null;
+            }
         }
 
         previewType = CameraSetting.getInstance().getPreviewType();
