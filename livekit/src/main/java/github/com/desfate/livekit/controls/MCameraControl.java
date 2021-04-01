@@ -32,6 +32,7 @@ public class MCameraControl implements MControl{
     private TextureView textureView = null;  //   背屏渲染
     private MCameraControlBuilder builder;
 
+
     public MCameraControl(MCameraControlBuilder builder){
         this.builder = builder;
         previewControl = new M3dPreviewControl(builder.baseLiveView, builder.liveConfig);  //       初始化3d控制器
@@ -66,23 +67,23 @@ public class MCameraControl implements MControl{
     // 外部可以调用的代码
     @Override
     public void switchCamera() {
-        liveControl.switchCamera();
-        previewControl.switchCamera();
+        if(liveControl != null) liveControl.switchCamera();
+        if(previewControl != null) previewControl.switchCamera();
     }
 
     @Override
     public void startPush() {
-        liveControl.startPush();
+        if(liveControl != null) liveControl.startPush();
     }
 
     @Override
     public void startPreview() {
-        liveControl.startPreview();
+        if(liveControl != null) liveControl.startPreview();
     }
 
     @Override
     public void release() {
-        liveControl.releaseRes();
+        if(liveControl != null) liveControl.releaseRes();
     }
 
 
