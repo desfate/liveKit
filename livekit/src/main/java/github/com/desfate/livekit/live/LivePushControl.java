@@ -32,7 +32,7 @@ import github.com.desfate.livekit.ui.FocusView;
  * 这里使用静态代理  PushDataAgent  数据类型代理
  *                PushTextureIdAgent textureId 类型代理
  */
-public class LivePushControl{
+public class LivePushControl implements MLiveControl{
     private final static String TAG = "LivePushControl";
 
     Context context;//                   上下文
@@ -59,7 +59,7 @@ public class LivePushControl{
 
     // Camera method
     public void startPreview(){
-        mControl.startPreview();
+//        mControl.startPreview();  // 重新整理架构的话  开启预览是preview模块的任务
     }
 
     public void startPush() {

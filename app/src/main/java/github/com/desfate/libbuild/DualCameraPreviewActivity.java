@@ -18,10 +18,13 @@ import com.tencent.rtmp.TXLivePusher;
 import github.com.desfate.livekit.CameraConstant;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.CameraSetting;
+import github.com.desfate.livekit.controls.MControl;
 import github.com.desfate.livekit.dual.M3dConfig;
+import github.com.desfate.livekit.dual.MPreviewControl;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
+import github.com.desfate.livekit.live.MLiveControl;
 import github.com.desfate.livekit.ui.PreviewDualCameraView;
 
 /**
@@ -31,7 +34,8 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
 
     private Button switch_btn;
     private PreviewDualCameraView preview_view;
-    private LivePushControl control;
+//    private MLiveControl liveControl;
+    private MControl control;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,13 +54,11 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
         int id = v.getId();
         if(id == R.id.switch_btn){
             // 这里切换需要进行横竖屏切换
-            if(control.isFront()){
+            if(control.isCameraFront()){
                 control.switchCamera();  // switch必须要在setFront前面
-                preview_view.setFront(false);
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);  // 切换为横屏
             }else{
                 control.switchCamera();
-                preview_view.setFront(true);
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);  // 切换为竖屏
             }
 
@@ -107,8 +109,6 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
                     }
                 }
         );
-        preview_view.setFront(false);
-        preview_view.setM3dDrawer(true);
         control = preview_view.getControl();
         control.startPreview();
         control.startPush();

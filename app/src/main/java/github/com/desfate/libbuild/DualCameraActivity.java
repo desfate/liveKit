@@ -168,6 +168,7 @@ public class DualCameraActivity extends AppCompatActivity {
 //        }
 
         dual_preview_view.getControl().startPreview(); // 开启预览
+        dual_preview_view.getControl().startPush(); // 开启预览
 //        dual_preview_view.getControl().startPush();  //   开启上传
     }
 

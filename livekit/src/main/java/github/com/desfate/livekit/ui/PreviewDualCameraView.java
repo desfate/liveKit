@@ -11,7 +11,10 @@ import javax.microedition.khronos.opengles.GL10;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
 import github.com.desfate.livekit.camera.news.CameraInfo;
-import github.com.desfate.livekit.dual.M3dDrawerControl;
+import github.com.desfate.livekit.controls.MCameraControl;
+import github.com.desfate.livekit.controls.MControl;
+import github.com.desfate.livekit.dual.M3dPreviewControl;
+import github.com.desfate.livekit.dual.MPreviewControl;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.live.LivePushControl;
@@ -24,11 +27,7 @@ import github.com.desfate.livekit.utils.JobExecutor;
  */
 public class PreviewDualCameraView extends BaseLiveView{
 
-    TextureView textureView = null;  //   背屏渲染
-    M3dDrawerControl m3dDrawerControl;
-
-    private LiveConfig liveConfig;//      直播配置数据
-    private LivePushControl control;//    直播逻辑控制器
+    private MCameraControl control;  //   控制器
 
     private JobExecutor mJobExecutor;//   线程池
 
@@ -40,85 +39,45 @@ public class PreviewDualCameraView extends BaseLiveView{
         super(context, attrs);
     }
 
-    
     // 这个初始化必须在写入必要接口之前
     public void init(final LiveConfig liveConfig, LiveCallBack liveCallBack){
-        m3dDrawerControl = new M3dDrawerControl(PreviewDualCameraView.this,
-                true);  //       初始化3d控制器
-//        m3dDrawerControl.initGLFactory();
         mJobExecutor = new JobExecutor();
-        this.liveConfig = liveConfig;
-        if(liveConfig.getLivePushType() == LiveConstant.LivePushType.DATA){  // 数据推送
-            control = new LivePushControl.LivePushControlBuilder()
-                    .setContext(getContext())
-                    .setLiveConfig(liveConfig)
-                    .setSurfaceTexture(getmSurfaceTexture())
-                    .setLiveCallBack(liveCallBack)
-                    .setFocusView(null)
-                    .setCameraErrorCallBack(new CameraErrorCallBack() {
-                        @Override
-                        public void onCameraOpenSuccess(CameraInfo info) {
-                            mJobExecutor.execute(new JobExecutor.Task<Void>() {
-                                @Override
-                                public void onMainThread(Void result) {
-                                    super.onMainThread(result);
-                                    setAspectRatio(mAspectRatio);
-                                }
-                            });
-                        }
+        control = new MCameraControl.MCameraControlBuilder()
+                .setContext(getContext())
+                .setBaseLiveView(PreviewDualCameraView.this)
+                .setLiveConfig(liveConfig)
+                .setLiveCallBack(liveCallBack)
+                .setCallBack(new CameraErrorCallBack() {
+                    @Override
+                    public void onCameraOpenSuccess(CameraInfo info) {
+                        mJobExecutor.execute(new JobExecutor.Task<Void>() {
+                            @Override
+                            public void onMainThread(Void result) {
+                                super.onMainThread(result);
+                                setAspectRatio(mAspectRatio);
+                            }
+                        });
+                    }
 
-                        @Override
-                        public void onCameraOpenError(CameraInfo info, int error) {
+                    @Override
+                    public void onCameraOpenError(CameraInfo info, int error) {
 
-                        }
-                    })
-                    .build();
-        }else{  // texture 推送
-            textureView = new TextureView(getContext());
-            control = new LivePushControl.LivePushControlBuilder()
-                    .setContext(getContext())
-                    .setLiveConfig(liveConfig)
-                    .setSurfaceTexture(getmSurfaceTexture())// 这个SurfaceTexture是作为预览的
-                    .setTextureView(textureView)            // 这个textureView并不显示   这个是作为离屏渲染模块
-                    .setLiveCallBack(liveCallBack)
-                    .setCameraErrorCallBack(new CameraErrorCallBack() {
-                        @Override
-                        public void onCameraOpenSuccess(CameraInfo info) {
-                            mJobExecutor.execute(new JobExecutor.Task<Void>() {
-                                @Override
-                                public void onMainThread(Void result) {
-                                    super.onMainThread(result);
-                                    setAspectRatio(mAspectRatio);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCameraOpenError(CameraInfo info, int error) {
-
-                        }
-                    })
-                    .build();
-        }
+                    }
+                })
+                .build();
     }
 
     /**
-     * 获取直播推流控制器
-     * @return 控制器
+     * 获得控制器
+     * @return 返回控制接口
      */
-    public LivePushControl getControl() {
+    public MControl getControl(){
         return control;
-    }
-
-    public void startPreview(){
-        control.startPreview();
     }
 
     @Override
     public void surfaceCreated(GL10 gl , EGLConfig config) {
-//        dualCameraDrawer = new DualCameraDrawer();
-        m3dDrawerControl.setTextureId(getSurfaceId());
-        m3dDrawerControl.onCreated(gl, config);
+        control.surfaceCreated(gl, config);
     }
 
     @Override
@@ -128,35 +87,22 @@ public class PreviewDualCameraView extends BaseLiveView{
 
     @Override
     public void onDrawFrame(GL10 gl ,int mSurfaceId) {
-        m3dDrawerControl.onDrawFrame(gl);
-//        dualCameraDrawer.draw(mSurfaceId, false, getHeight() ,getWidth() );  //  暂时只支持后置
+        control.onDrawFrame(gl, mSurfaceId);
     }
 
     @Override
     public void onChanged(GL10 gl, int width, int height) {
-        m3dDrawerControl.onSurfaceChanged(gl, width, height);
+        control.onChanged(gl, width, height);
     }
 
     @Override
     public void onFrame(SurfaceTexture surfaceTexture) {
-        m3dDrawerControl.canDrawerFrame(); // 设置可以开始绘制
+        control.onFrame(surfaceTexture);
     }
 
     @Override
     public void surfaceInit() {
-        m3dDrawerControl.initGLFactory();
-    }
-
-    public void setM3dDrawer(boolean isDraw){
-        if(m3dDrawerControl != null){
-            m3dDrawerControl.setDrawM3d(isDraw);
-        }
-    }
-
-    public void setFront(boolean front){
-        if(m3dDrawerControl != null){
-            m3dDrawerControl.setFront(front);
-        }
+        control.surfaceInit();
     }
 
 }
