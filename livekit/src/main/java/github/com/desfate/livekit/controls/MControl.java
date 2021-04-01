@@ -23,4 +23,9 @@ public interface MControl {
      */
     void startPreview();
 
+    /**
+     * 释放资源
+     */
+    void release();
+
 }

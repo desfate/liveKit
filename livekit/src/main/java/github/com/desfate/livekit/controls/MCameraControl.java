@@ -80,6 +80,11 @@ public class MCameraControl implements MControl{
         liveControl.startPreview();
     }
 
+    @Override
+    public void release() {
+        liveControl.releaseRes();
+    }
+
 
     // 自己内部使用的方法
     public void surfaceCreated(GL10 gl , EGLConfig config){
