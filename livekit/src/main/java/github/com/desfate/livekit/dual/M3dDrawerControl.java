@@ -148,11 +148,11 @@ public class M3dDrawerControl {
             mResultMatrix.multply(mDeviceMatrix, mSTMatrix);   // 矩阵相乘
             updateSurfaceVid = false;
         }
-        if(mFBO == null) return;
 
         // 这里为了方便调试  加个控制  是否开启3d渲染
         if(isDrawM3d){
             // 3d绘制部分
+            if(mFBO == null) return;
             mFBO.used();
             GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT
                     | GLES20.GL_COLOR_BUFFER_BIT
@@ -162,6 +162,7 @@ public class M3dDrawerControl {
             }else{
                 drawLeftRight(sessionSize.getWidth(), sessionSize.getHeight() * 2);
             }
+            if(mFBO == null) return;
             mFBO.unused();
             GLES20.glViewport(0, 0, bufferWidth, bufferHeight);
 //        System.out.println("@@@@ bufferWidth = " + bufferWidth + "  bufferHeight = " + bufferHeight);
