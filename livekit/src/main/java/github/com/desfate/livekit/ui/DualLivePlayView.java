@@ -23,6 +23,7 @@ import github.com.desfate.livekit.utils.ScreenUtils;
 
 
 /**
+ * 这个view暂时废弃
  * 基于GLSurfaceView的观众观看页面  支持双摄
  */
 public class DualLivePlayView extends BaseLiveView {
@@ -83,11 +84,6 @@ public class DualLivePlayView extends BaseLiveView {
     @Override
     public void onFrame(SurfaceTexture surfaceTexture) {
         m3dDrawerControl.canDrawerFrame(); // 设置可以开始绘制
-    }
-
-    @Override
-    public void surfaceInit() {
-
     }
 
     /**

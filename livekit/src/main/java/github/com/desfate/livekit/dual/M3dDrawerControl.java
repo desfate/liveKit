@@ -131,11 +131,11 @@ public class M3dDrawerControl {
 //            System.out.println("@@@@ Holography init = " + bufferWidth + "  bufferHeight = " + bufferHeight);
         }
         if(isRotate) {  // 我是推流预览
-            surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight());  // 这里是拿到的数据大小（来自相机采集）
+            surfaceView.getSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight());  // 这里是拿到的数据大小（来自相机采集）
         }else{  // 我是拉流预览
 //            surfaceView.getmSurfaceTexture().setDefaultBufferSize(sessionSize.getWidth(), sessionSize.getHeight() * 2);
             // 拉流时surface大小一般为直播需要显示的大小
-            surfaceView.getmSurfaceTexture().setDefaultBufferSize(viewSize.getWidth(), viewSize.getHeight()); // 这里是拿到的直播数据流 腾讯直播推流数据在1920 * 1080
+            surfaceView.getSurfaceTexture().setDefaultBufferSize(viewSize.getWidth(), viewSize.getHeight()); // 这里是拿到的直播数据流 腾讯直播推流数据在1920 * 1080
         }
         refreshView();
 
@@ -143,8 +143,8 @@ public class M3dDrawerControl {
 
     public void onDrawFrame(GL10 gl) {
         if (updateSurfaceVid) {
-            surfaceView.getmSurfaceTexture().updateTexImage();
-            surfaceView.getmSurfaceTexture().getTransformMatrix(mSTMatrix.matrix);
+            surfaceView.getSurfaceTexture().updateTexImage();
+            surfaceView.getSurfaceTexture().getTransformMatrix(mSTMatrix.matrix);
             mResultMatrix.multply(mDeviceMatrix, mSTMatrix);   // 矩阵相乘
             updateSurfaceVid = false;
         }

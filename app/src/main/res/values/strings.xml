@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">libBuild</string>
+    <string name="switch_camera_text">切换摄像头</string>
+    <string name="start_push_text">开始推流</string>
 </resources>

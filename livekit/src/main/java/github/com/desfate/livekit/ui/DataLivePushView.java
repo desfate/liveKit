@@ -23,7 +23,14 @@ import github.com.desfate.livekit.utils.LiveSupportUtils;
 import github.com.desfate.livekit.utils.ScreenUtils;
 
 /**
+ *
+ * 这个view暂时废弃
  * 基于 Data 模式上传的 GLSurfaceView
+ *
+ *  * Data 模式和 Texture 模式的区别主要在于渲染方式的不同
+ *  * Data 模式通过CameraDrawer 渲染器进行渲染
+ *  * Texture 模式则直接通过GL线程进行渲染
+ *
  */
 public class DataLivePushView extends BaseLiveView {
 
@@ -36,11 +43,6 @@ public class DataLivePushView extends BaseLiveView {
         super(context, attrs);
     }
 
-    @Override
-    public void surfaceCreated(GL10 gl, EGLConfig config) {
-        mDrawer = new CameraDrawer();
-    }
-
     public void init(final LiveConfig liveConfig, final ViewGroup parent, LiveCallBack liveCallBack) {
         this.liveConfig = liveConfig;
         focusView = new FocusView(getContext());
@@ -48,7 +50,7 @@ public class DataLivePushView extends BaseLiveView {
         control = new LivePushControl.LivePushControlBuilder()
                 .setContext(getContext())
                 .setLiveConfig(liveConfig)
-                .setSurfaceTexture(getmSurfaceTexture())
+                .setSurfaceTexture(getSurfaceTexture())
                 .setLiveCallBack(liveCallBack)
                 .setFocusView(focusView)
                 .setCameraErrorCallBack(new CameraErrorCallBack() {
@@ -72,15 +74,21 @@ public class DataLivePushView extends BaseLiveView {
     }
 
     @Override
+    public void surfaceCreated(GL10 gl, EGLConfig config) {
+        mDrawer = new CameraDrawer();
+    }
+
+    @Override
     public void onClick(float X, float Y) {
         if(control != null) control.focusClick(X, Y);
     }
 
     @Override
     public void onDrawFrame(GL10 gl, int mSurfaceId) {
-        mDrawer.draw(mSurfaceId, liveConfig.isFront(), getWidth(), getHeight());
+        if(mDrawer != null) {
+            mDrawer.draw(mSurfaceId, liveConfig.isFront(), getWidth(), getHeight());
+        }
     }
-
 
     @Override
     public void onChanged(GL10 gl, int width, int height) {
@@ -89,11 +97,6 @@ public class DataLivePushView extends BaseLiveView {
 
     @Override
     public void onFrame(SurfaceTexture surfaceTexture) {
-
-    }
-
-    @Override
-    public void surfaceInit() {
 
     }
 

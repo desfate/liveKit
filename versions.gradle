@@ -49,6 +49,8 @@ versions.cosxml = '5.4.+'// 腾讯对象存储 cosml
 versions.livekit = '0.83'
 // 错误捕捉
 versions.bugly = "latest.release"
+// 日志相关
+versions.xlog = "1.8.0"
 
 ext.deps = [:]
 deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
@@ -141,6 +143,10 @@ deps.banner = banner
 def bugly = [:]
 bugly.runtime = "com.tencent.bugly:crashreport:$versions.bugly"
 deps.bugly = bugly
+
+def xlog = [:]
+xlog.runtime = "com.elvishew:xlog:$versions.xlog"
+deps.xlog = xlog
 
 
 def addRepos(RepositoryHandler handler) {

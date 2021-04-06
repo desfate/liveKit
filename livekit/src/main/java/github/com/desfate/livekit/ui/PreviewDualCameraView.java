@@ -100,9 +100,4 @@ public class PreviewDualCameraView extends BaseLiveView{
         control.onFrame(surfaceTexture);
     }
 
-    @Override
-    public void surfaceInit() {
-        control.surfaceInit();
-    }
-
 }

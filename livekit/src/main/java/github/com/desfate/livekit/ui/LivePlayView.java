@@ -38,7 +38,7 @@ public class LivePlayView extends BaseLiveView {
         callBack = new CameraChangeCallback() {
             @Override
             public void viewChanged(boolean front, Size size) {
-                getmSurfaceTexture().setDefaultBufferSize(size.getWidth(), size.getHeight());
+                getSurfaceTexture().setDefaultBufferSize(size.getWidth(), size.getHeight());
                 final int realWidth = ScreenUtils.getScreenSize(getContext()).getWidth();
                 final int realHeight = realWidth * size.getWidth() / size.getHeight();
                 mJobExecutor.execute(new JobExecutor.Task<Void>() {
@@ -89,11 +89,6 @@ public class LivePlayView extends BaseLiveView {
 
     @Override
     public void onFrame(SurfaceTexture surfaceTexture) {
-
-    }
-
-    @Override
-    public void surfaceInit() {
 
     }
 

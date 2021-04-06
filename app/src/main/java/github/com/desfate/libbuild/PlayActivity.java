@@ -11,7 +11,6 @@ import com.tencent.rtmp.TXLivePlayConfig;
 import com.tencent.rtmp.TXLivePlayer;
 
 import github.com.desfate.livekit.ui.DualLivePlayView;
-import github.com.desfate.livekit.ui.LivePlayView;
 
 /**
  * 播放测试类
@@ -60,7 +59,7 @@ public class PlayActivity extends AppCompatActivity {
         });
         mTXLivePlayer.setPlayerView(null);
         mTXLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN);
-        mTXLivePlayer.setSurface(anchor_play_view.getmSurface());  // 绑定surface
+        mTXLivePlayer.setSurface(anchor_play_view.getSurface());  // 绑定surface
         mTXLivePlayer.setSurfaceSize(1920, 1080);
         mTXLivePlayer.startPlay(TestConfig.PLAY_URL, TXLivePlayer.PLAY_TYPE_LIVE_FLV);
 

@@ -18,19 +18,17 @@ import java.util.List;
 
 public class DualCameraTestActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button dual_texture_btn, dual_data_btn, dual_preview_btn;
+    private Button dual_push_btn, dual_preview_btn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dual_camera_test);
 
-        dual_texture_btn = findViewById(R.id.dual_texture_btn);
-        dual_data_btn = findViewById(R.id.dual_data_btn);
+        dual_push_btn = findViewById(R.id.dual_push_btn);
         dual_preview_btn = findViewById(R.id.dual_preview_btn);
 
-        dual_texture_btn.setOnClickListener(this);
-        dual_data_btn.setOnClickListener(this);
+        dual_push_btn.setOnClickListener(this);
         dual_preview_btn.setOnClickListener(this);
 
         checkRecordPermission(this);
@@ -39,10 +37,8 @@ public class DualCameraTestActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id.dual_texture_btn){
-            startActivity(new Intent(DualCameraTestActivity.this, DualCameraTextureActivity.class));
-        }else if(id == R.id.dual_data_btn){
-            startActivity(new Intent(DualCameraTestActivity.this, DualCameraActivity.class));
+        if(id == R.id.dual_push_btn){
+            startActivity(new Intent(DualCameraTestActivity.this, DualCameraPushActivity.class));
         }else if(id == R.id.dual_preview_btn){
             startActivity(new Intent(DualCameraTestActivity.this, DualCameraPreviewActivity.class));
         }

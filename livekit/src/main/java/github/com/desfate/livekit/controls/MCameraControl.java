@@ -10,13 +10,10 @@ import javax.microedition.khronos.opengles.GL10;
 import github.com.desfate.livekit.LiveConfig;
 import github.com.desfate.livekit.LiveConstant;
 import github.com.desfate.livekit.camera.interfaces.CameraErrorCallBack;
-import github.com.desfate.livekit.camera.news.CameraInfo;
 import github.com.desfate.livekit.dual.M3dPreviewControl;
 import github.com.desfate.livekit.live.LiveCallBack;
 import github.com.desfate.livekit.live.LivePushControl;
 import github.com.desfate.livekit.ui.BaseLiveView;
-import github.com.desfate.livekit.ui.PreviewDualCameraView;
-import github.com.desfate.livekit.utils.JobExecutor;
 
 /**
  * 我是核心控制器  我负责 整合直播 和 预览绘制两个控制器
@@ -26,12 +23,9 @@ import github.com.desfate.livekit.utils.JobExecutor;
  */
 public class MCameraControl implements MControl{
 
-    private LivePushControl liveControl;//        直播逻辑控制器
-    private M3dPreviewControl previewControl;//   3d预览控制器
-
-    private TextureView textureView = null;  //   背屏渲染
-    private MCameraControlBuilder builder;
-
+    private final LivePushControl liveControl;//        直播逻辑控制器
+    private final M3dPreviewControl previewControl;//   3d预览控制器
+    private final MCameraControlBuilder builder;
 
     public MCameraControl(MCameraControlBuilder builder){
         this.builder = builder;
@@ -40,17 +34,18 @@ public class MCameraControl implements MControl{
             liveControl = new LivePushControl.LivePushControlBuilder()
                     .setContext(builder.context)
                     .setLiveConfig(builder.liveConfig)
-                    .setSurfaceTexture(builder.baseLiveView.getmSurfaceTexture())
+                    .setSurfaceTexture(builder.baseLiveView.getSurfaceTexture())
                     .setLiveCallBack(builder.liveCallBack)
                     .setFocusView(null)
                     .setCameraErrorCallBack(builder.callBack)
                     .build();
         }else{ // texture 推送
-            textureView = new TextureView(builder.context);
+            //   背屏渲染
+            TextureView textureView = new TextureView(builder.context);
             liveControl = new LivePushControl.LivePushControlBuilder()
                     .setContext(builder.context)
                     .setLiveConfig(builder.liveConfig)
-                    .setSurfaceTexture(builder.baseLiveView.getmSurfaceTexture())// 这个SurfaceTexture是作为预览的
+                    .setSurfaceTexture(builder.baseLiveView.getSurfaceTexture())// 这个SurfaceTexture是作为预览的
                     .setTextureView(textureView)            // 这个textureView并不显示   这个是作为离屏渲染模块
                     .setLiveCallBack(builder.liveCallBack)
                     .setCameraErrorCallBack(builder.callBack)
@@ -86,7 +81,6 @@ public class MCameraControl implements MControl{
         if(liveControl != null) liveControl.releaseRes();
     }
 
-
     // 自己内部使用的方法
     public void surfaceCreated(GL10 gl , EGLConfig config){
         previewControl.getDrawControl().setTextureId(builder.getBaseLiveView().getSurfaceId());
@@ -104,12 +98,6 @@ public class MCameraControl implements MControl{
     public void onFrame(SurfaceTexture surfaceTexture) {
         previewControl.getDrawControl().canDrawerFrame(); // 设置可以开始绘制
     }
-
-    public void surfaceInit() {
-        previewControl.getDrawControl().initGLFactory();
-    }
-
-
 
     public static class MCameraControlBuilder{
         LiveConfig liveConfig;

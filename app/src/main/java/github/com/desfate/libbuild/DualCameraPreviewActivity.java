@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
@@ -32,9 +33,8 @@ import github.com.desfate.livekit.ui.PreviewDualCameraView;
  */
 public class DualCameraPreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button switch_btn;
+    private Button switch_btn;  // 切换前后置
     private PreviewDualCameraView preview_view;
-//    private MLiveControl liveControl;
     private MControl control;
 
     @Override
@@ -44,7 +44,6 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
         switch_btn = findViewById(R.id.switch_btn);
         preview_view = findViewById(R.id.preview_view);
         switch_btn.setOnClickListener(this);
-//        CameraSetting.getInstance().setPreviewType(M3dConfig.Preview_type.PREVIEW_9TO16_DUAL);
         settingTXConfig();
         settingCustomerConfig();
     }
@@ -91,7 +90,7 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
     }
     LiveConfig liveConfig;
     public void settingCustomerConfig(){
-            liveConfig = new LiveConfig();
+        liveConfig = new LiveConfig();
         liveConfig.setLivePushType(LiveConstant.LivePushType.TEXTURE);
         liveConfig.setPushCameraType(LiveConstant.LiveCameraType.CAMERA_DUAL_BACK);//
         mLivePushConfig.setVideoFPS(30);
@@ -118,12 +117,6 @@ public class DualCameraPreviewActivity extends AppCompatActivity implements View
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-//        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
-//            preview_view.setAspectRatio(16d / 9);
-//        }else{
-//            preview_view.setAspectRatio(9d / 16);
-//        }
-
 
     }
 }

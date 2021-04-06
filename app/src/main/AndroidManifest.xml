@@ -81,6 +81,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize">
 
         </activity>
+
+        <activity android:name=".DualCameraPushActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>
