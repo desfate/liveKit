@@ -86,6 +86,19 @@
             android:screenOrientation="landscape"
             android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
+
+        <activity android:name=".video.VideoActivity">
+        </activity>
+
+        <activity android:name=".video.InterfaceTestActivity">
+        </activity>
+
+        <activity android:name=".video.UploadActivity">
+        </activity>
+
+        <activity android:name=".video.VideoListActivity"
+            >
+        </activity>
     </application>
 
 </manifest>

@@ -27,29 +27,28 @@ public class RenderVideoFrame {
 
     private final static String TAG = "RenderVideoFrame";
 
-    private IEGLListener ieglListener;
-    private VideoRenderListener renderListener;
+    private final IEGLListener ieglListener; //          这是GLThreadHandler 的回调接口
+    private final VideoRenderListener renderListener;//  这是预览的回调
 
-    private GLThreadHandler mGLHandler;
-    private HandlerThread mGLThread;
+    private GLThreadHandler mGLHandler;  //  用于做渲染的GLHandler 通過IEGLListener返回
+    private HandlerThread mGLThread; //      EGL线程
 
-    private TextureView mRenderView;
-    private SurfaceTexture mSurfaceTexture;
+    private TextureView mTextureView; //            用于显示的TextureView
+    private SurfaceTexture mSurfaceTexture;//
 
-    private GLI420RenderFilter mYUVFilter;
-    private GLTexture2DFilter mTextureFilter;
+    private GLI420RenderFilter mYUVFilter;  //      这个没有被调用过
+    private GLTexture2DFilter mTextureFilter;//     这是离屏绘制部分
 
 //    private boolean updateSize = false;
     private int mTextureId = -1;
-    private int mVideoWidth;
-    private int mVideoHeight;
-    private ByteBuffer mYdata;
+    private final int mVideoWidth;
+    private final int mVideoHeight;
+    private ByteBuffer mYData;
     private ByteBuffer mUVData;
     private boolean front;
 
     public void changeCamera(){
         this.front = !front;
-//        System.out.println( "front = " + this.front);
     }
 
     public RenderVideoFrame(Size size, final boolean front){
@@ -66,25 +65,26 @@ public class RenderVideoFrame {
 
             @Override
             public void onTextureProcess(EGLContext eglContext) {
-                if (mRenderView != null) {
+                // 处理每帧数据
+                if (mTextureView != null) {
                     if (mTextureId != -1) {
                         if (mTextureFilter != null) {
                             // 这里是本地预览 + 二次渲染
-                            mTextureFilter.draw(mTextureId, mVideoWidth, mVideoHeight, mRenderView.getWidth(), mRenderView.getHeight(), RenderVideoFrame.this.front);
+                            mTextureFilter.draw(mTextureId, mVideoWidth, mVideoHeight, mTextureView.getWidth(), mTextureView.getHeight(), RenderVideoFrame.this.front);
                         }
                         mGLHandler.swap();
                         mTextureId = -1;
-                    } else if (mUVData != null && mYdata != null) {
+                    } else if (mUVData != null && mYData != null) {
                         ByteBuffer yData = null;
                         ByteBuffer uvData = null;
                         synchronized (this) {
-                            yData = mYdata;
+                            yData = mYData;
                             uvData = mUVData;
-                            mYdata = null;
+                            mYData = null;
                             mUVData = null;
                         }
                         if (mYUVFilter != null && yData != null && uvData != null) {
-                            mYUVFilter.drawFrame(yData, uvData, mVideoWidth, mVideoHeight, mRenderView.getWidth(), mRenderView.getHeight());
+                            mYUVFilter.drawFrame(yData, uvData, mVideoWidth, mVideoHeight, mTextureView.getWidth(), mTextureView.getHeight());
                             mGLHandler.swap();
                         }
                     }
@@ -117,8 +117,8 @@ public class RenderVideoFrame {
 
     public void start(TextureView textureView){
         if(textureView == null) return;
-        mRenderView = textureView; //保存视频渲染view，在渲染时用来获取渲染画布尺寸
-        mRenderView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+        mTextureView = textureView; //保存视频渲染view，在渲染时用来获取渲染画布尺寸
+        mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
                 mSurfaceTexture = surfaceTexture;//         保存surfaceTexture，用于创建OpenGL线程
@@ -212,6 +212,5 @@ public class RenderVideoFrame {
     public VideoRenderListener getRenderFrame(){
         return this.renderListener;
     }
-
 
 }

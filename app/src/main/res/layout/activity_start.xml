@@ -47,13 +47,19 @@
         android:text="直播功能测试" />
 
     <Button
+        android:id="@+id/video_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="点播功能测试" />
+
+
+    <Button
         android:id="@+id/test_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="实验性功能测试" />
-
-
+        android:text="实验性功能测试"/>
 
 
 </LinearLayout>

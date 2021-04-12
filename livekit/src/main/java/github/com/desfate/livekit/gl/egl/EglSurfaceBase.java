@@ -70,6 +70,7 @@ public class EglSurfaceBase {
 
     /**
      * Creates an off-screen surface.
+     * 离屏渲染
      */
     public void createOffscreenSurface(int width, int height) {
         if (mEGLSurface != EGL14.EGL_NO_SURFACE) {

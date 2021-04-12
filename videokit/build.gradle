@@ -1,0 +1,49 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion build_versions.compileSdkVersion
+    buildToolsVersion build_versions.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion       build_versions.minSdkVersion
+        targetSdkVersion    build_versions.targetSdkVersion
+        versionCode         build_versions.versionCode
+        versionName         build_versions.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // androidX + google
+    implementation androidDeps.androidX.appcompat
+    implementation androidDeps.androidX.annotation
+    implementation androidDeps.google.material
+    implementation androidDeps.google.gson
+    // 第三方包
+    implementation deps.desfate.commonKit
+    implementation deps.squareup.okHttp
+    implementation deps.squareup.okio
+    implementation deps.squareup.okHttp
+    implementation group: 'xerces', name: 'xercesImpl', version: '2.11.0'
+    implementation ('com.tencent.qcloud:cosxml:5.5.3') {
+        exclude group: 'com.tencent.qcloud', module: 'mtaUtils' //关闭 mta 上报功能}
+    }
+    // 这些是video库
+    implementation files('libs\\commons-codec-1.10.jar')
+    implementation files('libs\\jaxb-api-2.3.0.jar')
+    implementation files('libs\\tencentcloud-sdk-java-3.1.2.jar')
+}

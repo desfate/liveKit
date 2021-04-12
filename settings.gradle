@@ -1,3 +1,4 @@
 include ':livekit'
 include ':app'
 rootProject.name = "libBuild"
+include ':videokit'

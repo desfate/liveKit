@@ -1,0 +1,56 @@
+/**
+ * Android 系统官方相关的一些包（来自google）
+ * 这里分开是为了更好的整理这些插件 因为多个版本管理会十分混乱
+ */
+
+def versions = [:]
+// build tools
+versions.android_gradle_plugin = '4.0.1'   // gradle build tools
+
+versions.support_design = '23.2.1'   //       support material design
+
+// androidX View相关
+versions.appcompat_version = '1.2.0'//        androidX appcompat
+versions.recyclerview = '1.1.0'//             androidX recyclerview
+versions.constraintLayout = '2.0.0-alpha2' // androidX constraintlayout
+versions.lifecycle = '2.1.0'//                androidX lifecycle
+versions.annotation = "1.1.0"//               androidX annotation
+// android 相关
+versions.material = '1.0.0'//                 android material
+// android Support相关
+versions.multidex = '1.0.0'//                 multi dex  Dex 多分包依赖
+// google相关
+versions.gson = '2.8.6'//                     gson
+// 单元测试
+versions.junit =        "4.+"
+versions.testExt =      "1.1.2"
+versions.testEspresso = "3.3.0"
+
+ext.androidDeps = [:]
+androidDeps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+ext.androidDeps = androidDeps
+
+def androidX = [:]
+androidX.appcompat =        "androidx.appcompat:appcompat:$versions.appcompat_version"
+androidX.recyclerview =     "androidx.recyclerview:recyclerview:$versions.recyclerview"
+androidX.constraintLayout = "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
+androidX.lifecycle =        "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+androidX.annotation =       "androidx.annotation:annotation:$versions.annotation"
+androidDeps.androidX = androidX
+
+def google = [:]
+google.gson =               "com.google.code.gson:gson:$versions.gson"
+google.material =           "com.google.android.material:material:$versions.material"
+androidDeps.google = google
+
+def support = [:]
+support.design = "com.android.support:design:$versions.support_design"
+support.multidex = "com.android.support:multidex:$versions.multidex"
+androidDeps.support = support
+
+def test = [:]
+test.junit   =      "junit:junit:$versions.junit"
+test.testExt =      "androidx.test.ext:junit:$versions.testExt"
+test.testEspresso = "androidx.test.espresso:espresso-core:$versions.testEspresso"
+androidDeps.test = test
+

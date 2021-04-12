@@ -20,7 +20,7 @@ import github.com.desfate.livekit.gl.interfaces.IGLSurfaceTextureListener;
 public class GLThread {
     final static private String TAG = "GLThread";
     private volatile HandlerThread mHandlerThread = null;
-    private volatile GLThreadHandler mGLHandler = null;
+    private volatile GLThreadHandler mGLHandler = null;    //   这里将EGLSurface一些状态返回
 
     private GLTextureOESFilter mGLFilter;
     private float[] mSTMatrix;
@@ -127,6 +127,10 @@ public class GLThread {
         }
     }
 
+    /**
+     * 每帧绘制时  通过线程通知
+     * @param what
+     */
     private void sendMsg(int what) {
         synchronized (this) {
             if (mGLHandler != null) {

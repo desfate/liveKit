@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion build_versions.compileSdkVersion
+    buildToolsVersion build_versions.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion       build_versions.minSdkVersion
+        targetSdkVersion    build_versions.targetSdkVersion
+        versionCode         build_versions.versionCode
+        versionName         build_versions.versionName
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -29,8 +29,8 @@ android {
 
 dependencies {
     // androidX
-    implementation deps.androidX.appcompat
-    implementation deps.androidX.recyclerview
-    implementation deps.androidX.constraintLayout
-    implementation deps.androidX.lifecycle
+    implementation androidDeps.androidX.appcompat
+    implementation androidDeps.androidX.recyclerview
+    implementation androidDeps.androidX.constraintLayout
+    implementation androidDeps.androidX.lifecycle
 }

@@ -2,18 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion build_versions.compileSdkVersion
+    buildToolsVersion build_versions.buildToolsVersion
 
     defaultConfig {
-        applicationId "github.com.desfate.libbuild"
-        minSdkVersion 24
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
+        applicationId       build_versions.packageName
+        minSdkVersion       build_versions.minSdkVersion
+        targetSdkVersion    build_versions.targetSdkVersion
+        versionCode         build_versions.versionCode
+        versionName         build_versions.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         ndk {
             // 设置支持的SO库架构
             abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
@@ -31,18 +29,24 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(path: ':livekit')
+    implementation project(path: ':videokit')
     // androidX
-    implementation deps.androidX.appcompat
-    implementation deps.androidX.recyclerview
-    implementation deps.androidX.constraintLayout
-    implementation deps.androidX.lifecycle
-
-    implementation deps.liteavSdk.liteavsdk_smart
-    // buyle
-    implementation deps.bugly.runtime
-    implementation "androidx.core:core-ktx:+"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation androidDeps.androidX.appcompat
+    implementation androidDeps.androidX.recyclerview
+    implementation androidDeps.androidX.constraintLayout
+    implementation androidDeps.androidX.lifecycle
+    // 三方库
+    implementation deps.tencent.liteavSdk
+    implementation deps.desfate.commonKit
+    implementation deps.tencent.bugly
+    // ktx
+    implementation ktlDeps.androidx.core_ktx
+    implementation ktlDeps.androidx.lifecycle
+    implementation ktlDeps.kotlin.kotlin_stdlib_jdk
+    // 单元测试
+    testImplementation androidDeps.test.junit
+    androidTestImplementation androidDeps.test.testExt
+    androidTestImplementation androidDeps.test.testEspresso
 }
 repositories {
     mavenCentral()

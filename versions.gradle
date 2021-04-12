@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
+def build_versions = [:]
+build_versions.packageName =                "github.com.desfate.libbuild"
+
+build_versions.minSdkVersion =              24
+build_versions.targetSdkVersion =           29
+build_versions.compileSdkVersion =          29
+build_versions.buildToolsVersion =          "29.0.2"
+build_versions.supportSdkVersion =          "25.4.0"
+
+build_versions.versionCode =                10000
+build_versions.versionName =                "v1.0.000"
+
+ext.build_versions = build_versions
+
+
 def versions = [:]
-versions.android_gradle_plugin = '4.0.1'   // gradle build tools
-versions.support_design = '23.2.1'   //       support design
-versions.support_recyclerview = '23.2.1' //   support recyclerview
-
-// 现在需要向androidX进发
-versions.appcompat_version = '1.2.0'//        androidX appcompat
-versions.recyclerview = '1.1.0'//             androidX recyclerview
-versions.constraintLayout = '2.0.0-alpha2' // androidX constraintlayout
-versions.lifecycle = '2.1.0'//                androidX lifecycle
-
-versions.material = '1.0.0'//                 android material
-versions.multidex = '1.0.0'//                 multi dex  Dex 多分包依赖
 versions.okhttp3 = '3.8.1'//                  okHttp3
-versions.gson = '2.8.6'//                     GSon
 versions.glide = '3.7.0' //                   Glide
 versions.DanmakuFlameMaster = '0.9.25'//      b站弹幕
 versions.rxAndroid = '3.0.0'//                rxAndroid
@@ -38,63 +40,51 @@ versions.retrofit = '2.9.0'//                 retrofit
 versions.xxpermissions = '8.8'//              permissions
 versions.liveEventBus = '1.7.2'//             live-event-bus
 versions.banner = '2.1.0'//                   banner
+versions.okio = '1.14.0' //                   okio
 
 // IM 服务相关
 versions.imsdk = '4.5.45'
 // Live 相关
-versions.liteavSdk = 'latest.release' // 腾讯直播SDK版本
+versions.liteavSdk = 'latest.release' //      腾讯直播SDK版本
 // 腾讯云存储服务
-versions.cosxml = '5.4.+'// 腾讯对象存储 cosml
+versions.cosxml = '5.4.+'//                   腾讯对象存储 cosml
 // 自定义直播采集插件
 versions.livekit = '0.83'
 // 错误捕捉
 versions.bugly = "latest.release"
 // 日志相关
 versions.xlog = "1.8.0"
+// 自定义基础通用库
+versions.commonKit = "1.06"
 
 ext.deps = [:]
-deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
 ext.deps = deps
 
-def support = [:]
-support.design = "com.android.support:design:$versions.support_design"
-support.recyclerview = "com.android.support:recyclerview-v7:$versions.support_recyclerview"
-support.multidex = "com.android.support:multidex:$versions.multidex"
-deps.support = support
+def autoDispose = [:]
+autoDispose.android = "com.uber.autodispose2:autodispose-android:$versions.autoDispose"
+autoDispose.lifecycle = "com.uber.autodispose2:autodispose-androidx-lifecycle:$versions.autoDispose"
+deps.autoDispose = autoDispose
 
-def liteavSdk = [:]
-liteavSdk.liteavsdk_smart = "com.tencent.liteavsdk:LiteAVSDK_Smart:$versions.liteavSdk"
-deps.liteavSdk = liteavSdk
+def squareup = [:]
+squareup.retrofit =             "com.squareup.retrofit2:retrofit:$versions.retrofit"
+squareup.adapter_rxjava3 =      "com.squareup.retrofit2:adapter-rxjava3:$versions.retrofit"
+squareup.converter_gson  =      "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+squareup.okHttp =               "com.squareup.okhttp3:okhttp:$versions.okhttp3"
+squareup.logging_interceptor =  "com.squareup.okhttp3:logging-interceptor:$versions.okhttp3"
+squareup.okio =                 "com.squareup.okio:okio:$versions.okio"
+deps.squareup = squareup
 
-def imsdk = [:]
-imsdk.runtime = "com.tencent.imsdk:imsdk:$versions.imsdk"
-deps.imsdk = imsdk
+def tencent = [:]
+tencent.liteavSdk = "com.tencent.liteavsdk:LiteAVSDK_Smart:$versions.liteavSdk"
+tencent.imsdk     = "com.tencent.imsdk:imsdk:$versions.imsdk"
+tencent.cosxml    = "com.tencent.qcloud:cosxml:$versions.cosxml"
+tencent.bugly     = "com.tencent.bugly:crashreport:$versions.bugly"
+deps.tencent = tencent
 
-def cosxml = [:]
-cosxml.runtime = "com.tencent.qcloud:cosxml:$versions.cosxml"
-deps.cosxml = cosxml
-
-def liveKit = [:]
-liveKit.runtime = "com.github.desfate:liveKit:$versions.livekit"
-deps.liveKit = liveKit
-
-def DanmakuFlameMaster = [:]
-DanmakuFlameMaster.runtime = "com.github.ctiao:DanmakuFlameMaster:$versions.DanmakuFlameMaster"
-deps.DanmakuFlameMaster = DanmakuFlameMaster
-
-
-def okHttp3 = [:]
-okHttp3.runtime = "com.squareup.okhttp3:okhttp:$versions.okhttp3"
-okHttp3.interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp3"
-deps.okHttp3 = okHttp3
-
-def gson = [:]
-gson.runtime = "com.google.code.gson:gson:$versions.gson"
-deps.gson = gson
-
-def glide = [:]
-glide.runtime = "com.github.bumptech.glide:glide:$versions.glide"
-deps.glide = glide
+def desfate = [:]
+desfate.commonKit = "com.github.desfate:CommonKit:$versions.commonKit"
+desfate.liveKit   = "com.github.desfate:liveKit:$versions.livekit"
+deps.desfate = desfate
 
 def rxAndroid = [:]
 rxAndroid.runtime = "io.reactivex.rxjava3:rxandroid:$versions.rxAndroid"
@@ -104,28 +94,6 @@ deps.rxAndroid = rxAndroid
 def rxBinding = [:]
 rxBinding.runtime = "com.jakewharton.rxbinding4:rxbinding:$versions.rxBinding"
 deps.rxBinding = rxBinding
-
-def autoDispose = [:]
-autoDispose.android = "com.uber.autodispose2:autodispose-android:$versions.autoDispose"
-autoDispose.lifecycle = "com.uber.autodispose2:autodispose-androidx-lifecycle:$versions.autoDispose"
-deps.autoDispose = autoDispose
-
-def androidX = [:]
-androidX.appcompat =        "androidx.appcompat:appcompat:$versions.appcompat_version"
-androidX.recyclerview =     "androidx.recyclerview:recyclerview:$versions.recyclerview"
-androidX.constraintLayout = "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
-androidX.lifecycle =        "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
-deps.androidX = androidX
-
-def material = [:]
-material.runtime = "com.google.android.material:material:$versions.material"
-deps.material = material
-
-def retrofit = [:]
-retrofit.runtime = "com.squareup.retrofit2:retrofit:$versions.retrofit"
-retrofit.adapter = "com.squareup.retrofit2:adapter-rxjava3:$versions.retrofit"
-retrofit.converter = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
-deps.retrofit = retrofit
 
 def xxpermissions = [:]
 xxpermissions.runtime = "com.hjq:xxpermissions:$versions.xxpermissions"
@@ -139,15 +107,18 @@ def banner = [:]
 banner.runtime = "com.youth.banner:banner:$versions.banner"
 deps.banner = banner
 
-
-def bugly = [:]
-bugly.runtime = "com.tencent.bugly:crashreport:$versions.bugly"
-deps.bugly = bugly
-
 def xlog = [:]
 xlog.runtime = "com.elvishew:xlog:$versions.xlog"
 deps.xlog = xlog
 
+
+def DanmakuFlameMaster = [:]
+DanmakuFlameMaster.runtime = "com.github.ctiao:DanmakuFlameMaster:$versions.DanmakuFlameMaster"
+deps.DanmakuFlameMaster = DanmakuFlameMaster
+
+def glide = [:]
+glide.runtime = "com.github.bumptech.glide:glide:$versions.glide"
+deps.glide = glide
 
 def addRepos(RepositoryHandler handler) {
     handler.google()

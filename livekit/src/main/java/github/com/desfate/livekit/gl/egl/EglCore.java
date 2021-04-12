@@ -127,7 +127,7 @@ public final class EglCore {
     }
 
     /**
-     * Prepares EGL display and context.
+     * 准备EGL显示和上下文。
      * <p>
      * @param sharedContext The context to share, or null if sharing is not desired.
      * @param flags Configuration bit flags, e.g. FLAG_RECORDABLE.
@@ -141,11 +141,15 @@ public final class EglCore {
             sharedContext = EGL14.EGL_NO_CONTEXT;
         }
 
+        // EGLDisplay 是一个关联系统物理屏幕的通用数据类型，表示显示设备句柄，也可以认为是一个前端显示窗
+        // 其 中 display 参数是 native 系统的窗口显示 ID 值
+        // 如果你只是想得到一个系统默认的 Display ，你可以使用 EGL_DEFAULT_DISPLAY 参数
         mEGLDisplay = EGL14.eglGetDisplay(EGL14.EGL_DEFAULT_DISPLAY);
         if (mEGLDisplay == EGL14.EGL_NO_DISPLAY) {
             throw new RuntimeException("unable to get EGL14 display");
         }
         int[] version = new int[2];
+        // 下面是初始化 EGL 的函数 其中 mEGLDisplay 应该是一个有效的 EGLDisplay
         if (!EGL14.eglInitialize(mEGLDisplay, version, 0, version, 1)) {
             mEGLDisplay = null;
             throw new RuntimeException("unable to initialize EGL14");
@@ -160,6 +164,9 @@ public final class EglCore {
                         EGL14.EGL_CONTEXT_CLIENT_VERSION, 3,
                         EGL14.EGL_NONE
                 };
+                // OpenGL ES的pipeline从程序的角度看就是一个状态机，
+                // 有当前的颜色、纹理坐标、变换矩阵、绚染模式等一大堆状态，
+                // 这些状态作用于OpenGL API程序提交的顶点坐标等图元从而形成帧缓冲内的像素。
                 EGLContext context = EGL14.eglCreateContext(mEGLDisplay, config, sharedContext,
                         attrib3_list, 0);
 
@@ -189,7 +196,7 @@ public final class EglCore {
             mGlVersion = 2;
         }
 
-        // Confirm with query.
+        // 通过查询确认. EGL渲染上下文信息
         int[] values = new int[1];
         EGL14.eglQueryContext(mEGLDisplay, mEGLContext, EGL14.EGL_CONTEXT_CLIENT_VERSION,
                 values, 0);
@@ -292,10 +299,11 @@ public final class EglCore {
             throw new RuntimeException("invalid surface: " + surface);
         }
 
-        // Create a window surface, and attach it to the Surface we received.
+        // 创建一个窗口表面，并将其附加到我们收到的表面上.
         int[] surfaceAttribs = {
                 EGL14.EGL_NONE
         };
+        // EGL 窗口 Surface 通过 eglCreateWindowSurface() 调用被创建
         EGLSurface eglSurface = EGL14.eglCreateWindowSurface(mEGLDisplay, mEGLConfig, surface,
                 surfaceAttribs, 0);
         checkEglError("eglCreateWindowSurface");
@@ -307,6 +315,7 @@ public final class EglCore {
 
     /**
      * Creates an EGL surface associated with an offscreen buffer.
+     * 在显存中开辟一个空间，将渲染后的数据(帧)存放在这里
      */
     public EGLSurface createOffscreenSurface(int width, int height) {
         int[] surfaceAttribs = {

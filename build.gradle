@@ -1,14 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.5.0-M2'
     apply from: 'versions.gradle'
+    apply from: 'versions_android.gradle'
+    apply from: 'versions_ktl.gradle'
     addRepos(repositories)
     dependencies {
-        classpath deps.android_gradle_plugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-    repositories {
-        google()
-        jcenter()
+        classpath androidDeps.android_gradle_plugin
+        classpath ktlDeps.kotlin_gradle_plugin
     }
 }
 
@@ -20,20 +17,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-// Define versions in a single place
-ext {
-    // sdk and tools
-    minSdkVersion = 24
-    targetSdkVersion = 29
-    compileSdkVersion = 29
-    buildToolsVersion = '29.0.2'
-    // App dependencies
-    supportSdkVersion = "25.4.0"
-    // version info
-    versionCode = 1
-    versionName = "v1.0"
-
-    databinding = true
 }
