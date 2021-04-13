@@ -31,13 +31,14 @@ dependencies {
     // androidX + google
     implementation androidDeps.androidX.appcompat
     implementation androidDeps.androidX.annotation
-    implementation androidDeps.google.material
     implementation androidDeps.google.gson
     // 第三方包
     implementation deps.desfate.commonKit
     implementation deps.squareup.okHttp
     implementation deps.squareup.okio
     implementation deps.squareup.okHttp
+
+    // 下面这一堆 原本是给服务提供的  现在由于要敏捷开发  就直接拿到移动端使用
     implementation group: 'xerces', name: 'xercesImpl', version: '2.11.0'
     implementation ('com.tencent.qcloud:cosxml:5.5.3') {
         exclude group: 'com.tencent.qcloud', module: 'mtaUtils' //关闭 mta 上报功能}
