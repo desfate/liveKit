@@ -36,7 +36,6 @@ dependencies {
     implementation deps.desfate.commonKit
     implementation deps.squareup.okHttp
     implementation deps.squareup.okio
-    implementation deps.squareup.okHttp
 
     // 下面这一堆 原本是给服务提供的  现在由于要敏捷开发  就直接拿到移动端使用
     implementation group: 'xerces', name: 'xercesImpl', version: '2.11.0'
