@@ -38,7 +38,7 @@ public class VideoPlayEngine {
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
         options.setInteger(AVOptions.KEY_LOG_LEVEL, 0);
-        options.setInteger(AVOptions.KEY_SEEK_MODE, 1);
+        options.setInteger(AVOptions.KEY_SEEK_MODE, 0);
 
         mediaPlayer = new PLMediaPlayer(context, options);
         this.playInterface = playInterface;
