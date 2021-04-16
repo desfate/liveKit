@@ -190,4 +190,10 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
         }
     }
 
+    public void release(){
+        if(videoEngine != null) {
+            videoEngine.release();
+        }
+    }
+
 }

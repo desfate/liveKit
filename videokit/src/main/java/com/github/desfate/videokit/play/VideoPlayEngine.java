@@ -252,6 +252,9 @@ public class VideoPlayEngine {
             timer.cancel();
             timer = null;
         }
+        if(playInterface != null){
+            playInterface = null;
+        }
     }
 
 
