@@ -12,10 +12,6 @@ android {
         versionCode         build_versions.versionCode
         versionName         build_versions.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        ndk {
-            // 设置支持的SO库架构
-            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
-        }
     }
 
     buildTypes {
@@ -24,11 +20,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    // 直播功能包
     implementation project(path: ':livekit')
+    // 视频功能包
     implementation project(path: ':videokit')
     // androidX
     implementation androidDeps.androidX.appcompat
@@ -43,6 +46,7 @@ dependencies {
     implementation ktlDeps.androidx.core_ktx
     implementation ktlDeps.androidx.lifecycle
     implementation ktlDeps.kotlin.kotlin_stdlib_jdk
+
     // 单元测试
     testImplementation androidDeps.test.junit
     androidTestImplementation androidDeps.test.testExt

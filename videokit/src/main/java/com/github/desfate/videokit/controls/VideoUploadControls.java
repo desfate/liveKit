@@ -4,6 +4,7 @@ import static com.github.desfate.videokit.VideoUploadConstant.CUSTOMER_KEY;
 
 import android.content.Context;
 
+import com.github.desfate.videokit.VideoConfig;
 import com.github.desfate.videokit.videoupload.Signature;
 import com.github.desfate.videokit.videoupload.TXUGCPublish;
 import com.github.desfate.videokit.videoupload.TXUGCPublishTypeDef;
@@ -75,8 +76,8 @@ public class VideoUploadControls implements
         // signature计算规则可参考 https://www.qcloud.com/document/product/266/9221
         Signature sign = new Signature();
         // 设置 App 的云 API 密钥
-        sign.setSecretId("AKIDOHYaQxCZT8bpnbdUecKquJRL3UnqAJrB");
-        sign.setSecretKey("B5D7mBJAmIYnY5LKEsGUUFl00kESWKvH");
+        sign.setSecretId(VideoConfig.secretId);
+        sign.setSecretKey(VideoConfig.secretKey);
         sign.setCurrentTime(System.currentTimeMillis() / 1000);
         sign.setRandom(new Random().nextInt(java.lang.Integer.MAX_VALUE));
         sign.setSignValidDuration(3600 * 24 * 2); // 签名有效期：2天

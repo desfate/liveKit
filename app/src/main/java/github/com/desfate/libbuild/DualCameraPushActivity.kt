@@ -47,7 +47,7 @@ class DualCameraPushActivity : AppCompatActivity(),
     fun initSetting(){
         val liveConfig = LiveConfig()
         liveConfig.livePushType = LiveConstant.LivePushType.DATA
-//        liveConfig.livePushType = LiveConstant.LivePushType.TEXTURE //               推流模式
+//        liveConfig.livePushType = LiveConstant.LivePushType.TEXTURE //             推流模式
         liveConfig.liveQuality = LiveConstant.LiveQuality.LIVE_1080P //              直播类型
         liveConfig.pushCameraType = LiveConstant.LiveCameraType.CAMERA_DUAL_BACK  // 后置双摄
 

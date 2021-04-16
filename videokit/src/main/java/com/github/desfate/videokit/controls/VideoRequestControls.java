@@ -1,6 +1,7 @@
 package com.github.desfate.videokit.controls;
 
 import com.github.desfate.commonlib.tools.JobExecutor;
+import com.github.desfate.videokit.dates.VideoInfoDate;
 import com.github.desfate.videokit.requests.VideoListRequest;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.vod.v20180717.models.MediaInfo;
@@ -34,19 +35,24 @@ public class VideoRequestControls {
             @Override
             public void onMainThread(SearchMediaResponse result) {
                 super.onMainThread(result);
-                ArrayList<String> mediaList = new ArrayList<>();
+                ArrayList<VideoInfoDate> mediaList = new ArrayList<>();
                 if(result != null){
                     for(MediaInfo info :result.getMediaInfoSet()){
-//                        mediaList.add(info.getMetaData().get)
+                        VideoInfoDate data = new VideoInfoDate();
+                        if(info.getBasicInfo() != null){
+                            data.setVideoPicUrl(info.getBasicInfo().getCoverUrl());
+                            data.setVideoName(info.getBasicInfo().getName());
+                            data.setVideoPlayUrl(info.getBasicInfo().getMediaUrl());
+                        }
+                        mediaList.add(data);
                     }
                 }
-
-//                if(response != null) response.callBack(result);
+                if(response != null) response.callBack(mediaList);
             }
         });
     }
 
     public interface VideoListResponse{
-        void callBack(String result);
+        void callBack(ArrayList<VideoInfoDate> result);
     }
 }

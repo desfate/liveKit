@@ -21,6 +21,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -28,14 +36,18 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
     // androidX + google
     implementation androidDeps.androidX.appcompat
     implementation androidDeps.androidX.annotation
-    implementation androidDeps.google.gson
     // 第三方包
     implementation deps.desfate.commonKit
     implementation deps.squareup.okHttp
     implementation deps.squareup.okio
+
+    // 来自七牛的播放器
+    implementation files('libs\\pldroid-player-2.2.0.jar')
 
     // 下面这一堆 原本是给服务提供的  现在由于要敏捷开发  就直接拿到移动端使用
     implementation group: 'xerces', name: 'xercesImpl', version: '2.11.0'
@@ -44,6 +56,8 @@ dependencies {
     }
     // 这些是video库
     implementation files('libs\\commons-codec-1.10.jar')
-    implementation files('libs\\jaxb-api-2.3.0.jar')
     implementation files('libs\\tencentcloud-sdk-java-3.1.2.jar')
+    implementation files('libs\\gson-2.2.4.jar')
+    implementation files('libs\\jaxb-api-2.3.0.jar')
+    implementation files('libs\\okhttp-2.5.0.jar')
 }

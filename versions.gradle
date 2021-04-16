@@ -30,7 +30,7 @@ ext.build_versions = build_versions
 
 
 def versions = [:]
-versions.okhttp3 = '3.8.1'//                  okHttp3
+versions.okhttp3 = '3.11.0'//                  okHttp3
 versions.glide = '3.7.0' //                   Glide
 versions.DanmakuFlameMaster = '0.9.25'//      b站弹幕
 versions.rxAndroid = '3.0.0'//                rxAndroid
@@ -55,7 +55,7 @@ versions.bugly = "latest.release"//           腾讯bug捕捉
 // 日志相关
 versions.xlog = "1.8.0"//                     日志记录
 // 自定义基础通用库
-versions.commonKit = "1.08"//                 自定义通用组件
+versions.commonKit = "1.10"//                 自定义通用组件
 
 ext.deps = [:]
 ext.deps = deps

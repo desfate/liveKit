@@ -99,6 +99,11 @@
         <activity android:name=".video.VideoListActivity"
             >
         </activity>
+
+        <activity android:name=".video.VideoPlayActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+        </activity>
     </application>
 
 </manifest>
