@@ -57,7 +57,7 @@ dependencies {
     // 这些是video库
     implementation files('libs\\commons-codec-1.10.jar')
     implementation files('libs\\tencentcloud-sdk-java-3.1.2.jar')
-    implementation files('libs\\gson-2.2.4.jar')
+//    implementation files('libs\\gson-2.2.4.jar')
     implementation files('libs\\jaxb-api-2.3.0.jar')
-    implementation files('libs\\okhttp-2.5.0.jar')
+//    implementation files('libs\\okhttp-2.5.0.jar')
 }
