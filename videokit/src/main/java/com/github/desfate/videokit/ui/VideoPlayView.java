@@ -86,13 +86,16 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
             @Override
             public void onStartTrackingTouch(PointSeekBar seekBar) {
                 // 当按下的时候
-
+                if(videoEngine != null) videoEngine.pausePlay();
             }
 
             @Override
             public void onStopTrackingTouch(PointSeekBar seekBar) {
                 // 当松开的时候
-                if(videoEngine != null) videoEngine.setProgress(seekBar.getProgress());
+                if(videoEngine != null) {
+                    videoEngine.setProgress(seekBar.getProgress());
+                    videoEngine.resumePlay();
+                }
             }
         });
     }

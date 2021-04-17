@@ -18,6 +18,7 @@ import java.io.IOException;
  * 播放器核心 使用的七牛提供的播放器核心
  * <p>
  * 支持网络播放以及支持缓存等功能
+ * fixme 拖动状态栏出现跳动现象
  */
 public class VideoPlayEngine {
 
@@ -32,14 +33,14 @@ public class VideoPlayEngine {
     private int state = 0; // 0: normal  1: playing 2: pause 3：end
 
     CountDownTimer timer; // 倒计时 用来处理进度条跳条问题
-
+    private int seekToProgress = 0;
 
     public void init(Context context, VideoPlayInterface playInterface) {
         options = new AVOptions();
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
         options.setInteger(AVOptions.KEY_LOG_LEVEL, 0);
-        options.setInteger(AVOptions.KEY_SEEK_MODE, 0);
+        options.setInteger(AVOptions.KEY_SEEK_MODE, 1);
 
         mediaPlayer = new PLMediaPlayer(context, options);
         this.playInterface = playInterface;
@@ -51,7 +52,7 @@ public class VideoPlayEngine {
             videoAllTime = mediaPlayer.getDuration();
             mediaPlayer.start();  //  准备完成后开始自动播放视频
             state = 1;
-            if(playInterface != null) playInterface.startPlaying();  // 开始播放
+            if (playInterface != null) playInterface.startPlaying();  // 开始播放
         });
 
 
@@ -62,18 +63,18 @@ public class VideoPlayEngine {
         mediaPlayer.setOnCompletionListener(() -> {
             // 当调用的播放器的 seekTo 方法后，SDK 会在 seek 成功后触发该回调
             // 播放完成会在这回调
-            if(playInterface != null) {
+            if (playInterface != null) {
                 playInterface.endPlay();
                 // 这里解决一下seek对齐问题 到最后会出现跳条问题
                 // 这里应该做一次平滑操作
-                if(lastProgress == 100){
+                if (lastProgress == 100) {
                     return;
-                }else{
+                } else {
                     // 开启倒计时器  尽量把最后平滑做在一秒之内
                     timer = new CountDownTimer((100 - lastProgress) * 50L, 50) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            playInterface.playProgress(lastProgress ++);
+                            playInterface.playProgress(lastProgress++);
                         }
 
                         @Override
@@ -89,11 +90,12 @@ public class VideoPlayEngine {
 
         mediaPlayer.setOnSeekCompleteListener(() -> {
             System.out.println("@@@@@@ = SeekComplete");
+            lastProgress = seekToProgress;
         });
 
         mediaPlayer.setOnBufferingUpdateListener(i -> {
             // 缓冲进度 就是i
-            if(playInterface != null) playInterface.cacheProgress(i);
+            if (playInterface != null) playInterface.cacheProgress(i);
             long current = System.currentTimeMillis();
             if (current - mLastUpdateStatTime > 3000) {
                 mLastUpdateStatTime = current;
@@ -131,20 +133,22 @@ public class VideoPlayEngine {
                 case (PLOnInfoListener.MEDIA_INFO_VIDEO_FRAME_RENDERING):
                     // 这里计算一下播放进度的百分比 直接返回百分比
                     // FIXME: 2021/4/16 这里有点问题 这里会出现时间偏差  进过几次测试 发现有4个点左右的偏差
-                    System.out.println("@@@@@@ = FRAME_RENDERING = " +i1);
-                    if(playInterface != null) {
-                        lastProgress = (int)((double)i1 * 100 / videoAllTime);
-                        playInterface.playProgress(lastProgress);
+                    System.out.println("@@@@@@ = FRAME_RENDERING = " + i1);
+                    if (playInterface != null) {
+                        int nowProgress = (int) ((double) i1 * 100 / videoAllTime);
+                        if(Math.abs(nowProgress - lastProgress) > 2) return;
+                        playInterface.playProgress(nowProgress);
                         playInterface.playProgressTime(i1);
+                        lastProgress = nowProgress;
                     }
                     break;
                 // 开始缓存
                 case (PLOnInfoListener.MEDIA_INFO_BUFFERING_START):
-                    if(playInterface != null) playInterface.startCache();
+                    if (playInterface != null) playInterface.startCache();
                     break;
                 // 结束缓存
                 case (PLOnInfoListener.MEDIA_INFO_BUFFERING_END):
-                    if(playInterface != null) playInterface.stopCache();
+                    if (playInterface != null) playInterface.stopCache();
                     break;
                 case (PLOnInfoListener.MEDIA_INFO_IS_SEEKING):
                     System.out.println("@@@@@@ = SeekComplete error");
@@ -178,20 +182,22 @@ public class VideoPlayEngine {
         });
     }
 
-    public long getVideoAllTime(){
+    public long getVideoAllTime() {
         return videoAllTime;
     }
 
-    public void setProgress(int progress){
-        System.out.println("@@@@@@ = Seek to "+ progress);
+    public void setProgress(int progress) {
+        System.out.println("@@@@@@ = Seek to " + progress);
+        seekToProgress = progress;
         mediaPlayer.seekTo(videoAllTime * progress / 100);
     }
 
     /**
      * 获得当前播放器状态
+     *
      * @return 播放器状态
      */
-    public int getState(){
+    public int getState() {
         return state;
     }
 
@@ -201,7 +207,6 @@ public class VideoPlayEngine {
      * @param url 网络视频源
      */
     public void startPlay(String url) {
-        url = "http://demo-videos.qnsdk.com/movies/qiniu.mp4";
         try {
             state = 0;
             mediaPlayer.setDataSource(url);
@@ -214,7 +219,7 @@ public class VideoPlayEngine {
     /**
      * 暂停播放
      */
-    public void pausePlay(){
+    public void pausePlay() {
         state = 2;
         if (mediaPlayer != null) {
             mediaPlayer.pause();
@@ -224,9 +229,9 @@ public class VideoPlayEngine {
     /**
      * 恢复播放
      */
-    public void resumePlay(){
+    public void resumePlay() {
         state = 1;
-        if(mediaPlayer != null){
+        if (mediaPlayer != null) {
             mediaPlayer.start();
         }
     }
@@ -242,8 +247,8 @@ public class VideoPlayEngine {
         }
     }
 
-    public void setSurfaceHolder(SurfaceHolder holder){
-        if(mediaPlayer != null && holder != null){
+    public void setSurfaceHolder(SurfaceHolder holder) {
+        if (mediaPlayer != null && holder != null) {
             mediaPlayer.setDisplay(holder);
         }
     }
@@ -255,17 +260,15 @@ public class VideoPlayEngine {
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
-        if(timer != null){
+        if (timer != null) {
             timer.onFinish();
             timer.cancel();
             timer = null;
         }
-        if(playInterface != null){
+        if (playInterface != null) {
             playInterface = null;
         }
     }
-
-
 
 
 }
