@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -127,6 +128,10 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
 
     public void setPreviewSurface(Surface surface){
         videoEngine.setSurface(surface);
+    }
+
+    public void setPreviewSurfaceHolder(SurfaceHolder holder){
+        videoEngine.setSurfaceHolder(holder);
     }
 
     public IVideoControl getControl(){

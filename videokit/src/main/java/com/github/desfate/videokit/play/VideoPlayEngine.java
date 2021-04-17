@@ -3,6 +3,7 @@ package com.github.desfate.videokit.play;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.view.Surface;
+import android.view.SurfaceHolder;
 
 import com.github.desfate.videokit.interfaces.VideoPlayInterface;
 import com.pili.pldroid.player.AVOptions;
@@ -183,7 +184,7 @@ public class VideoPlayEngine {
 
     public void setProgress(int progress){
         System.out.println("@@@@@@ = Seek to "+ progress);
-        mediaPlayer.seekTo(progress);
+        mediaPlayer.seekTo(videoAllTime * progress / 100);
     }
 
     /**
@@ -200,6 +201,7 @@ public class VideoPlayEngine {
      * @param url 网络视频源
      */
     public void startPlay(String url) {
+        url = "http://demo-videos.qnsdk.com/movies/qiniu.mp4";
         try {
             state = 0;
             mediaPlayer.setDataSource(url);
@@ -237,6 +239,12 @@ public class VideoPlayEngine {
     public void setSurface(Surface surface) {
         if (mediaPlayer != null && surface != null) {
             mediaPlayer.setSurface(surface);
+        }
+    }
+
+    public void setSurfaceHolder(SurfaceHolder holder){
+        if(mediaPlayer != null && holder != null){
+            mediaPlayer.setDisplay(holder);
         }
     }
 

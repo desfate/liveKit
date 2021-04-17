@@ -22,6 +22,7 @@ class VideoPlayActivity : AppCompatActivity(){
 
         videoPlayView.init(intent.getStringExtra("play_url"))
         videoPlayView.setPreviewSurface(previewView.surface)  // 绑定播放器和本地绘制部分
+        videoPlayView.setPreviewSurfaceHolder(previewView.holder)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
