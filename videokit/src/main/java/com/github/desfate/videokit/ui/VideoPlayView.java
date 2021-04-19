@@ -49,6 +49,7 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
     private ImageView superplayer_iv_danmuku;
     private ImageView superplayer_iv_snapshot;
     private ImageView superplayer_iv_more;
+    private TextView superplayer_tv_quality;
 
     private String playURl;
 
@@ -75,6 +76,7 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
         superplayer_iv_danmuku = view.findViewById(R.id.superplayer_iv_danmuku);
         superplayer_iv_snapshot = view.findViewById(R.id.superplayer_iv_snapshot);
         superplayer_iv_more = view.findViewById(R.id.superplayer_iv_more);
+        superplayer_tv_quality = view.findViewById(R.id.superplayer_tv_quality);
 
         playBtn.setOnClickListener(this);
         typeTv.setOnClickListener(this);
@@ -229,4 +231,9 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
     public ImageView getMoreImg(){
         return superplayer_iv_more;
     }
+
+    public TextView getQuality(){
+        return superplayer_tv_quality;
+    }
+
 }
