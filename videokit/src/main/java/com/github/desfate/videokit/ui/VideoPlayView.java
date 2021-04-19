@@ -44,9 +44,11 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
     private TextView allTime;
     private TextView typeTv;
     private LinearLayout replayLay;
-
-
-
+    private ImageView back;
+    private TextView title;
+    private ImageView superplayer_iv_danmuku;
+    private ImageView superplayer_iv_snapshot;
+    private ImageView superplayer_iv_more;
 
     private String playURl;
 
@@ -68,7 +70,11 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
         allTime = view.findViewById(R.id.superplayer_tv_duration);
         typeTv = view.findViewById(R.id.superplayer_tv_quality);
         replayLay = view.findViewById(R.id.superplayer_ll_replay);
-
+        back = view.findViewById(R.id.superplayer_iv_back);
+        title = view.findViewById(R.id.superplayer_tv_title);
+        superplayer_iv_danmuku = view.findViewById(R.id.superplayer_iv_danmuku);
+        superplayer_iv_snapshot = view.findViewById(R.id.superplayer_iv_snapshot);
+        superplayer_iv_more = view.findViewById(R.id.superplayer_iv_more);
 
         playBtn.setOnClickListener(this);
         typeTv.setOnClickListener(this);
@@ -204,4 +210,23 @@ public class VideoPlayView extends FrameLayout implements View.OnClickListener, 
         }
     }
 
+    public ImageView getBackImg(){
+        return back;
+    }
+
+    public TextView getTitleView(){
+        return title;
+    }
+
+    public ImageView getDanmuImg(){
+        return superplayer_iv_danmuku;
+    }
+
+    public ImageView getShotImg(){
+        return superplayer_iv_snapshot;
+    }
+
+    public ImageView getMoreImg(){
+        return superplayer_iv_more;
+    }
 }
